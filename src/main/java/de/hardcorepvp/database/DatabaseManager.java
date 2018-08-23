@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 public class DatabaseManager {
 
-    private Queue<PreparedStatement> queue;
     private String url;
     private Properties properties;
     private String host;
@@ -24,7 +23,6 @@ public class DatabaseManager {
     private Connection connection;
 
     public DatabaseManager(ConfigFile configFile) {
-        this.queue = new LinkedList<>();
         this.host = configFile.getHost();
         this.port = configFile.getPort();
         this.schema = configFile.getSchema();
