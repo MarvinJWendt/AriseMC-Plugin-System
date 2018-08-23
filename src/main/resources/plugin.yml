@@ -1,0 +1,12 @@
+authors: [McMeze, Scarface01]
+main: de.hardcorepvp.Main
+version: 1.0.0
+name: HardcorePvP
+
+craft:
+heal:
+feed:
+fix:
+ifix:
+enderchest:
+hat:
