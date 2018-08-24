@@ -23,7 +23,7 @@ public class CommandCraft implements CommandExecutor {
 		}
 
 		if (args.length > 0) {
-			Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS);
+			player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 			return true;
 		}
 		return false;
