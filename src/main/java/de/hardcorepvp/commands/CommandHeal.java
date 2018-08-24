@@ -2,6 +2,7 @@ package de.hardcorepvp.commands;
 
 import de.hardcorepvp.model.Sysplayer;
 import de.hardcorepvp.model.SysplayerList;
+import de.hardcorepvp.model.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,14 +20,13 @@ public class CommandHeal implements CommandExecutor {
 	}
 
 	Player player = (Player) sender;
-        Sysplayer sysplayer = SysplayerList.getSysplayer(player);
 
 	if (args.length == 0) {
 
 	    player.setHealth(20.0);
 	    player.setFoodLevel(20);
 	    player.setSaturation(20);
-        sysplayer.removeNegativePotions();
+		Utils.removeNegativePotions(player);
 
 	    player.sendMessage(Messages.formatMessage("Du wurdest geheilt"));
 	    return true;
@@ -40,12 +40,12 @@ public class CommandHeal implements CommandExecutor {
 	    }
 
 	    Player target = Bukkit.getPlayer(args[0]);
-        Sysplayer systarget = SysplayerList.getSysplayer(player);
 
 	    target.setHealth(20.0);
 	    target.setFoodLevel(20);
 	    target.setSaturation(20);
-        systarget.removeNegativePotions();
+		Utils.removeNegativePotions(target);
+
 
 	    target.sendMessage(Messages.formatMessage("Du wurdest geheilt"));
 	    player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " geheilt"));
