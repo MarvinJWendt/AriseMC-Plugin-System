@@ -65,11 +65,10 @@ public class DatabaseManager {
 
 	public boolean connect() {
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
 			this.connection = DriverManager.getConnection(this.url, properties);
 			this.setupTables();
 			return true;
-		} catch (SQLException | ClassNotFoundException exception) {
+		} catch (SQLException exception) {
 			Bukkit.getConsoleSender().sendMessage("§cEs konnte keine Verbindung zur Datenbank hergestellt werden...");
 			exception.printStackTrace();
 			return false;
