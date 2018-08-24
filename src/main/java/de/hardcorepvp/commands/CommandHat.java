@@ -22,6 +22,7 @@ public class CommandHat implements CommandExecutor {
 			player.sendMessage(Messages.formatMessage("Du hast nun einen Hut"));
 			return true;
 		}
+
 		if (args.length > 0) {
 			player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 			return true;
