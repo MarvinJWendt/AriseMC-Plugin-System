@@ -26,7 +26,7 @@ public class DatabaseManager {
 		this.schema = configFile.getSchema();
 		this.user = configFile.getUser();
 		this.password = configFile.getPassword();
-		this.url = String.format("jdbc:mysql://%s/%s", this.host, this.schema);
+		this.url = String.format("jdbc:mariadb://%s/%s", this.host, this.schema);
 		this.properties = new Properties();
 		this.properties.setProperty("user", user);
 		this.properties.setProperty("password", password);
@@ -65,7 +65,7 @@ public class DatabaseManager {
 
 	public boolean connect() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
 			this.connection = DriverManager.getConnection(this.url, properties);
 			this.setupTables();
 			return true;
