@@ -24,6 +24,7 @@ public class CommandRename implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+
 		if (player.getItemInHand() != null && player.getItemInHand().getType() != Material.AIR) {
 
 			if (args.length == 1) {
