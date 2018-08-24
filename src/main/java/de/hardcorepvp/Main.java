@@ -1,5 +1,6 @@
 package de.hardcorepvp;
 
+import de.hardcorepvp.listener.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,58 +25,59 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-	instance = this;
-	configFile = new ConfigFile();
-	databaseManager = new DatabaseManager(configFile);
-	if (!databaseManager.connect()) {
-	    Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+        instance = this;
+        configFile = new ConfigFile();
+        databaseManager = new DatabaseManager(configFile);
+        if (!databaseManager.connect()) {
+            Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 
-		@Override
-		public void run() {
-		    Bukkit.getServer().shutdown();
-		}
-	    }, 60L);
-	    return;
-	}
-	registerCommands();
-	registerListeners();
+                @Override
+                public void run() {
+                    Bukkit.getServer().shutdown();
+                }
+            }, 60L);
+            return;
+        }
+        registerCommands();
+        registerListeners();
     }
 
     @Override
     public void onDisable() {
-	databaseManager.disconnect();
+        databaseManager.disconnect();
     }
 
     public static Main getInstance() {
-	return instance;
+        return instance;
     }
 
     public static ConfigFile getConfigFile() {
-	return configFile;
+        return configFile;
     }
 
     public static DatabaseManager getDatabaseManager() {
-	return databaseManager;
+        return databaseManager;
     }
 
     private void registerCommands() {
-	getCommand("heal").setExecutor(new CommandHeal());
-	getCommand("feed").setExecutor(new CommandFeed());
-	getCommand("craft").setExecutor(new CommandCraft());
-	getCommand("fix").setExecutor(new CommandFix());
-	getCommand("ifix").setExecutor(new CommandiFix());
-	getCommand("enderchest").setExecutor(new CommandEnderchest());
-	getCommand("hat").setExecutor(new CommandHat());
-	getCommand("rename").setExecutor(new CommandRename());
+        getCommand("heal").setExecutor(new CommandHeal());
+        getCommand("feed").setExecutor(new CommandFeed());
+        getCommand("craft").setExecutor(new CommandCraft());
+        getCommand("fix").setExecutor(new CommandFix());
+        getCommand("ifix").setExecutor(new CommandiFix());
+        getCommand("enderchest").setExecutor(new CommandEnderchest());
+        getCommand("hat").setExecutor(new CommandHat());
+        getCommand("rename").setExecutor(new CommandRename());
     }
 
     private void registerListeners() {
-	rL(new InventoryClickListener());
+        rL(new InventoryClickListener());
+        rL(new PlayerJoinListener());
     }
 
     private void rL(Listener listener) {
 
-	getServer().getPluginManager().registerEvents(listener, this);
+        getServer().getPluginManager().registerEvents(listener, this);
 
     }
 }

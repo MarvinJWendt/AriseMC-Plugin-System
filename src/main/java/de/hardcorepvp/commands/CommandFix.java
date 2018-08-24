@@ -1,10 +1,11 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.model.Sysplayer;
+import de.hardcorepvp.model.SysplayerList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import de.hardcorepvp.model.Functions;
 import de.hardcorepvp.model.Messages;
 
 public class CommandFix implements CommandExecutor {
@@ -16,9 +17,9 @@ public class CommandFix implements CommandExecutor {
 	}
 
 	Player player = (Player) sender;
+        Sysplayer sysplayer = SysplayerList.getSysplayer(player);
 
-	Functions.fixItems(player.getInventory().getContents());
-	Functions.fixItems(player.getInventory().getArmorContents());
+        sysplayer.fixItems(true);
 	player.sendMessage(Messages.formatMessage("Deine Items wurden repariert"));
 	return true;
     }
