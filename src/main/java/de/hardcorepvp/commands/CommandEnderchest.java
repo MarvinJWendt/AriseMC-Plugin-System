@@ -29,7 +29,7 @@ public class CommandEnderchest implements CommandExecutor {
 	    }
 	    Player target = Bukkit.getPlayer(args[0]);
 	    player.openInventory(target.getEnderChest());
-        player.sendMessage(Messages.formatMessage("Du Oeffnest efgefwdie Enderchest  von " + target.getName()));
+        player.sendMessage(Messages.formatMessage("Du Oeffnest die Enderchest  von " + target.getName()));
 	    return true;
 	}
 	return false;
