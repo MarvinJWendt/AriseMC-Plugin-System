@@ -9,14 +9,14 @@ import org.bukkit.inventory.Inventory;
 
 public class InventoryClickListener implements Listener {
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent event) {
 
-        Player player = (Player) event.getWhoClicked();
-        Inventory inventory = event.getClickedInventory();
+		Player player = (Player) event.getWhoClicked();
+		Inventory inventory = event.getClickedInventory();
 
-        if (inventory.getType() == InventoryType.ENDER_CHEST && inventory.getHolder() != player) {
-            event.setCancelled(true);
-        }
-    }
+		if (inventory.getType() == InventoryType.ENDER_CHEST && inventory.getHolder() != player) {
+			event.setCancelled(true);
+		}
+	}
 }

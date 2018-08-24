@@ -7,12 +7,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
 
-    public void onPlayerQuit(PlayerQuitEvent event) {
+	public void onPlayerQuit(PlayerQuitEvent event) {
 
-        Player player = event.getPlayer();
-        SysplayerList.unregisterSysplayer(player);
+		Player player = event.getPlayer();
+		SysplayerList.unregisterSysplayer(player);
 
-    }
+	}
 
 
 }

@@ -1,83 +1,75 @@
 package de.hardcorepvp;
 
+import de.hardcorepvp.commands.*;
+import de.hardcorepvp.database.DatabaseManager;
+import de.hardcorepvp.file.ConfigFile;
+import de.hardcorepvp.listener.InventoryClickListener;
 import de.hardcorepvp.listener.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import de.hardcorepvp.commands.CommandCraft;
-import de.hardcorepvp.commands.CommandEnderchest;
-import de.hardcorepvp.commands.CommandFeed;
-import de.hardcorepvp.commands.CommandFix;
-import de.hardcorepvp.commands.CommandHat;
-import de.hardcorepvp.commands.CommandHeal;
-import de.hardcorepvp.commands.CommandRename;
-import de.hardcorepvp.commands.CommandiFix;
-import de.hardcorepvp.database.DatabaseManager;
-import de.hardcorepvp.file.ConfigFile;
-import de.hardcorepvp.listener.InventoryClickListener;
-
 public class Main extends JavaPlugin {
 
-    private static Main instance;
-    private static ConfigFile configFile;
-    private static DatabaseManager databaseManager;
+	private static Main instance;
+	private static ConfigFile configFile;
+	private static DatabaseManager databaseManager;
 
-    @Override
-    public void onEnable() {
-        instance = this;
-        configFile = new ConfigFile();
-        databaseManager = new DatabaseManager(configFile);
-        if (!databaseManager.connect()) {
-            Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+	public static Main getInstance() {
+		return instance;
+	}
 
-                @Override
-                public void run() {
-                    Bukkit.getServer().shutdown();
-                }
-            }, 60L);
-            return;
-        }
-        registerCommands();
-        registerListeners();
-    }
+	public static ConfigFile getConfigFile() {
+		return configFile;
+	}
 
-    @Override
-    public void onDisable() {
-        databaseManager.disconnect();
-    }
+	public static DatabaseManager getDatabaseManager() {
+		return databaseManager;
+	}
 
-    public static Main getInstance() {
-        return instance;
-    }
+	@Override
+	public void onEnable() {
+		instance = this;
+		configFile = new ConfigFile();
+		databaseManager = new DatabaseManager(configFile);
+		if (!databaseManager.connect()) {
+			Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 
-    public static ConfigFile getConfigFile() {
-        return configFile;
-    }
+				@Override
+				public void run() {
+					Bukkit.getServer().shutdown();
+				}
+			}, 60L);
+			return;
+		}
+		registerCommands();
+		registerListeners();
+	}
 
-    public static DatabaseManager getDatabaseManager() {
-        return databaseManager;
-    }
+	@Override
+	public void onDisable() {
+		databaseManager.disconnect();
+	}
 
-    private void registerCommands() {
-        getCommand("heal").setExecutor(new CommandHeal());
-        getCommand("feed").setExecutor(new CommandFeed());
-        getCommand("craft").setExecutor(new CommandCraft());
-        getCommand("fix").setExecutor(new CommandFix());
-        getCommand("ifix").setExecutor(new CommandiFix());
-        getCommand("enderchest").setExecutor(new CommandEnderchest());
-        getCommand("hat").setExecutor(new CommandHat());
-        getCommand("rename").setExecutor(new CommandRename());
-    }
+	private void registerCommands() {
+		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("feed").setExecutor(new CommandFeed());
+		getCommand("craft").setExecutor(new CommandCraft());
+		getCommand("fix").setExecutor(new CommandFix());
+		getCommand("ifix").setExecutor(new CommandiFix());
+		getCommand("enderchest").setExecutor(new CommandEnderchest());
+		getCommand("hat").setExecutor(new CommandHat());
+		getCommand("rename").setExecutor(new CommandRename());
+	}
 
-    private void registerListeners() {
-        rL(new InventoryClickListener());
-        rL(new PlayerJoinListener());
-    }
+	private void registerListeners() {
+		rL(new InventoryClickListener());
+		rL(new PlayerJoinListener());
+	}
 
-    private void rL(Listener listener) {
+	private void rL(Listener listener) {
 
-        getServer().getPluginManager().registerEvents(listener, this);
+		getServer().getPluginManager().registerEvents(listener, this);
 
-    }
+	}
 }
