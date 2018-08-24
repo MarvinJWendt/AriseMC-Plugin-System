@@ -60,6 +60,7 @@ public class Main extends JavaPlugin {
 		getCommand("enderchest").setExecutor(new CommandEnderchest());
 		getCommand("hat").setExecutor(new CommandHat());
 		getCommand("rename").setExecutor(new CommandRename());
+		getCommand("stack").setExecutor(new CommandStack());
 	}
 
 	private void registerListeners() {
