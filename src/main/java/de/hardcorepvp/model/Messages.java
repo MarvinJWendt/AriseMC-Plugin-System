@@ -1,5 +1,7 @@
 package de.hardcorepvp.model;
 
+import java.util.Arrays;
+
 public class Messages {
 
 	public static final String NO_PERMISSIONS = "NO_PERMISSIONS";
@@ -17,7 +19,7 @@ public class Messages {
 
 	public static String formatMessage(String[] message) {
 
-		return PREFIX + message;
+		return PREFIX + Arrays.toString(message);
 
 	}
 }
