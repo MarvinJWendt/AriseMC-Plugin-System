@@ -21,7 +21,7 @@ public class CommandFeed implements CommandExecutor {
 
 	    player.setFoodLevel(20);
 	    player.setSaturation(20);
-	    player.sendMessage(Messages.formatMessage("Du wurdest gefüttert"));
+		player.sendMessage(Messages.formatMessage("Du wurdest gefuettert"));
 
 	}
 	if (args.length == 1) {
@@ -33,9 +33,9 @@ public class CommandFeed implements CommandExecutor {
 	    Player target = Bukkit.getPlayer(args[0]);
 	    target.setFoodLevel(20);
 	    target.setSaturation(20);
-	    target.sendMessage(Messages.formatMessage("Du wurdest gefüttert"));
+		target.sendMessage(Messages.formatMessage("Du wurdest gefuettert"));
 
-	    player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " gefüttert"));
+		player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " gefuettert"));
 	    return true;
 	}
 	if(args.length > 1) {

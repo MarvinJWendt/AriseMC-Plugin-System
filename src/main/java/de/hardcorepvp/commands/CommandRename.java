@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import de.hardcorepvp.model.Sysplayer;
 import de.hardcorepvp.model.SysplayerList;
+import de.hardcorepvp.model.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,6 @@ public class CommandRename implements CommandExecutor {
 	}
 
 	Player player = (Player) sender;
-        Sysplayer sysplayer = SysplayerList.getSysplayer(player);
 
 	if (player.getItemInHand() != null && player.getItemInHand().getType() != Material.AIR) {
 
@@ -41,7 +41,7 @@ public class CommandRename implements CommandExecutor {
 		    }
 
 		    String name = String.join(" ", nameStrings);
-            sysplayer.renameItemInHand(name);
+			Utils.renameItemInHand(player, name);
 		    player.sendMessage(Messages.formatMessage("Dein Item wurde umbenannt"));
 		    player.sendMessage("Dein Item heisst nun: " + ChatColor.translateAlternateColorCodes('&', name));
 		    return true;
