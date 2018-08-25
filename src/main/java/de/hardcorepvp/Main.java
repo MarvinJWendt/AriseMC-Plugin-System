@@ -8,6 +8,7 @@ import de.hardcorepvp.listener.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Main extends JavaPlugin {
 
@@ -33,7 +34,7 @@ public class Main extends JavaPlugin {
 		configFile = new ConfigFile();
 		databaseManager = new DatabaseManager(configFile);
 		if (!databaseManager.connect()) {
-			Bukkit.getScheduler().runTaskLater(this, new Runnable() {
+			Bukkit.getScheduler().runTaskLater(this, new BukkitRunnable() {
 
 				@Override
 				public void run() {

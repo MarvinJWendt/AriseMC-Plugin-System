@@ -23,12 +23,9 @@ public class CommandHat implements CommandExecutor {
 			return true;
 		}
 
-		if (args.length > 0) {
-			player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
-			return true;
-		}
+		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
+		return true;
 
-		return false;
 	}
 
 }
