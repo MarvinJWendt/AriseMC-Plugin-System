@@ -33,6 +33,7 @@ public class CommandEnderchest implements CommandExecutor {
 			player.sendMessage(Messages.formatMessage("Du Oeffnest die Enderchest  von " + target.getName()));
 			return true;
 		}
-		return false;
+		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
+		return true;
 	}
 }

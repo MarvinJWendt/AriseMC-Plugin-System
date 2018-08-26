@@ -4,7 +4,9 @@ import de.hardcorepvp.commands.*;
 import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
 import de.hardcorepvp.listener.InventoryClickListener;
+import de.hardcorepvp.listener.PlayerChatListener;
 import de.hardcorepvp.listener.PlayerJoinListener;
+import de.hardcorepvp.listener.PlayerQuitListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -62,11 +64,14 @@ public class Main extends JavaPlugin {
 		getCommand("hat").setExecutor(new CommandHat());
 		getCommand("rename").setExecutor(new CommandRename());
 		getCommand("stack").setExecutor(new CommandStack());
+		getCommand("pvp").setExecutor(new CommandPvP());
 	}
 
 	private void registerListeners() {
 		rL(new InventoryClickListener());
 		rL(new PlayerJoinListener());
+		rL(new PlayerQuitListener());
+		rL(new PlayerChatListener());
 	}
 
 	private void rL(Listener listener) {
