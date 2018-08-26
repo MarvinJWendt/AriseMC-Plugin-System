@@ -4,6 +4,7 @@ import de.hardcorepvp.commands.*;
 import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
 import de.hardcorepvp.listener.InventoryClickListener;
+import de.hardcorepvp.listener.PlayerChatListener;
 import de.hardcorepvp.listener.PlayerJoinListener;
 import de.hardcorepvp.listener.PlayerQuitListener;
 import de.hardcorepvp.manager.RankingManager;
@@ -49,12 +50,14 @@ public class Main extends JavaPlugin {
 		getCommand("hat").setExecutor(new CommandHat());
 		getCommand("rename").setExecutor(new CommandRename());
 		getCommand("stack").setExecutor(new CommandStack());
+		getCommand("pvp").setExecutor(new CommandPvP());
 	}
 
 	private void registerListeners() {
 		this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
 		this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 	}
 
 	public static Main getInstance() {
