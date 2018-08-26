@@ -11,6 +11,8 @@ import org.bukkit.potion.PotionEffect;
 
 public class Utils {
 
+	public static boolean pvp = true;
+
 	public static void stackItems(Player player) {
 
 		ItemStack[] contents = player.getInventory().getContents();
@@ -69,17 +71,17 @@ public class Utils {
 
 		ItemStack[] items = player.getInventory().getContents();
 
-		for (int i = 0; i < items.length; i++) {
-			if (items[i] != null) {
-				items[i].setDurability((short) 0);
+		for (ItemStack item : items) {
+			if (item != null) {
+				item.setDurability((short) 0);
 			}
 		}
 
 		if (armorfix) {
 			ItemStack[] armor = player.getInventory().getArmorContents();
-			for (int i = 0; i < armor.length; i++) {
-				if (armor[i] != null) {
-					armor[i].setDurability((short) 0);
+			for (ItemStack anArmor : armor) {
+				if (anArmor != null) {
+					anArmor.setDurability((short) 0);
 				}
 			}
 		}

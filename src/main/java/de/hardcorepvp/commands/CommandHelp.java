@@ -22,6 +22,7 @@ public class CommandHelp implements CommandExecutor {
 			return true;
 		}
 
-		return false;
+		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
+		return true;
 	}
 }

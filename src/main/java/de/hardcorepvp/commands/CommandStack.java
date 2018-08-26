@@ -36,13 +36,9 @@ public class CommandStack implements CommandExecutor {
 
 		}
 
-		if (args.length == 0) {
-
-			Utils.stackItems(player);
-			player.sendMessage(Messages.formatMessage("Deine Items wurden gestacked"));
-			return true;
-		}
-		return false;
+		Utils.stackItems(player);
+		player.sendMessage(Messages.formatMessage("Deine Items wurden gestacked"));
+		return true;
 	}
 
 }
