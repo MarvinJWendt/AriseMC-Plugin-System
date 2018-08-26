@@ -1,14 +1,16 @@
 authors: [McMeze, Scarface01]
 main: de.hardcorepvp.Main
 version: 1.0.0
-name: HardcorePvP
+name: HCSystem
 
-craft:
-heal:
-feed:
-fix:
-ifix:
-enderchest:
-hat:
-stack:
-help:
+commands:
+  craft:
+  heal:
+  feed:
+  fix:
+  ifix:
+  enderchest:
+  hat:
+  stack:
+  help:
+  rename:

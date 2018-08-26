@@ -1,5 +1,6 @@
 package de.hardcorepvp.model;
 
+import de.hardcorepvp.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,7 +13,7 @@ public abstract class FileBase {
 	private FileConfiguration fileConfiguration;
 
 	public FileBase(String path, String name) {
-		this.file = new File(path, name);
+		this.file = new File(Main.getInstance().getDataFolder() + path, name);
 		this.checkFile();
 		this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
 		this.writeDefaults();

@@ -1,4 +1,4 @@
-package de.hardcorepvp.model;
+package de.hardcorepvp.utils;
 
 public enum NegativeEffects {
 

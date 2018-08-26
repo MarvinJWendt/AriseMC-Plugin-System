@@ -1,6 +1,8 @@
-package de.hardcorepvp.model;
+package de.hardcorepvp.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -81,8 +83,15 @@ public class Utils {
 				}
 			}
 		}
-
 	}
 
+	public static String serializeLocation(Location location) {
+		return location.getWorld().getName() + "," + location.getX() + "," + location.getY() + "," + location.getZ() + "," + location.getYaw() + "," + location.getPitch();
+	}
 
+	public static Location deserializeLocation(String location) {
+		String[] deserialized = location.split(",");
+		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]),
+				Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
+	}
 }

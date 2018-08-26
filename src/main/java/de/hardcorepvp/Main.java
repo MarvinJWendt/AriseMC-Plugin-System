@@ -5,8 +5,10 @@ import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
 import de.hardcorepvp.listener.InventoryClickListener;
 import de.hardcorepvp.listener.PlayerJoinListener;
+import de.hardcorepvp.listener.PlayerQuitListener;
+import de.hardcorepvp.manager.RankingManager;
+import de.hardcorepvp.manager.UserManager;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -14,18 +16,8 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 	private static ConfigFile configFile;
 	private static DatabaseManager databaseManager;
-
-	public static Main getInstance() {
-		return instance;
-	}
-
-	public static ConfigFile getConfigFile() {
-		return configFile;
-	}
-
-	public static DatabaseManager getDatabaseManager() {
-		return databaseManager;
-	}
+	private static UserManager userManager;
+	private static RankingManager rankingManager;
 
 	@Override
 	public void onEnable() {
@@ -33,15 +25,11 @@ public class Main extends JavaPlugin {
 		configFile = new ConfigFile();
 		databaseManager = new DatabaseManager(configFile);
 		if (!databaseManager.connect()) {
-			Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-
-				@Override
-				public void run() {
-					Bukkit.getServer().shutdown();
-				}
-			}, 60L);
+			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().shutdown(), 60L);
 			return;
 		}
+		userManager = new UserManager();
+		rankingManager = new RankingManager();
 		registerCommands();
 		registerListeners();
 	}
@@ -64,13 +52,28 @@ public class Main extends JavaPlugin {
 	}
 
 	private void registerListeners() {
-		rL(new InventoryClickListener());
-		rL(new PlayerJoinListener());
+		this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+		this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
 	}
 
-	private void rL(Listener listener) {
+	public static Main getInstance() {
+		return instance;
+	}
 
-		getServer().getPluginManager().registerEvents(listener, this);
+	public static ConfigFile getConfigFile() {
+		return configFile;
+	}
 
+	public static DatabaseManager getDatabaseManager() {
+		return databaseManager;
+	}
+
+	public static UserManager getUserManager() {
+		return userManager;
+	}
+
+	public static RankingManager getRankingManager() {
+		return rankingManager;
 	}
 }

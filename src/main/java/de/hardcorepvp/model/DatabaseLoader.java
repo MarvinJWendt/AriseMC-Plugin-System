@@ -5,24 +5,24 @@ import java.util.List;
 
 public abstract class DatabaseLoader {
 
-	private List<Runnable> runnables;
+	private List<Runnable> readyExecutors;
 	private boolean loaded;
 
 	public DatabaseLoader() {
-		this.runnables = new ArrayList<>();
+		this.readyExecutors = new ArrayList<>();
 		this.loaded = false;
 	}
 
-	public List<Runnable> getRunnables() {
-		return runnables;
+	public List<Runnable> getReadyExecutors() {
+		return readyExecutors;
 	}
 
-	public void addRunnable(Runnable runnable) {
+	public void addReadyExecutor(Runnable runnable) {
 		if (loaded) {
 			runnable.run();
 			return;
 		}
-		this.runnables.add(runnable);
+		this.readyExecutors.add(runnable);
 	}
 
 	public boolean isLoaded() {
@@ -32,11 +32,10 @@ public abstract class DatabaseLoader {
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 		if (loaded) {
-			this.runnables.forEach(Runnable::run);
+			this.readyExecutors.forEach(Runnable::run);
 		}
 	}
 
-	public abstract void load();
-
-	public abstract void update(boolean money);
+	public abstract void writeToDatabase();
+	public abstract void readFromDatabase();
 }

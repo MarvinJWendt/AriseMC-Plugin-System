@@ -15,6 +15,8 @@ public class InventoryClickListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		Inventory inventory = event.getClickedInventory();
 
+		//Fehler! Abfragen, ob das Inventar null ist
+		if (inventory == null) return;
 		if (inventory.getType() == InventoryType.ENDER_CHEST && inventory.getHolder() != player) {
 			event.setCancelled(true);
 		}
