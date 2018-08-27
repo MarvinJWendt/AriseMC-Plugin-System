@@ -6,6 +6,7 @@ import de.hardcorepvp.data.UserMoney;
 import de.hardcorepvp.data.UserStats;
 import de.hardcorepvp.model.Debug;
 import de.hardcorepvp.utils.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,7 @@ public class PlayerJoinListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
+		Bukkit.broadcastMessage("test");
 		event.setJoinMessage(null);
 		//Test
 		Main.getUserManager().loadUser(uniqueId, (success) -> {

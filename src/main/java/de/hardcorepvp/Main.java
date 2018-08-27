@@ -3,10 +3,7 @@ package de.hardcorepvp;
 import de.hardcorepvp.commands.*;
 import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
-import de.hardcorepvp.listener.InventoryClickListener;
-import de.hardcorepvp.listener.PlayerChatListener;
-import de.hardcorepvp.listener.PlayerJoinListener;
-import de.hardcorepvp.listener.PlayerQuitListener;
+import de.hardcorepvp.listener.*;
 import de.hardcorepvp.manager.RankingManager;
 import de.hardcorepvp.manager.UserManager;
 import org.bukkit.Bukkit;
@@ -24,15 +21,17 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		configFile = new ConfigFile();
+		registerCommands();
+		registerListeners();
 		databaseManager = new DatabaseManager(configFile);
 		if (!databaseManager.connect()) {
-			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().shutdown(), 60L);
+			System.out.println("Keine Datenbank Verbindung!");
+			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().setWhitelist(true), 60L);
 			return;
 		}
 		userManager = new UserManager();
 		rankingManager = new RankingManager();
-		registerCommands();
-		registerListeners();
+
 	}
 
 	@Override
@@ -41,6 +40,7 @@ public class Main extends JavaPlugin {
 	}
 
 	private void registerCommands() {
+
 		getCommand("heal").setExecutor(new CommandHeal());
 		getCommand("feed").setExecutor(new CommandFeed());
 		getCommand("craft").setExecutor(new CommandCraft());
@@ -58,6 +58,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
 		this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+		this.getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 	}
 
 	public static Main getInstance() {

@@ -9,9 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.HashMap;
+
 public class Utils {
 
 	public static boolean pvp = true;
+
+	public static HashMap<Player, Boolean> inCombat = new HashMap<Player, Boolean>();
 
 	public static void stackItems(Player player) {
 
@@ -93,7 +97,7 @@ public class Utils {
 
 	public static Location deserializeLocation(String location) {
 		String[] deserialized = location.split(",");
-		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]),
-				Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
+		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
+
 }
