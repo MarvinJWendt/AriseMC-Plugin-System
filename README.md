@@ -1,4 +1,4 @@
-# AriveMC
-Private repository of the AriveMC minecraft server plugin system.
+# AriseMC
+Private repository of the AriseMC minecraft server plugin system.
 
-> "AriveMC is the best Server I ever played on" - Bill Gates
+> "AriseMC is the best Server I ever played on" - Bill Gates
