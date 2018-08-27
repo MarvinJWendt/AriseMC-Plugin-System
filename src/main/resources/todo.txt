@@ -38,4 +38,4 @@
 /back
 /spawn
 
-Permissions System, Clan System, Combatlog, Vote System, Scoreboard
+Permissions System, Clan System, Combatlog, Vote System, Scoreboard, Mobstack

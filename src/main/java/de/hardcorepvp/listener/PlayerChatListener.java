@@ -15,8 +15,8 @@ public class PlayerChatListener implements Listener {
 		String message = ChatColor.translateAlternateColorCodes('&', event.getMessage());
 
 		//TODO Prefix, Clan, Suffix
-		event.setFormat(player.getName() + "§7:§r " + message);
-
+		//%1$s -> Spieler
+		//%2$s -> Nachricht
+		event.setFormat("%1$s§7:§r §e%2$s");
 	}
-
 }

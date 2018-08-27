@@ -25,7 +25,7 @@ public class Main extends JavaPlugin {
 		registerListeners();
 		databaseManager = new DatabaseManager(configFile);
 		if (!databaseManager.connect()) {
-			System.out.println("Keine Datenbank Verbindung!");
+			Bukkit.getConsoleSender().sendMessage("§cEs konnte keine Verbindung zur Datenbank hergestellt werden...");
 			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().setWhitelist(true), 60L);
 			return;
 		}

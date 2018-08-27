@@ -46,7 +46,6 @@ public class DatabaseManager {
 			this.refreshTask();
 			return true;
 		} catch (SQLException | ClassNotFoundException exception) {
-			Bukkit.getConsoleSender().sendMessage("§cEs konnte keine Verbindung zur Datenbank hergestellt werden...");
 			exception.printStackTrace();
 			return false;
 		}
