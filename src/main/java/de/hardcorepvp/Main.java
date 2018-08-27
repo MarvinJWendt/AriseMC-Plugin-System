@@ -51,6 +51,7 @@ public class Main extends JavaPlugin {
 		getCommand("rename").setExecutor(new CommandRename());
 		getCommand("stack").setExecutor(new CommandStack());
 		getCommand("pvp").setExecutor(new CommandPvP());
+		getCommand("invsee").setExecutor(new CommandInvsee());
 	}
 
 	private void registerListeners() {

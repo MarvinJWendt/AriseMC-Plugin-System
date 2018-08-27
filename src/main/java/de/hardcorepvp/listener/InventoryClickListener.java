@@ -1,5 +1,6 @@
 package de.hardcorepvp.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,12 +14,26 @@ public class InventoryClickListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 
 		Player player = (Player) event.getWhoClicked();
-		Inventory inventory = event.getClickedInventory();
+		Inventory inventory = event.getInventory();
 
-		//Fehler! Abfragen, ob das Inventar null ist
-		if (inventory == null) return;
-		if (inventory.getType() == InventoryType.ENDER_CHEST && inventory.getHolder() != player) {
-			event.setCancelled(true);
+		if (inventory == null) {
+			return;
 		}
+
+		if (inventory.getType() == InventoryType.ENDER_CHEST && !inventory.toString().equals(player.getEnderChest().toString())) {
+
+			Bukkit.broadcastMessage("Du kannst andere Echests nicht nutzen!");
+			event.setCancelled(true);
+
+		}
+
+		if (inventory.getType() == InventoryType.PLAYER && !inventory.toString().equals(player.getInventory().toString())) {
+
+			Bukkit.broadcastMessage("Du kannst andere Inventories nicht nutzen!");
+			event.setCancelled(true);
+
+		}
+
+
 	}
 }

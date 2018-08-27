@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandEnderchest implements CommandExecutor {
+public class CommandInvsee implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -19,7 +19,7 @@ public class CommandEnderchest implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			player.openInventory(player.getEnderChest());
+			player.sendMessage(Messages.formatMessage(Messages.TOO_LESS_ARGUMENTS));
 			return true;
 		}
 		if (args.length == 1) {
@@ -28,12 +28,19 @@ public class CommandEnderchest implements CommandExecutor {
 				return true;
 			}
 
+
 			Player target = Bukkit.getPlayer(args[0]);
-			player.openInventory(target.getEnderChest());
-			player.sendMessage(Messages.formatMessage("Du Oeffnest die Enderchest  von " + target.getName()));
+			if (target == player) {
+				player.sendMessage(Messages.formatMessage("Du kannst dich nicht selber invseen"));
+				return true;
+			}
+
+			player.openInventory(target.getInventory());
+			player.sendMessage(Messages.formatMessage("Du Oeffnest das Inventar  von " + target.getName()));
 			return true;
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 		return true;
 	}
+
 }
