@@ -18,11 +18,5 @@ public class PlayerQuitListener implements Listener {
 		UUID uniqueId = player.getUniqueId();
 		Main.getUserManager().removeUser(uniqueId);
 
-		if (Utils.inCombat.get(player)) {
-
-			player.setHealth(0);
-			Bukkit.broadcastMessage(player.getName() + " hat sich im Kampf ausgelogt!");
-
-		}
 	}
 }

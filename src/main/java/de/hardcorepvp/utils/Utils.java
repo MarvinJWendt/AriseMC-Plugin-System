@@ -15,8 +15,6 @@ public class Utils {
 
 	public static boolean pvp = true;
 
-	public static HashMap<Player, Boolean> inCombat = new HashMap<Player, Boolean>();
-
 	public static void stackItems(Player player) {
 
 		ItemStack[] contents = player.getInventory().getContents();
