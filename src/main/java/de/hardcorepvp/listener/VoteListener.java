@@ -19,7 +19,7 @@ public class VoteListener implements Listener {
 		if (Bukkit.getPlayer(playerstring) == null) {
 
 			Player player = Bukkit.getPlayer(playerstring);
-			player.giveExp(100);
+			player.giveExp(1000);
 			Bukkit.broadcastMessage(Messages.formatMessage(playerstring + " hat gevoted!"));
 
 		} else {
