@@ -53,6 +53,7 @@ public class Main extends JavaPlugin {
 		getCommand("pvp").setExecutor(new CommandPvP());
 		getCommand("invsee").setExecutor(new CommandInvsee());
 		getCommand("goldswitch").setExecutor(new CommandGoldswitch());
+		getCommand("ranking").setExecutor(new CommandRanking());
 	}
 
 	private void registerListeners() {
