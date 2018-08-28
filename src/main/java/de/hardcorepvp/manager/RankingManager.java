@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -52,15 +52,16 @@ public class RankingManager {
 					@Override
 					public Map<String, Long> load(Ranking ranking) throws Exception {
 						if (ranking == Ranking.KILLS) {
-							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `kills` FROM `user_stats` ORDER BY `kills`");
+							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `kills` FROM `user_stats` ORDER BY `kills` DESC LIMIT 10");
 							ResultSet resultSet = statement.executeQuery();
-							Map<String, Long> rankingKills = new ConcurrentHashMap<>();
+							Map<String, Long> rankingKills = new LinkedHashMap<>();
 							while (resultSet.next()) {
 								UUID uniqueId = UUID.fromString(resultSet.getString("uniqueId"));
 								long kills = resultSet.getInt("kills");
 								Player target = Bukkit.getPlayer(uniqueId);
-								if (target.isOnline()) {
+								if (target != null) {
 									rankingKills.put(target.getName(), kills);
+									continue;
 								}
 								OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uniqueId);
 								if (offlinePlayer.hasPlayedBefore()) {
@@ -71,15 +72,16 @@ public class RankingManager {
 							return rankingKills;
 						}
 						if (ranking == Ranking.DEATHS) {
-							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `deaths` FROM `user_stats` ORDER BY `deaths`");
+							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `deaths` FROM `user_stats` ORDER BY `deaths` DESC LIMIT 10");
 							ResultSet resultSet = statement.executeQuery();
-							Map<String, Long> rankingDeaths = new ConcurrentHashMap<>();
+							Map<String, Long> rankingDeaths = new LinkedHashMap<>();
 							while (resultSet.next()) {
 								UUID uniqueId = UUID.fromString(resultSet.getString("uniqueId"));
 								long deaths = resultSet.getInt("deaths");
 								Player target = Bukkit.getPlayer(uniqueId);
-								if (target.isOnline()) {
+								if (target != null) {
 									rankingDeaths.put(target.getName(), deaths);
+									continue;
 								}
 								OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uniqueId);
 								if (offlinePlayer.hasPlayedBefore()) {
@@ -90,15 +92,16 @@ public class RankingManager {
 							return rankingDeaths;
 						}
 						if (ranking == Ranking.MONEY) {
-							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `money` FROM `user_money` ORDER BY `money`");
+							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `uniqueId`, `money` FROM `user_money` ORDER BY `money` DESC LIMIT 10");
 							ResultSet resultSet = statement.executeQuery();
-							Map<String, Long> rankingMoney = new ConcurrentHashMap<>();
+							Map<String, Long> rankingMoney = new LinkedHashMap<>();
 							while (resultSet.next()) {
 								UUID uniqueId = UUID.fromString(resultSet.getString("uniqueId"));
 								long money = resultSet.getLong("money");
 								Player target = Bukkit.getPlayer(uniqueId);
-								if (target.isOnline()) {
+								if (target != null) {
 									rankingMoney.put(target.getName(), money);
+									continue;
 								}
 								OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uniqueId);
 								if (offlinePlayer.hasPlayedBefore()) {
@@ -134,7 +137,7 @@ public class RankingManager {
 		}
 	}
 
-	public void getRanking(Ranking ranking, Consumer<Map<String, Long>> consumer) {
+	public synchronized void getRanking(Ranking ranking, Consumer<Map<String, Long>> consumer) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
 				consumer.accept(this.rankingCache.get(ranking));

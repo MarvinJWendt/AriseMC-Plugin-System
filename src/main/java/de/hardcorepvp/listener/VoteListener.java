@@ -12,23 +12,14 @@ public class VoteListener implements Listener {
 
 	@EventHandler
 	public void onPlayerVote(VotifierEvent event) {
-
 		Vote vote = event.getVote();
-		String playerstring = vote.getUsername();
-
-		if (Bukkit.getPlayer(playerstring) == null) {
-
-			Player player = Bukkit.getPlayer(playerstring);
+		String name = vote.getUsername();
+		if (Bukkit.getPlayer(name) == null) {
+			Player player = Bukkit.getPlayer(name);
 			player.giveExp(1000);
-			Bukkit.broadcastMessage(Messages.formatMessage(playerstring + " hat gevoted!"));
-
+			Bukkit.broadcastMessage(Messages.formatMessage(name + " hat gevoted!"));
 		} else {
-
-			Bukkit.broadcastMessage(Messages.formatMessage(playerstring + " hat gevoted ist jedoch Offline!"));
-
+			Bukkit.broadcastMessage(Messages.formatMessage(name + " hat gevoted ist jedoch Offline!"));
 		}
-
 	}
-
-
 }

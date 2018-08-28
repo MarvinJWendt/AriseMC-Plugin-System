@@ -10,6 +10,8 @@ public class Messages {
 	public static final String WRONG_ARGUMENTS = "WRONG_ARGUMENTS";
 	public static final String PLAYER_NOT_FOUND = "PLAYER_NOT_FOUND";
 	public static final String ERROR_OCCURRED = "§cEs ist ein Fehler aufgetreten! Melde dich umgehend im Teamspeak mit dieser Nachricht! §6§l%error%";
+	public static final String RANKING_HEADER = "§b<------ §6Ranking §b------>";
+	public static final String RANKING_STRUCTURE = "§aName §7| §a%ranking%";
 	public static final String PREFIX = "PREFIX";
 	public static final String[] HELP = {"ex1", "ex2", "ex3"};
 
