@@ -4,9 +4,7 @@ import de.hardcorepvp.commands.*;
 import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
 import de.hardcorepvp.listener.*;
-import de.hardcorepvp.manager.PunishmentManager;
 import de.hardcorepvp.manager.RankingManager;
-import de.hardcorepvp.manager.UUIDManager;
 import de.hardcorepvp.manager.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,8 +16,6 @@ public class Main extends JavaPlugin {
 	private static DatabaseManager databaseManager;
 	private static UserManager userManager;
 	private static RankingManager rankingManager;
-	private static UUIDManager uuidManager;
-	private static PunishmentManager punishmentManager;
 
 	@Override
 	public void onEnable() {
@@ -35,8 +31,7 @@ public class Main extends JavaPlugin {
 		}
 		userManager = new UserManager();
 		rankingManager = new RankingManager();
-		uuidManager = new UUIDManager();
-		punishmentManager = new PunishmentManager();
+
 	}
 
 	@Override
@@ -59,7 +54,6 @@ public class Main extends JavaPlugin {
 		getCommand("invsee").setExecutor(new CommandInvsee());
 		getCommand("goldswitch").setExecutor(new CommandGoldswitch());
 		getCommand("ranking").setExecutor(new CommandRanking());
-		getCommand("ban").setExecutor(new CommandBan());
 	}
 
 	private void registerListeners() {
@@ -89,13 +83,5 @@ public class Main extends JavaPlugin {
 
 	public static RankingManager getRankingManager() {
 		return rankingManager;
-	}
-
-	public static UUIDManager getUUIDManager() {
-		return uuidManager;
-	}
-
-	public static PunishmentManager getPunishmentManager() {
-		return punishmentManager;
 	}
 }
