@@ -95,29 +95,4 @@ public class Utils {
 		String[] deserialized = location.split(",");
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
-
-	public static boolean forSale(ItemStack item) {
-		if (item.getType() == Material.SULPHUR || item.getType() == Material.IRON_INGOT || item.getType() == Material.GOLD_INGOT || item.getType() == Material.DIAMOND) {
-			return true;
-		}
-		return false;
-	}
-
-	//TODO SELL ITEM
-	public static int sellItem(ItemStack item, Player player) {
-		player.getInventory().remove(item);
-
-		return item.getAmount() * getSellPrice(item);
-	}
-
-	public static int getSellPrice(ItemStack item) {
-
-		if (item.getType() == Material.SULPHUR) return SellPrices.SULPHUR.getPrice();
-		if (item.getType() == Material.IRON_INGOT) return SellPrices.IRON_INGOT.getPrice();
-		if (item.getType() == Material.GOLD_INGOT) return SellPrices.GOLD_INGOT.getPrice();
-		if (item.getType() == Material.DIAMOND) return SellPrices.DIAMOND.getPrice();
-
-		return 0;
-	}
-
 }

@@ -1,35 +1,25 @@
 package de.hardcorepvp.commands;
 
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
+import de.hardcorepvp.utils.ShopItems;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandSell implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
 		if (!(sender instanceof Player)) {
 			return false;
 		}
-
 		Player player = (Player) sender;
-
 		if (args.length == 0) {
-
-			Inventory inv = player.getInventory();
-			ItemStack[] invContents = inv.getContents();
-			Integer moneyGained = 0;
-
-			for (ItemStack item : invContents) {
-				if (Utils.forSale(item)) {
-					moneyGained += Utils.sellItem(item, player);
-				}
+			int moneyGained = this.sellInventory(player);
+			if (moneyGained == 0) {
+				player.sendMessage("In deinem Inventar befinden sich keine Item, die verkauft werden können");
 			}
 			player.sendMessage(Messages.formatMessage("Du hast dein Inventar verkauft und " + moneyGained + " bekommen"));
 			return true;
@@ -38,4 +28,15 @@ public class CommandSell implements CommandExecutor {
 		return true;
 	}
 
+	private int sellInventory(Player player) {
+		int amout = 0;
+		for (ItemStack item : player.getInventory().getContents()) {
+			ShopItems shopItems = ShopItems.valueOf(item.getType().name());
+			if (shopItems != null) {
+				amout += item.getAmount() * shopItems.getSellPrice();
+				player.getInventory().remove(item);
+			}
+		}
+		return amout;
+	}
 }
