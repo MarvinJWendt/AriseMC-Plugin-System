@@ -54,6 +54,7 @@ public class Main extends JavaPlugin {
 		getCommand("invsee").setExecutor(new CommandInvsee());
 		getCommand("goldswitch").setExecutor(new CommandGoldswitch());
 		getCommand("ranking").setExecutor(new CommandRanking());
+		getCommand("sell").setExecutor(new CommandRanking());
 	}
 
 	private void registerListeners() {
