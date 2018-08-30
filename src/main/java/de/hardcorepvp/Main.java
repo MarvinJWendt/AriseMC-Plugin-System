@@ -61,6 +61,7 @@ public class Main extends JavaPlugin {
 		getCommand("ranking").setExecutor(new CommandRanking());
 		getCommand("sell").setExecutor(new CommandSell());
 		getCommand("giveall").setExecutor(new CommandGiveall());
+		getCommand("ban").setExecutor(new CommandBan());
 	}
 
 	private void registerListeners() {
