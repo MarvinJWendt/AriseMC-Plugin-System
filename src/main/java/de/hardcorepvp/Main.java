@@ -60,6 +60,7 @@ public class Main extends JavaPlugin {
 		getCommand("goldswitch").setExecutor(new CommandGoldswitch());
 		getCommand("ranking").setExecutor(new CommandRanking());
 		getCommand("sell").setExecutor(new CommandSell());
+		getCommand("giveall").setExecutor(new CommandGiveall());
 	}
 
 	private void registerListeners() {
