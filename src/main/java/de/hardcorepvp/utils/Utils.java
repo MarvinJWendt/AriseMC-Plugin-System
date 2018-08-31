@@ -93,8 +93,6 @@ public class Utils {
 
 	public static Location deserializeLocation(String location) {
 		String[] deserialized = location.split(",");
-		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]),
-				Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]),
-				Float.valueOf(deserialized[5]));
+		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
 }
