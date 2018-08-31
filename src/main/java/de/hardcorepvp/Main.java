@@ -63,6 +63,9 @@ public class Main extends JavaPlugin {
 		getCommand("giveall").setExecutor(new CommandGiveall());
 		getCommand("ban").setExecutor(new CommandBan());
 		getCommand("spawner").setExecutor(new CommandSpawner());
+		getCommand("tpa").setExecutor(new CommandTpa());
+		getCommand("tpaccept").setExecutor(new CommandTpaccept());
+
 	}
 
 	private void registerListeners() {

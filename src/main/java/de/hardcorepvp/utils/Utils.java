@@ -1,5 +1,6 @@
 package de.hardcorepvp.utils;
 
+import de.hardcorepvp.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,9 +10,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Utils {
 
 	public static boolean pvp = true;
+	public static ConcurrentHashMap<Player, Player> tpaRequests = new ConcurrentHashMap<>();
+	public static HashMap<Player, Long> tpaCooldown = new HashMap<>();
 
 	public static void stackItems(Player player) {
 
@@ -95,4 +101,33 @@ public class Utils {
 		String[] deserialized = location.split(",");
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
+
+	public static boolean hasTPACooldown(Player player) {
+
+		if (tpaCooldown.containsKey(player)) {
+			long secondsLeft = getTPACooldown(player);
+			if (secondsLeft > 0) {
+				return true;
+			}
+		}
+		tpaCooldown.put(player, System.currentTimeMillis());
+		return false;
+	}
+
+	public static long getTPACooldown(Player player) {
+		return ((tpaCooldown.get(player) / 1000) + 10) - (System.currentTimeMillis() / 1000);
+	}
+
+
+	public static void sendTpa(Player sender, Player reciever) {
+		tpaRequests.put(reciever, sender);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
+			if (tpaRequests.containsKey(reciever)) {
+				if (tpaRequests.get(reciever).equals(sender)) {
+					tpaRequests.remove(reciever);
+				}
+			}
+		}, 60 * 20);
+	}
+
 }

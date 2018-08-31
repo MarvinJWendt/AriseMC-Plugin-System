@@ -22,3 +22,5 @@ commands:
   sell:
   giveall:
   spawner:
+  tpa:
+  tpaccept:

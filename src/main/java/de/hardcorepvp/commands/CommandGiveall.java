@@ -27,11 +27,10 @@ public class CommandGiveall implements CommandExecutor {
 			}
 
 			ItemStack item = player.getItemInHand();
-			//TODO
+			//TODO for every player
 			if (true) {
 				Player pseudoplayer = Bukkit.getPlayer("xX_KevinLPHDPVPKill4hHDXxD");
 				pseudoplayer.getInventory().addItem(item);
-
 
 			}
 			Bukkit.broadcastMessage(Messages.formatMessage("Jedem Spieler wurde " + item.getAmount() + "x " + item.getType() + " gegeben"));
