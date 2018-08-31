@@ -28,13 +28,13 @@ public class UserMoney extends DatabaseLoader {
 		return money;
 	}
 
-	public void addMoney(long money) {
-		this.money += money;
+	public void setMoney(long money) {
+		this.money = money;
 		this.writeToDatabase();
 	}
 
-	public void setMoney(long money) {
-		this.money = money;
+	public void addMoney(long money) {
+		this.money += money;
 		this.writeToDatabase();
 	}
 

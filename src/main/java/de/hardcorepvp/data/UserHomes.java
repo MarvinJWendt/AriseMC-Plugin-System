@@ -77,9 +77,7 @@ public class UserHomes extends DatabaseLoader {
 	public void readFromDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement =
-						Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`name`, `location` FROM `user_homes` " + "WHERE `uniqueId` = " +
-								"?");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`name`, `location` FROM `user_homes` " + "WHERE `uniqueId` = " + "?");
 				statement.setString(1, this.uniqueId.toString());
 
 				ResultSet resultSet = statement.executeQuery();
