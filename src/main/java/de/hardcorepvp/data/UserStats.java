@@ -38,8 +38,8 @@ public class UserStats extends DatabaseLoader {
 	public void writeToDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("INSERT INTO "
-						+ "`user_stats` (`uniqueId`, `kills`, `deaths`)" + "VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE " + "`uniqueId` = VALUES(`uniqueId`), `kills` = VALUES(`kills`), `deaths` = VALUES(`deaths`)");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("INSERT INTO " + "`user_stats` (`uniqueId`, `kills`, "
+						+ "`deaths`)" + "VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE " + "`uniqueId` = VALUES(`uniqueId`), `kills` = VALUES(`kills`), `deaths` = " + "VALUES(`deaths`)");
 				statement.setString(1, this.uniqueId.toString());
 				statement.setInt(2, this.kills);
 				statement.setInt(3, this.deaths);
@@ -55,8 +55,8 @@ public class UserStats extends DatabaseLoader {
 	public void readFromDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " +
-						"`kills`, `deaths` FROM `user_stats` WHERE `uniqueId` = ?");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`kills`, `deaths` FROM `user_stats` " +
+						"WHERE `uniqueId` = ?");
 				statement.setString(1, this.uniqueId.toString());
 
 				ResultSet resultSet = statement.executeQuery();

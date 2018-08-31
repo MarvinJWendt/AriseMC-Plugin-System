@@ -42,8 +42,8 @@ public class UserMoney extends DatabaseLoader {
 	public void writeToDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("INSERT INTO "
-						+ "`user_money` (`uniqueId`, `money`)" + "VALUES(?, ?) ON DUPLICATE KEY UPDATE `uniqueId` = " + "VALUES(`uniqueId`), `money` = VALUES(`money`)");
+				PreparedStatement statement =
+						Main.getDatabaseManager().getConnection().prepareStatement("INSERT INTO " + "`user_money` (`uniqueId`, `money`)" + "VALUES(?, ?) ON " + "DUPLICATE KEY UPDATE `uniqueId` = " + "VALUES(`uniqueId`), `money` = VALUES(`money`)");
 				statement.setString(1, this.uniqueId.toString());
 				statement.setLong(2, this.money);
 				statement.executeUpdate();
@@ -58,8 +58,8 @@ public class UserMoney extends DatabaseLoader {
 	public void readFromDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " +
-						"`money` FROM `user_money` WHERE `uniqueId` = ?");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`money` FROM `user_money` WHERE " +
+						"`uniqueId` = ?");
 				statement.setString(1, this.uniqueId.toString());
 
 				ResultSet resultSet = statement.executeQuery();

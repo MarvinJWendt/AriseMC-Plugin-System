@@ -42,8 +42,7 @@ public class CommandGoldswitch implements CommandExecutor {
 			if (nuggets % 9 > 0) {
 				player.getInventory().addItem(new ItemStack(Material.GOLD_NUGGET, nuggets % 9));
 			}
-			player.sendMessage("Deine " + nuggets + " Goldnuggets wurden in " + nuggets / 9 + " Ingots geswitched " +
-					" und dir wird ein Rest von " + nuggets % 9 + " erstattet");
+			player.sendMessage("Deine " + nuggets + " Goldnuggets wurden in " + nuggets / 9 + " Ingots geswitched " + " und dir wird ein Rest von " + nuggets % 9 + " erstattet");
 			return true;
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
