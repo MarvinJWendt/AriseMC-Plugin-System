@@ -92,12 +92,15 @@ public class UserManager {
 	private void setupTables() {
 		try {
 			Main.getDatabaseManager().getConnection().setAutoCommit(false);
-			PreparedStatement statement =
-					Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF " + "NOT EXISTS `user_money` (" + " `id" + "`" + " INT NOT " + "NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36) NOT " + "NULL," + " `money` BIGINT UNSIGNED NOT NULL," + " PRIMARY KEY " + "(`id`)," + " UNIQUE INDEX " + "`uniqueId_UNIQUE` (`uniqueId` ASC))");
+			PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF " + "NOT EXISTS `user_money` (" + " `id" +
+					"`" + " INT NOT NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36) NOT " + "NULL," + " `money` BIGINT UNSIGNED NOT NULL," + " PRIMARY KEY " +
+					"(`id`)," + " UNIQUE INDEX " + "`uniqueId_UNIQUE` (`uniqueId` ASC))");
 			statement.executeUpdate();
 			statement.close();
 
-			PreparedStatement statement1 = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE " + "IF" + " NOT EXISTS " + "`user_stats` " + "(" + " `id` INT NOT NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36)" + " NOT " + "NULL," + " `kills` INT UNSIGNED NOT NULL," + " `deaths" + "`" + " " + "INT UNSIGNED NOT NULL," + " " + "PRIMARY KEY " + "(`id`)," + " UNIQUE INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
+			PreparedStatement statement1 = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE " + "IF" + " NOT EXISTS " + "`user_stats` "
+					+ "(" + " `id` INT NOT NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36)" + " NOT " + "NULL," + " `kills` INT UNSIGNED NOT NULL," + " `deaths`" +
+					" " + "INT UNSIGNED NOT NULL," + " " + "PRIMARY KEY " + "(`id`)," + " UNIQUE INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
 			statement1.executeUpdate();
 			statement1.close();
 
