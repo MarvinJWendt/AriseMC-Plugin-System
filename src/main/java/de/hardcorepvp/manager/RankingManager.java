@@ -24,11 +24,13 @@ public class RankingManager {
 	private LoadingCache<Ranking, Map<String, Long>> rankingCache;
 
 	public RankingManager() {
-		this.statsSingleRankCache = CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build(new CacheLoader<UUID, Integer>() {
+		this.statsSingleRankCache =
+				CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build(new CacheLoader<UUID, Integer>() {
 			@Override
 			public Integer load(UUID uniqueId) throws Exception {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "COUNT" + "(*) AS `rank` FROM " +
-						"`user_stats`" + " WHERE `kills` >= (SELECT `kills` FROM " + "`user_stats` WHERE" + " `uniqueId`= ?)");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " +
+						"COUNT" + "(*) AS `rank` FROM `user_stats`" + " WHERE `kills` >= (SELECT `kills` FROM " +
+						"`user_stats` WHERE" + " `uniqueId`= ?)");
 				statement.setString(1, uniqueId.toString());
 
 				ResultSet resultSet = statement.executeQuery();
@@ -41,12 +43,15 @@ public class RankingManager {
 				return rank;
 			}
 		});
-		this.rankingCache = CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build(new CacheLoader<Ranking, Map<String, Long>>() {
+		this.rankingCache =
+				CacheBuilder.newBuilder().expireAfterAccess(5, TimeUnit.MINUTES).build(new CacheLoader<Ranking,
+						Map<String, Long>>() {
 			@Override
 			public Map<String, Long> load(Ranking ranking) throws Exception {
 				if (ranking == Ranking.KILLS) {
-					PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " + "`kills` FROM " +
-							"`user_stats` ORDER BY `kills` DESC LIMIT 10");
+					PreparedStatement statement =
+							Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " +
+									"`kills` FROM `user_stats` ORDER BY `kills` DESC LIMIT 10");
 					ResultSet resultSet = statement.executeQuery();
 					Map<String, Long> rankingKills = new LinkedHashMap<>();
 					while (resultSet.next()) {
@@ -66,8 +71,9 @@ public class RankingManager {
 					return rankingKills;
 				}
 				if (ranking == Ranking.DEATHS) {
-					PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " + "`deaths` FROM " +
-							"`user_stats` ORDER BY `deaths` DESC LIMIT 10");
+					PreparedStatement statement =
+							Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " +
+									"`deaths` FROM `user_stats` ORDER BY `deaths` DESC LIMIT 10");
 					ResultSet resultSet = statement.executeQuery();
 					Map<String, Long> rankingDeaths = new LinkedHashMap<>();
 					while (resultSet.next()) {
@@ -87,8 +93,9 @@ public class RankingManager {
 					return rankingDeaths;
 				}
 				if (ranking == Ranking.MONEY) {
-					PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " + "`money` FROM " +
-							"`user_money` ORDER BY `money` DESC LIMIT 10");
+					PreparedStatement statement =
+							Main.getDatabaseManager().getConnection().prepareStatement("SELECT " + "`uniqueId`, " +
+									"`money` FROM `user_money` ORDER BY `money` DESC LIMIT 10");
 					ResultSet resultSet = statement.executeQuery();
 					Map<String, Long> rankingMoney = new LinkedHashMap<>();
 					while (resultSet.next()) {
