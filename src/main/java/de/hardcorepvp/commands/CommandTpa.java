@@ -1,5 +1,6 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
 import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
@@ -19,32 +20,37 @@ public class CommandTpa implements CommandExecutor {
 
 		Player player = (Player) sender;
 
+		int cooldown = 5;
+		if (Utils.tpaCooldown.containsKey(player.getName())) {
+			long diff = (System.currentTimeMillis() - (Utils.tpaCooldown.get(player.getName()))) / 1000L;
+			if (diff < cooldown) {
+				player.sendMessage("Du musst " + cooldown + "Sekunden zwischen Tpas warten!");
+				return true;
+			}
+		}
 		if (args.length == 0) {
-			player.sendMessage(Messages.formatMessage(Messages.TOO_LESS_ARGUMENTS));
+			player.sendMessage(Messages.TOO_LESS_ARGUMENTS);
 			return true;
 		}
 		if (args.length == 1) {
-			if (Bukkit.getPlayer(args[0]) == null) {
-				player.sendMessage(Messages.formatMessage(Messages.PLAYER_NOT_FOUND));
-				return true;
-			}
-
 			Player target = Bukkit.getPlayer(args[0]);
+			long keepAlive = 60 * 20L;
+			if (target == null) {
+				player.sendMessage(Messages.PLAYER_NOT_FOUND);
+				return true;
+			}
 			if (target == player) {
-				player.sendMessage(Messages.formatMessage("Du kannst dir selber keine TPA Anfrage senden!"));
+				player.sendMessage("Nicht zu dir selbst");
 				return true;
 			}
-
-			if (Utils.hasTPACooldown(player)) {
-				player.sendMessage(Messages.formatMessage("Du hast noch " + Utils.getTPACooldown(player) + " Sekunden cooldown"));
-				return true;
-			}
-			Utils.sendTpa(player, target);
+			Utils.sendRequest(player, target);
 			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPA Anfrage gesendet"));
+			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPA Anfrage gesendet"));
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killRequest(target.getName()), keepAlive);
+			Utils.tpaCooldown.put(player.getName(), System.currentTimeMillis());
 			return true;
-
 		}
-		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
+		player.sendMessage(Messages.TOO_MANY_ARGUMENTS);
 		return true;
 	}
 

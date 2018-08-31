@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandTpaccept implements CommandExecutor {
+public class CommandTpdeny implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 
@@ -19,14 +19,17 @@ public class CommandTpaccept implements CommandExecutor {
 
 		if (args.length == 0) {
 			if (Utils.currentRequest.containsKey(player.getName())) {
-				Player toTeleport = Bukkit.getPlayer(Utils.currentRequest.get(player.getName()));
+				Player rejectedPlayer = Bukkit.getPlayer(Utils.currentRequest.get(player.getName()));
 				Utils.currentRequest.remove(player.getName());
-				if (toTeleport != null) {
-					toTeleport.teleport(player);
+				if (rejectedPlayer != null) {
+					rejectedPlayer.sendMessage(player.getName() + " hat deine Anfrage abgelehnt!");
+					player.sendMessage(rejectedPlayer.getName() + " wurde abgelehnt");
 					return true;
 				}
+
 				player.sendMessage(Messages.PLAYER_NOT_FOUND);
 				return true;
+
 			}
 			sender.sendMessage("Du hast keine Anfrage");
 			return true;

@@ -1,6 +1,6 @@
 package de.hardcorepvp.utils;
 
-import de.hardcorepvp.Main;
+import com.google.common.collect.HashBiMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,8 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Utils {
 
 	public static boolean pvp = true;
-	public static ConcurrentHashMap<Player, Player> tpaRequests = new ConcurrentHashMap<>();
-	public static HashMap<Player, Long> tpaCooldown = new HashMap<>();
+
+	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
+	public static HashMap<String, String> currentRequest = new HashMap<>();
 
 	public static void stackItems(Player player) {
 
@@ -102,32 +103,24 @@ public class Utils {
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
 
-	public static boolean hasTPACooldown(Player player) {
-
-		if (tpaCooldown.containsKey(player)) {
-			long secondsLeft = getTPACooldown(player);
-			if (secondsLeft > 0) {
-				return true;
+	public static boolean killRequest(String key) {
+		if (currentRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentRequest.get(key));
+			if (player != null) {
+				player.sendMessage("Deine Anfrage ist abgelaufen");
 			}
+			currentRequest.remove(key);
+			return true;
 		}
-		tpaCooldown.put(player, System.currentTimeMillis());
 		return false;
 	}
 
-	public static long getTPACooldown(Player player) {
-		return ((tpaCooldown.get(player) / 1000) + 10) - (System.currentTimeMillis() / 1000);
-	}
-
-
-	public static void sendTpa(Player sender, Player reciever) {
-		tpaRequests.put(reciever, sender);
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), () -> {
-			if (tpaRequests.containsKey(reciever)) {
-				if (tpaRequests.get(reciever).equals(sender)) {
-					tpaRequests.remove(reciever);
-				}
-			}
-		}, 60 * 20);
+	public static void sendRequest(Player sender, Player recipient) {
+		if (currentRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test");
+			currentRequest.values().remove(sender.getName());
+		}
+		currentRequest.put(recipient.getName(), sender.getName());
 	}
 
 }
