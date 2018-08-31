@@ -54,8 +54,7 @@ public class UserHomes extends DatabaseLoader {
 				this.homes.forEach((name, location) -> {
 					try {
 						PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement(
-								"INSERT INTO `user_homes` (`uniqueId`, `name`, `location`)" +
-										"VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `uniqueId` = VALUES(`uniqueId`), `name` = VALUES(`name`), `location` = VALUES(`location`)");
+								"INSERT INTO `user_homes` (`uniqueId`, `name`, `location`)" + "VALUES(?, ?, ?) ON " + "DUPLICATE KEY UPDATE `uniqueId` = VALUES(`uniqueId`), `name` = VALUES(`name`)" + ", `location` = VALUES(`location`)");
 						statement.setString(1, this.uniqueId.toString());
 						statement.setString(2, name);
 						statement.setString(3, Utils.serializeLocation(location));
@@ -77,12 +76,14 @@ public class UserHomes extends DatabaseLoader {
 	public void readFromDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT `name`, `location` FROM `user_homes` WHERE `uniqueId` = ?");
+				PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT " +
+						"`name`, `location` FROM `user_homes` WHERE `uniqueId` = ?");
 				statement.setString(1, this.uniqueId.toString());
 
 				ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					this.homes.put(resultSet.getString("name"), Utils.deserializeLocation(resultSet.getString("location")));
+					this.homes.put(resultSet.getString("name"), Utils.deserializeLocation(resultSet.getString(
+							"location")));
 				}
 				statement.close();
 				resultSet.close();

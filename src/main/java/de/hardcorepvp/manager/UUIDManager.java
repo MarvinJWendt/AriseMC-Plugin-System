@@ -16,15 +16,13 @@ public class UUIDManager {
 	private LoadingCache<String, UUID> uuidCache;
 
 	public UUIDManager() {
-		this.uuidCache = CacheBuilder
-				.newBuilder()
-				.expireAfterAccess(10, TimeUnit.MINUTES)
-				.build(new CacheLoader<String, UUID>() {
-					@Override
-					public UUID load(String name) throws Exception {
-						return null;
-					}
-				});
+		this.uuidCache =
+				CacheBuilder.newBuilder().expireAfterAccess(10, TimeUnit.MINUTES).build(new CacheLoader<String, UUID>() {
+			@Override
+			public UUID load(String name) throws Exception {
+				return null;
+			}
+		});
 	}
 
 	public void getUniqueId(String name, Consumer<UUID> consumer) {

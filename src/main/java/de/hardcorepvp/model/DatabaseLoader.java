@@ -37,5 +37,6 @@ public abstract class DatabaseLoader {
 	}
 
 	public abstract void writeToDatabase();
+
 	public abstract void readFromDatabase();
 }

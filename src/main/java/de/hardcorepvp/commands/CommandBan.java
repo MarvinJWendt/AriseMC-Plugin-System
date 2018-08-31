@@ -39,7 +39,8 @@ public class CommandBan implements CommandExecutor {
 					player.sendMessage("§cDu kannst diesen Spieler nicht bannen!");
 					return true;
 				}
-				PunishmentManager.BanData banData = new PunishmentManager.BanData(target.getUniqueId(), "--", player.getName(), -1L, System.currentTimeMillis());
+				PunishmentManager.BanData banData = new PunishmentManager.BanData(target.getUniqueId(), "--",
+						player.getName(), -1L, System.currentTimeMillis());
 				Main.getPunishmentManager().setBanned(target.getUniqueId(), banData, new Consumer<Boolean>() {
 					@Override
 					public void accept(Boolean success) {
@@ -47,7 +48,8 @@ public class CommandBan implements CommandExecutor {
 							player.sendMessage("§cDer Spieler konnte nicht gebannt werden!");
 							return;
 						}
-						Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("Du wurdest gebannt!\nGrund: " + banData.getBanReason()));
+						Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("Du wurdest " +
+								"gebannt!\nGrund: " + banData.getBanReason()));
 						player.sendMessage("§aDer Spieler wurde erfolgreich gebannt!");
 					}
 				});
@@ -59,13 +61,15 @@ public class CommandBan implements CommandExecutor {
 						player.sendMessage("§cDieser Spieler existiert nicht!");
 						return;
 					}
-					PunishmentManager.BanData banData = new PunishmentManager.BanData(uniqueId, "--", player.getName(), -1L, System.currentTimeMillis());
+					PunishmentManager.BanData banData = new PunishmentManager.BanData(uniqueId, "--", player.getName()
+							, -1L, System.currentTimeMillis());
 					boolean success = Main.getPunishmentManager().setBannedSync(uniqueId, banData);
 					if (!success) {
 						player.sendMessage("§cDer Spieler konnte nicht gebannt werden!");
 						return;
 					}
-					Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("Du wurdest gebannt!\nGrund: " + banData.getBanReason()));
+					Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("Du wurdest " + "gebannt"
+							+ "!\nGrund: " + banData.getBanReason()));
 					player.sendMessage("§aDer Spieler wurde erfolgreich gebannt!");
 				}
 			});

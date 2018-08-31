@@ -82,7 +82,7 @@ public class UserManager {
 			consumer.accept(true);
 		});
 	}
-	
+
 	public void removeUser(UUID uniqueId) {
 		this.userStatsMap.remove(uniqueId);
 		this.userMoneyMap.remove(uniqueId);
@@ -92,30 +92,23 @@ public class UserManager {
 	private void setupTables() {
 		try {
 			Main.getDatabaseManager().getConnection().setAutoCommit(false);
-			PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `user_money` ("
-					+ " `id` INT NOT NULL AUTO_INCREMENT,"
-					+ " `uniqueId` CHAR(36) NOT NULL,"
-					+ " `money` BIGINT UNSIGNED NOT NULL,"
-					+ " PRIMARY KEY (`id`),"
-					+ " UNIQUE INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
+			PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF "
+					+ "NOT EXISTS `user_money` (" + " `id` INT NOT NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36) NOT " + "NULL," + " `money` BIGINT UNSIGNED NOT NULL," + " PRIMARY KEY (`id`)," + " UNIQUE INDEX " + "`uniqueId_UNIQUE` (`uniqueId` ASC))");
 			statement.executeUpdate();
 			statement.close();
 
-			PreparedStatement statement1 = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `user_stats` ("
-					+ " `id` INT NOT NULL AUTO_INCREMENT,"
-					+ " `uniqueId` CHAR(36) NOT NULL,"
-					+ " `kills` INT UNSIGNED NOT NULL,"
-					+ " `deaths` INT UNSIGNED NOT NULL,"
-					+ " PRIMARY KEY (`id`),"
-					+ " UNIQUE INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
+			PreparedStatement statement1 =
+					Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE " + "IF" + " NOT EXISTS " +
+							"`user_stats` (" + " `id` INT NOT NULL AUTO_INCREMENT," + " `uniqueId` CHAR(36)" + " NOT " + "NULL," + " `kills` INT UNSIGNED NOT NULL," + " `deaths` INT UNSIGNED NOT NULL," + " " + "PRIMARY KEY " + "(`id`)," + " UNIQUE INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
 			statement1.executeUpdate();
 			statement1.close();
 
-			PreparedStatement statement2 = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `user_homes` ("
-					+ " `uniqueId` CHAR(36) NOT NULL,"
-					+ " `name` VARCHAR(50) NOT NULL,"
-					+ " `location` VARCHAR(50) NOT NULL,"
-					+ " INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
+			PreparedStatement statement2 =
+					Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE " + "IF" + " NOT EXISTS" +
+							" " +
+							"`user_homes` (" + " `uniqueId` CHAR(36) NOT NULL," + " `name` VARCHAR(50) NOT" + " " +
+							"NULL," + " `location` VARCHAR(50) NOT NULL," + " INDEX `uniqueId_UNIQUE` (`uniqueId` ASC)" +
+							")");
 			statement2.executeUpdate();
 			statement2.close();
 
