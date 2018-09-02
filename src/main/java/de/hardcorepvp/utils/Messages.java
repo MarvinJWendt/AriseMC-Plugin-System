@@ -16,14 +16,10 @@ public class Messages {
 	public static final String[] HELP = {"ex1", "ex2", "ex3"};
 
 	public static String formatMessage(String message) {
-
 		return PREFIX + message;
-
 	}
 
 	public static String formatMessage(String[] message) {
-
 		return PREFIX + Arrays.toString(message);
-
 	}
 }

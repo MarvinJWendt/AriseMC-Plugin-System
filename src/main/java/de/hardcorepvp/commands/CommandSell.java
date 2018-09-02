@@ -29,14 +29,14 @@ public class CommandSell implements CommandExecutor {
 	}
 
 	private int sellInventory(Player player) {
-		int amout = 0;
+		int amount = 0;
 		for (ItemStack item : player.getInventory().getContents()) {
 			ShopItems shopItems = ShopItems.valueOf(item.getType().name());
 			if (shopItems != null) {
-				amout += item.getAmount() * shopItems.getSellPrice();
+				amount += item.getAmount() * shopItems.getSellPrice();
 				player.getInventory().remove(item);
 			}
 		}
-		return amout;
+		return amount;
 	}
 }
