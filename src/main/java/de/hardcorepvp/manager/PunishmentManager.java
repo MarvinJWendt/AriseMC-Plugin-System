@@ -9,51 +9,51 @@ public class PunishmentManager {
 	//Tabelle
 
 	public void setBanned(UUID uniqueId, BanData banData, Consumer<Boolean> consumer) {
-
+		return;
 	}
 
 	public void getBanData(UUID uniqueId, Consumer<BanData> consumer) {
-
+		return;
 	}
 
 	public void deleteBanData(UUID uniqueId, Consumer<Boolean> consumer) {
-
+		return;
 	}
 
 	public boolean setBannedSync(UUID uniqueId, BanData banData) {
-
+		return false;
 	}
 
 	public BanData getBanDataSync(UUID uniqueId) {
-
+		return null;
 	}
 
 	public boolean deleteBanDataSync(UUID uniqueId) {
-
+		return false;
 	}
 
 	public void setMuted(UUID uniqueId, MuteData muteData, Consumer<Boolean> consumer) {
-
+		return;
 	}
 
 	public void getMuteData(UUID uniqueId, Consumer<MuteData> consumer) {
-
+		return;
 	}
 
 	public void deleteMuteData(UUID uniqueId, Consumer<Boolean> consumer) {
-
+		return;
 	}
 
 	public boolean setMutedSync(UUID uniqueId, MuteData muteData) {
-
+		return false;
 	}
 
 	public MuteData getMuteDataSync(UUID uniqueId) {
-
+		return null;
 	}
 
 	public boolean deleteMuteDataSync(UUID uniqueId) {
-
+		return false;
 	}
 
 	public static class MuteData {

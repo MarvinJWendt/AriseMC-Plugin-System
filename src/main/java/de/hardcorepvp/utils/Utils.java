@@ -1,5 +1,6 @@
 package de.hardcorepvp.utils;
 
+import com.google.common.collect.HashBiMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,9 +10,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Utils {
 
 	public static boolean pvp = true;
+
+	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
+	public static HashMap<String, String> currentRequest = new HashMap<>();
 
 	public static void stackItems(Player player) {
 
@@ -95,4 +102,25 @@ public class Utils {
 		String[] deserialized = location.split(",");
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
+
+	public static boolean killRequest(String key) {
+		if (currentRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentRequest.get(key));
+			if (player != null) {
+				player.sendMessage("Deine Anfrage ist abgelaufen");
+			}
+			currentRequest.remove(key);
+			return true;
+		}
+		return false;
+	}
+
+	public static void sendRequest(Player sender, Player recipient) {
+		if (currentRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test");
+			currentRequest.values().remove(sender.getName());
+		}
+		currentRequest.put(recipient.getName(), sender.getName());
+	}
+
 }
