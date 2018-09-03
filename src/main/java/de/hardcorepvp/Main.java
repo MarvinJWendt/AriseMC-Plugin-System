@@ -55,6 +55,7 @@ public class Main extends JavaPlugin {
 		getCommand("hat").setExecutor(new CommandHat());
 		getCommand("rename").setExecutor(new CommandRename());
 		getCommand("stack").setExecutor(new CommandStack());
+		getCommand("help").setExecutor(new CommandHelp());
 		getCommand("pvp").setExecutor(new CommandPvP());
 		getCommand("invsee").setExecutor(new CommandInvsee());
 		getCommand("goldswitch").setExecutor(new CommandGoldswitch());
@@ -64,6 +65,7 @@ public class Main extends JavaPlugin {
 		getCommand("ban").setExecutor(new CommandBan());
 		getCommand("spawner").setExecutor(new CommandSpawner());
 		getCommand("tpa").setExecutor(new CommandTpa());
+		getCommand("tpahere").setExecutor(new CommandTpahere());
 		getCommand("tpaccept").setExecutor(new CommandTpaccept());
 
 	}

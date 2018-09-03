@@ -18,9 +18,9 @@ public class CommandTpaccept implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			if (Utils.currentRequest.containsKey(player.getName())) {
-				Player toTeleport = Bukkit.getPlayer(Utils.currentRequest.get(player.getName()));
-				Utils.currentRequest.remove(player.getName());
+			if (Utils.currentTpaRequest.containsKey(player.getName())) {
+				Player toTeleport = Bukkit.getPlayer(Utils.currentTpaRequest.get(player.getName()));
+				Utils.currentTpaRequest.remove(player.getName());
 				if (toTeleport != null) {
 					toTeleport.teleport(player);
 					return true;
@@ -28,9 +28,20 @@ public class CommandTpaccept implements CommandExecutor {
 				player.sendMessage(Messages.PLAYER_NOT_FOUND);
 				return true;
 			}
-			sender.sendMessage("Du hast keine Anfrage");
-			return true;
+			if (Utils.currentTpahereRequest.containsKey(player.getName())) {
+				Player toTeleport = Bukkit.getPlayer(Utils.currentTpahereRequest.get(player.getName()));
+				Utils.currentTpahereRequest.remove(player.getName());
+				if (toTeleport != null) {
+					player.teleport(toTeleport);
+					return true;
+				}
+				player.sendMessage(Messages.PLAYER_NOT_FOUND);
+				return true;
+
+
+			}
 		}
+
 		player.sendMessage(Messages.TOO_MANY_ARGUMENTS);
 		return true;
 	}

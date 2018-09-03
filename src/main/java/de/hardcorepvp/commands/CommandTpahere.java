@@ -9,7 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandTpa implements CommandExecutor {
+public class CommandTpahere implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -28,6 +28,7 @@ public class CommandTpa implements CommandExecutor {
 				return true;
 			}
 		}
+
 		if (args.length == 0) {
 			player.sendMessage(Messages.TOO_LESS_ARGUMENTS);
 			return true;
@@ -43,9 +44,9 @@ public class CommandTpa implements CommandExecutor {
 				player.sendMessage("Nicht zu dir selbst");
 				return true;
 			}
-			Utils.sendTpaRequest(player, target);
-			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPA Anfrage gesendet"));
-			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPA Anfrage gesendet"));
+			Utils.sendTpahereRequest(player, target);
+			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPAhere Anfrage gesendet"));
+			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPAhere Anfrage gesendet"));
 			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killTpaRequest(target.getName()), keepAlive);
 			Utils.tpaCooldown.put(player.getName(), System.currentTimeMillis());
 			return true;
