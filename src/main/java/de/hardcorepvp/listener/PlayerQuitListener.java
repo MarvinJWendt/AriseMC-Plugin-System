@@ -1,8 +1,6 @@
 package de.hardcorepvp.listener;
 
 import de.hardcorepvp.Main;
-import de.hardcorepvp.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +15,5 @@ public class PlayerQuitListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
 		Main.getUserManager().removeUser(uniqueId);
-
 	}
 }

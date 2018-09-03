@@ -1,7 +1,6 @@
 package de.hardcorepvp.commands;
 
 import de.hardcorepvp.utils.Messages;
-import net.minecraft.server.v1_7_R4.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

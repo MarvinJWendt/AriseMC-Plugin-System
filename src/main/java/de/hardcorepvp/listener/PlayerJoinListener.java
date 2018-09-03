@@ -1,18 +1,16 @@
 package de.hardcorepvp.listener;
 
 import de.hardcorepvp.Main;
-import de.hardcorepvp.data.UserHomes;
-import de.hardcorepvp.data.UserMoney;
-import de.hardcorepvp.data.UserStats;
-import de.hardcorepvp.model.Debug;
-import de.hardcorepvp.utils.Messages;
+import de.hardcorepvp.data.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class PlayerJoinListener implements Listener {
 
@@ -23,22 +21,28 @@ public class PlayerJoinListener implements Listener {
 		Bukkit.broadcastMessage("test");
 		event.setJoinMessage(null);
 		//Test
-		Main.getUserManager().loadUser(uniqueId, (success) -> {
-			if (!success) {
-				player.kickPlayer(Messages.ERROR_OCCURRED.replace("%error%", Debug.LOAD_USER.name()));
-				return;
-			}
-			UserStats userStats = Main.getUserManager().getUserStats(uniqueId);
-			UserMoney userMoney = Main.getUserManager().getUserMoney(uniqueId);
-			UserHomes userHomes = Main.getUserManager().getUserHomes(uniqueId);
-			userStats.addReadyExecutor(() -> {
-				player.sendMessage("Kills: " + userStats.getKills());
-				player.sendMessage("Deaths: " + userStats.getDeaths());
+		Main.getUserManager().loadUser(uniqueId, new Consumer<Optional<User>>() {
+			@Override
+			public void accept(Optional<User> optionalUser) {
+				if (!optionalUser.isPresent()) {
+					Bukkit.getScheduler().runTask(Main.getInstance(), () -> player.kickPlayer("Es ist ein Fehler aufgetreten!"));
+					return;
+				}
+				User user = optionalUser.get();
+				if (!player.hasPlayedBefore()) {
+					user.setMoney(5231123);
+				}
+				user.setMoney(21231);
+				user.setDeaths(Integer.MAX_VALUE);
+				user.setKills(Integer.MAX_VALUE);
+				user.addHome("test", player.getLocation());
+
+				player.sendMessage("Money: " + user.getMoney());
+				player.sendMessage("Kills: " + user.getKills());
+				player.sendMessage("Deaths: " + user.getDeaths());
+				player.sendMessage("K/D: " + user.getKD());
 				player.sendMessage("Rank: " + Main.getRankingManager().getUserStatsRankSync(uniqueId));
-			});
-			userMoney.addReadyExecutor(() -> player.sendMessage("Money: " + userMoney.getMoney()));
-			userHomes.addReadyExecutor(() -> player.sendMessage("Homes: " + userHomes.getHomes().size()));
-			userMoney.addReadyExecutor(() -> userMoney.setMoney(10000));
+			}
 		});
 	}
 }
