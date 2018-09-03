@@ -17,7 +17,8 @@ public class Utils {
 	public static boolean pvp = true;
 
 	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
-	public static HashMap<String, String> currentRequest = new HashMap<>();
+	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
+	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
 
 	public static void stackItems(Player player) {
 
@@ -102,24 +103,57 @@ public class Utils {
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
 
-	public static boolean killRequest(String key) {
-		if (currentRequest.containsKey(key)) {
-			Player player = Bukkit.getPlayer(currentRequest.get(key));
+	public static boolean killTpaRequest(String key) {
+		if (currentTpaRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentTpaRequest.get(key));
 			if (player != null) {
 				player.sendMessage("Deine Anfrage ist abgelaufen");
 			}
-			currentRequest.remove(key);
+			currentTpaRequest.remove(key);
 			return true;
 		}
 		return false;
 	}
 
-	public static void sendRequest(Player sender, Player recipient) {
-		if (currentRequest.values().contains(sender.getName())) {
-			Bukkit.broadcastMessage("test");
-			currentRequest.values().remove(sender.getName());
+	public static boolean killTpahereRequest(String key) {
+		if (currentTpahereRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentTpahereRequest.get(key));
+			if (player != null) {
+				player.sendMessage("Deine Anfrage ist abgelaufen");
+			}
+			currentTpahereRequest.remove(key);
+			return true;
 		}
-		currentRequest.put(recipient.getName(), sender.getName());
+		return false;
+	}
+
+	public static void sendTpaRequest(Player sender, Player recipient) {
+		if (currentTpahereRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test1");
+			currentTpahereRequest.values().remove(sender.getName());
+		}
+		if (currentTpaRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test2");
+			currentTpaRequest.values().remove(sender.getName());
+		}
+		currentTpaRequest.put(recipient.getName(), sender.getName());
+	}
+
+	//reciever -> key sender -> value
+	public static void sendTpahereRequest(Player sender, Player recipient) {
+
+		if (currentTpahereRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test1");
+			currentTpahereRequest.values().remove(sender.getName());
+		}
+		if (currentTpaRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test2");
+			currentTpaRequest.values().remove(sender.getName());
+		}
+
+		currentTpahereRequest.put(recipient.getName(), sender.getName());
+
+
 	}
 
 }

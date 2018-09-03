@@ -18,9 +18,9 @@ public class CommandTpdeny implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			if (Utils.currentRequest.containsKey(player.getName())) {
-				Player rejectedPlayer = Bukkit.getPlayer(Utils.currentRequest.get(player.getName()));
-				Utils.currentRequest.remove(player.getName());
+			if (Utils.currentTpaRequest.containsKey(player.getName())) {
+				Player rejectedPlayer = Bukkit.getPlayer(Utils.currentTpaRequest.get(player.getName()));
+				Utils.currentTpaRequest.remove(player.getName());
 				if (rejectedPlayer != null) {
 					rejectedPlayer.sendMessage(player.getName() + " hat deine Anfrage abgelehnt!");
 					player.sendMessage(rejectedPlayer.getName() + " wurde abgelehnt");

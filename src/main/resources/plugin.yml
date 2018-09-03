@@ -25,3 +25,4 @@ commands:
   tpa:
   tpaccept:
   tpdeny:
+  tpahere:

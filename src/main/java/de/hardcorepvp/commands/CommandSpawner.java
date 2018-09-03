@@ -7,7 +7,7 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class CommandSpawner implements CommandExecutor {
@@ -19,7 +19,17 @@ public class CommandSpawner implements CommandExecutor {
 		}
 
 		Player player = (Player) sender;
+		if (args.length == 0) {
 
+			Block block = player.getTargetBlock(null, 5);
+			if (block.getType() != Material.MOB_SPAWNER) {
+				player.sendMessage(Messages.formatMessage("Du musst einen Spawner anschauen!"));
+				return true;
+			}
+			CreatureSpawner cs = (CreatureSpawner) block.getState();
+			player.sendMessage(cs.getCreatureTypeName());
+			return true;
+		}
 		if (args.length == 1) {
 
 			Block block = player.getTargetBlock(null, 5);
@@ -28,15 +38,28 @@ public class CommandSpawner implements CommandExecutor {
 				return true;
 			}
 			CreatureSpawner cs = (CreatureSpawner) block.getState();
-			if (CreatureType.fromName(args[0]) != null) {
-
-				player.sendMessage(Messages.formatMessage("Bitte gib einen Spawner Typen an:"));
-				player.sendMessage(Messages.formatMessage(Messages.SPAWNERTYPES));
+			player.sendMessage(cs.getCreatureTypeName());
+			if (args[0].equalsIgnoreCase("creeper")) {
+				cs.setSpawnedType(EntityType.CREEPER);
+				cs.update();
 				return true;
 			}
-			cs.setCreatureType(CreatureType.fromName(args[0]));
-			player.sendMessage(Messages.formatMessage("Der Spawner wurde geändert"));
-			return true;
+			if (args[0].equalsIgnoreCase("pigman")) {
+				cs.setSpawnedType(EntityType.PIG_ZOMBIE);
+				cs.update();
+				return true;
+			}
+			if (args[0].equalsIgnoreCase("golem")) {
+				cs.setSpawnedType(EntityType.IRON_GOLEM);
+				cs.update();
+				return true;
+			}
+			if (args[0].equalsIgnoreCase("pig")) {
+				cs.setSpawnedType(EntityType.PIG);
+				cs.update();
+				return true;
+			}
+
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 		return true;
