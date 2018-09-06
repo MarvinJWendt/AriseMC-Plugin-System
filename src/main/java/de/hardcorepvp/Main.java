@@ -67,6 +67,7 @@ public class Main extends JavaPlugin {
 		getCommand("tpa").setExecutor(new CommandTpa());
 		getCommand("tpahere").setExecutor(new CommandTpahere());
 		getCommand("tpaccept").setExecutor(new CommandTpaccept());
+		getCommand("more").setExecutor(new CommandMore());
 
 	}
 
