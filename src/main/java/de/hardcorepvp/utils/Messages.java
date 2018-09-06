@@ -17,14 +17,10 @@ public class Messages {
 	public static final String[] SPAWNERTYPES = {"Creeper", "Pigman", "ex3"};
 
 	public static String formatMessage(String message) {
-
 		return PREFIX + message;
-
 	}
 
 	public static String formatMessage(String[] message) {
-
 		return PREFIX + Arrays.toString(message);
-
 	}
 }

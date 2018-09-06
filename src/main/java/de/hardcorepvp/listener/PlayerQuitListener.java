@@ -15,6 +15,5 @@ public class PlayerQuitListener implements Listener {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
 		Main.getUserManager().removeUser(uniqueId);
-
 	}
 }

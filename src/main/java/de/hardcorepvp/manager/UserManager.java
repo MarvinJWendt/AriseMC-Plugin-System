@@ -1,92 +1,98 @@
 package de.hardcorepvp.manager;
 
 import de.hardcorepvp.Main;
-import de.hardcorepvp.data.UserHomes;
-import de.hardcorepvp.data.UserMoney;
-import de.hardcorepvp.data.UserStats;
+import de.hardcorepvp.data.User;
+import de.hardcorepvp.utils.Utils;
+import net.minecraft.util.com.google.common.cache.CacheBuilder;
+import net.minecraft.util.com.google.common.cache.CacheLoader;
+import net.minecraft.util.com.google.common.cache.LoadingCache;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 public class UserManager {
 
-	private Map<UUID, UserStats> userStatsMap;
-	private Map<UUID, UserMoney> userMoneyMap;
-	private Map<UUID, UserHomes> userHomesMap;
+	private final LoadingCache<UUID, User> userCache;
+	private final ReentrantLock reentrantLock;
 
 	public UserManager() {
-		this.userStatsMap = new ConcurrentHashMap<>();
-		this.userMoneyMap = new ConcurrentHashMap<>();
-		this.userHomesMap = new ConcurrentHashMap<>();
+		this.userCache = CacheBuilder.newBuilder()
+				.build(new CacheLoader<UUID, User>() {
+					@Override
+					public User load(UUID uniqueId) throws Exception {
+						try {
+							PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT a.kills, a.deaths, b.money, c.name, c.location FROM user_stats a "
+									+ "INNER JOIN user_money b ON a.uniqueId = b.uniqueId "
+									+ "INNER JOIN user_homes c ON a.uniqueId = c.uniqueId "
+									+ "WHERE a.uniqueId = ?");
+							statement.setString(1, uniqueId.toString());
+							ResultSet resultSet = statement.executeQuery();
+
+							Map<String, Location> homes = new ConcurrentHashMap<>();
+							long money = 0L;
+							int kills = 0;
+							int deaths = 0;
+
+							boolean statsMoney = false;
+							if (!resultSet.next()) {
+								return new User(uniqueId);
+							}
+							while (resultSet.next()) {
+								if (!statsMoney) {
+									money = resultSet.getLong("money");
+									kills = resultSet.getInt("kills");
+									deaths = resultSet.getInt("deaths");
+									statsMoney = true;
+								}
+								if (!homes.containsKey(resultSet.getString("name"))) {
+									homes.put(resultSet.getString("name"), Utils.deserializeLocation(resultSet.getString("location")));
+								}
+							}
+							return new User(uniqueId, homes, money, kills, deaths);
+						} catch (SQLException e) {
+							e.printStackTrace();
+							return new User(uniqueId);
+						}
+					}
+				});
+		this.reentrantLock = new ReentrantLock(true);
 		this.setupTables();
 	}
 
-	public Map<UUID, UserStats> getUserStatsMap() {
-		return userStatsMap;
+	public boolean isUserLoaded(UUID uniqueId) {
+		return this.userCache.asMap().containsKey(uniqueId);
 	}
 
-	public Map<UUID, UserMoney> getUserMoneyMap() {
-		return userMoneyMap;
-	}
-
-	public Map<UUID, UserHomes> getUserHomesMap() {
-		return userHomesMap;
-	}
-
-	public UserStats getUserStats(UUID uniqueId) {
-		if (!this.userStatsMap.containsKey(uniqueId)) {
-			UserStats userStats = new UserStats(uniqueId);
-			this.userStatsMap.put(uniqueId, userStats);
-			return userStats;
-		}
-		return this.userStatsMap.get(uniqueId);
-	}
-
-	public UserMoney getUserMoney(UUID uniqueId) {
-		if (!this.userMoneyMap.containsKey(uniqueId)) {
-			UserMoney userMoney = new UserMoney(uniqueId);
-			this.userMoneyMap.put(uniqueId, userMoney);
-			return userMoney;
-		}
-		return this.userMoneyMap.get(uniqueId);
-	}
-
-	public UserHomes getUserHomes(UUID uniqueId) {
-		if (!this.userHomesMap.containsKey(uniqueId)) {
-			UserHomes userHomes = new UserHomes(uniqueId);
-			this.userHomesMap.put(uniqueId, userHomes);
-			return userHomes;
-		}
-		return this.userHomesMap.get(uniqueId);
-	}
-
-	public void loadUser(UUID uniqueId, Consumer<Boolean> consumer) {
+	public void loadUser(UUID uniqueId, Consumer<Optional<User>> consumer) {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
-			if (!this.userStatsMap.containsKey(uniqueId)) {
-				UserStats userStats = new UserStats(uniqueId);
-				this.userStatsMap.put(uniqueId, userStats);
+			try {
+				this.reentrantLock.lock();
+				if (this.isUserLoaded(uniqueId)) {
+					consumer.accept(Optional.ofNullable(this.userCache.get(uniqueId)));
+					return;
+				}
+				consumer.accept(Optional.ofNullable(this.userCache.get(uniqueId)));
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+				consumer.accept(null);
+			} finally {
+				this.reentrantLock.unlock();
 			}
-			if (!this.userMoneyMap.containsKey(uniqueId)) {
-				UserMoney userMoney = new UserMoney(uniqueId);
-				this.userMoneyMap.put(uniqueId, userMoney);
-			}
-			if (!this.userHomesMap.containsKey(uniqueId)) {
-				UserHomes userHomes = new UserHomes(uniqueId);
-				this.userHomesMap.put(uniqueId, userHomes);
-			}
-			consumer.accept(true);
 		});
 	}
-	
+
 	public void removeUser(UUID uniqueId) {
-		this.userStatsMap.remove(uniqueId);
-		this.userMoneyMap.remove(uniqueId);
-		this.userHomesMap.remove(uniqueId);
+		this.userCache.invalidate(uniqueId);
 	}
 
 	private void setupTables() {
@@ -114,7 +120,7 @@ public class UserManager {
 			PreparedStatement statement2 = Main.getDatabaseManager().getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `user_homes` ("
 					+ " `uniqueId` CHAR(36) NOT NULL,"
 					+ " `name` VARCHAR(50) NOT NULL,"
-					+ " `location` VARCHAR(50) NOT NULL,"
+					+ " `location` VARCHAR(500) NOT NULL,"
 					+ " INDEX `uniqueId_UNIQUE` (`uniqueId` ASC))");
 			statement2.executeUpdate();
 			statement2.close();
