@@ -47,7 +47,7 @@ public class CommandTpahere implements CommandExecutor {
 			Utils.sendTpahereRequest(player, target);
 			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPAhere Anfrage gesendet"));
 			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPAhere Anfrage gesendet"));
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killTpaRequest(target.getName()), keepAlive);
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killTpahereRequest(target.getName()), keepAlive);
 			Utils.tpaCooldown.put(player.getName(), System.currentTimeMillis());
 			return true;
 		}

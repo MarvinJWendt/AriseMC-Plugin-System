@@ -1,7 +1,6 @@
 package de.hardcorepvp.commands;
 
 import de.hardcorepvp.utils.Messages;
-import net.minecraft.server.v1_7_R4.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,11 +26,8 @@ public class CommandGiveall implements CommandExecutor {
 			}
 
 			ItemStack item = player.getItemInHand();
-			//TODO for every player
-			if (true) {
-				Player pseudoplayer = Bukkit.getPlayer("xX_KevinLPHDPVPKill4hHDXxD");
-				pseudoplayer.getInventory().addItem(item);
-
+			for (Player givePlayer : Bukkit.getOnlinePlayers()) {
+				givePlayer.getInventory().addItem(item);
 			}
 			Bukkit.broadcastMessage(Messages.formatMessage("Jedem Spieler wurde " + item.getAmount() + "x " + item.getType() + " gegeben"));
 			return true;

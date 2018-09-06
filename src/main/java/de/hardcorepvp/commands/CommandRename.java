@@ -31,12 +31,11 @@ public class CommandRename implements CommandExecutor {
 
 				if (!args[0].equalsIgnoreCase("reset")) {
 
-					ArrayList<String> nameStrings = new ArrayList<String>();
+					ArrayList<String> nameStrings = new ArrayList<>();
 					Collections.addAll(nameStrings, args);
 
 					String name = String.join(" ", nameStrings);
 					Utils.renameItemInHand(player, name);
-					player.sendMessage(Messages.formatMessage("Dein Item wurde umbenannt"));
 					player.sendMessage(Messages.formatMessage("Dein Item heisst nun: " + ChatColor.translateAlternateColorCodes('&', name)));
 					return true;
 

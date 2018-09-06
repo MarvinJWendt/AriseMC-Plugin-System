@@ -103,28 +103,27 @@ public class Utils {
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
 	}
 
-	public static boolean killTpaRequest(String key) {
+	public static void killTpaRequest(String key) {
 		if (currentTpaRequest.containsKey(key)) {
 			Player player = Bukkit.getPlayer(currentTpaRequest.get(key));
 			if (player != null) {
 				player.sendMessage("Deine Anfrage ist abgelaufen");
 			}
 			currentTpaRequest.remove(key);
-			return true;
 		}
-		return false;
+
 	}
 
-	public static boolean killTpahereRequest(String key) {
+	public static void killTpahereRequest(String key) {
 		if (currentTpahereRequest.containsKey(key)) {
 			Player player = Bukkit.getPlayer(currentTpahereRequest.get(key));
 			if (player != null) {
 				player.sendMessage("Deine Anfrage ist abgelaufen");
 			}
 			currentTpahereRequest.remove(key);
-			return true;
+
 		}
-		return false;
+
 	}
 
 	public static void sendTpaRequest(Player sender, Player recipient) {
