@@ -29,8 +29,6 @@ public class CommandSkin implements CommandExecutor {
 			gp.getProperties().clear();
 			gp.getProperties().put("textures", new Property("textures", props[0], props[1]));
 
-			player.hidePlayer(player);
-			player.showPlayer(player);
 			for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 				onlinePlayer.hidePlayer(player);
 				onlinePlayer.showPlayer(player);
@@ -45,8 +43,6 @@ public class CommandSkin implements CommandExecutor {
 				gp.getProperties().clear();
 				gp.getProperties().put("textures", new Property("textures", props.getValue(), props.getSignature()));
 
-				player.hidePlayer(player);
-				player.showPlayer(player);
 				for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 					onlinePlayer.hidePlayer(player);
 					onlinePlayer.showPlayer(player);
@@ -59,8 +55,6 @@ public class CommandSkin implements CommandExecutor {
 				gp.getProperties().clear();
 				gp.getProperties().put("textures", new Property("textures", props[0], props[1]));
 
-				player.hidePlayer(player);
-				player.showPlayer(player);
 				for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 					onlinePlayer.hidePlayer(player);
 					onlinePlayer.showPlayer(player);
