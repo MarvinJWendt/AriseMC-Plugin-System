@@ -1,14 +1,23 @@
 package de.hardcorepvp.utils;
 
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.util.com.google.gson.JsonObject;
+import net.minecraft.util.com.google.gson.JsonParser;
+import net.minecraft.util.com.mojang.authlib.GameProfile;
+import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,11 +29,39 @@ public class Utils {
 	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
 	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
 
+	public static Property getSkinData(Player player) {
+
+		EntityPlayer playerNMS = ((CraftPlayer) player).getHandle();
+		GameProfile profile = playerNMS.getProfile();
+		Property property = profile.getProperties().get("textures").iterator().next();
+
+		return new Property("textures", property.getValue(), property.getSignature());
+	}
+
+	public static String[] getSkinData(String name) {
+		try {
+
+			URL getUUID = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+			InputStreamReader reader_0 = new InputStreamReader(getUUID.openStream());
+			String uuid = new JsonParser().parse(reader_0).getAsJsonObject().get("id").getAsString();
+
+			URL getSkin = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false");
+			InputStreamReader reader_1 = new InputStreamReader(getSkin.openStream());
+			JsonObject property = new JsonParser().parse(reader_1).getAsJsonObject().get("properties").getAsJsonArray().get(0).getAsJsonObject();
+			String texture = property.get("value").getAsString();
+			String signature = property.get("signature").getAsString();
+
+			return new String[]{texture, signature};
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public static int stackItems(Player player) {
 
 		int stackedItems = 0;
 		ItemStack[] contents = player.getInventory().getContents();
-
 
 		for (int i = 0; i < contents.length; i++) {
 			ItemStack item = contents[i];
