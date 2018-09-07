@@ -1,5 +1,6 @@
 package de.hardcorepvp.listener;
 
+import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,13 +17,17 @@ public class PlayerInteractListener implements Listener {
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (player.getItemInHand() != null) {
 				ItemStack item = player.getItemInHand();
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), item.getItemMeta().getLore().get(0).substring(2).replace("%p%", player.getName()));
-				event.setCancelled(true);
+				if (item.getItemMeta().hasEnchant(Utils.CMDItemEnchant)) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), item.getItemMeta().getLore().get(0).substring(2).replace("%p%", player.getName()));
+					player.setItemInHand(null);
+					event.setCancelled(true);
+				} else {
+					player.sendMessage("Netter Versuch :)");
+					player.setItemInHand(null);
+				}
 			}
-
 		}
 	}
-
 }
 
 

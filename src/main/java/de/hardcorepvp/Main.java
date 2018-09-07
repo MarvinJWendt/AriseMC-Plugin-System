@@ -8,6 +8,7 @@ import de.hardcorepvp.manager.PunishmentManager;
 import de.hardcorepvp.manager.RankingManager;
 import de.hardcorepvp.manager.UUIDManager;
 import de.hardcorepvp.manager.UserManager;
+import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +24,7 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		Utils.registerCustomEnchantments();
 		instance = this;
 		configFile = new ConfigFile();
 		registerCommands();

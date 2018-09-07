@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,6 +18,7 @@ import org.bukkit.potion.PotionEffect;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ public class Utils {
 	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
 	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
 	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
+	public static CMDItemEnchant CMDItemEnchant = new CMDItemEnchant(1337);
 
 	public static Property getSkinData(Player player) {
 
@@ -141,6 +144,23 @@ public class Utils {
 		return fixedItems;
 	}
 
+	public static void registerCustomEnchantments() {
+		try {
+			Field f = Enchantment.class.getDeclaredField("acceptingNew");
+			f.setAccessible(true);
+			f.set(null, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			CMDItemEnchant cmdItemEnchant = new CMDItemEnchant(1337);
+			Enchantment.registerEnchantment(cmdItemEnchant);
+		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static String serializeLocation(Location location) {
 		return location.getWorld().getName() + ";" + location.getX() + ";" + location.getY() + ";" + location.getZ() + ";" + location.getYaw() + ";" + location.getPitch();
 	}
@@ -177,6 +197,7 @@ public class Utils {
 		ItemMeta im = item.getItemMeta();
 		im.setLore(Arrays.asList(lore));
 		im.setDisplayName(Messages.CMDITEMPREFIX + name);
+		im.addEnchant(CMDItemEnchant, 1, true);
 		item.setItemMeta(im);
 
 	}
