@@ -36,6 +36,9 @@ public class CommandCMDItem implements CommandExecutor {
 			}
 
 		}
+		if (args.length == 1 && args[0].equalsIgnoreCase("#1")) {
+			Utils.setCommandItem(item, "§k" + Messages.RANKUPCMD, Messages.RANKUPBOOK);
+		}
 
 		String commandString = builder.toString();
 		Utils.setCommandItem(item, "§k" + builder.toString(), args[0]);
