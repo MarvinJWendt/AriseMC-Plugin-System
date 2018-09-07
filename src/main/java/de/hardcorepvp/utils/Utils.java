@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffect;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -169,6 +170,14 @@ public class Utils {
 			currentTpahereRequest.remove(key);
 
 		}
+
+	}
+
+	public static void setCommandItem(ItemStack item, String lore, String name) {
+		ItemMeta im = item.getItemMeta();
+		im.setLore(Arrays.asList(lore));
+		im.setDisplayName(Messages.CMDITEMPREFIX + name);
+		item.setItemMeta(im);
 
 	}
 

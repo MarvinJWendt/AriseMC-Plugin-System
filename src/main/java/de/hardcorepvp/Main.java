@@ -69,6 +69,7 @@ public class Main extends JavaPlugin {
 		getCommand("tpaccept").setExecutor(new CommandTpaccept());
 		getCommand("more").setExecutor(new CommandMore());
 		getCommand("skin").setExecutor(new CommandSkin());
+		getCommand("cmditem").setExecutor(new CommandCMDItem());
 
 	}
 
@@ -79,6 +80,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 		this.getServer().getPluginManager().registerEvents(new VoteListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
 	}
 
 	public static Main getInstance() {
