@@ -28,8 +28,14 @@ public class CommandWorld implements CommandExecutor {
 			player.sendMessage(Messages.formatMessage(Bukkit.getWorlds().toString()));
 		}
 		if (args.length == 1) {
-			World world = Bukkit.getWorld(args[1]);
-			player.sendMessage(world.getName() + " " + world.getSeed() + " " + world.getSpawnLocation());
+			try {
+				World world = Bukkit.getWorld(args[1]);
+				player.sendMessage(world.getName() + " " + world.getSeed() + " " + world.getSpawnLocation());
+			} catch (Exception exception) {
+				player.sendMessage("World nicht gefunden /world");
+				return true;
+			}
+
 		}
 		if (args.length == 2) {
 
@@ -40,8 +46,13 @@ public class CommandWorld implements CommandExecutor {
 				world.save();
 			}
 			if (args[0].equalsIgnoreCase("tp")) {
-				player.getLocation().setWorld(Bukkit.getWorld(args[1]));
-				player.teleport(new Location(Bukkit.getWorld(args[1]), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ()));
+				try {
+					player.getLocation().setWorld(Bukkit.getWorld(args[1]));
+					player.teleport(new Location(Bukkit.getWorld(args[1]), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ()));
+				} catch (Exception exception) {
+					player.sendMessage("World nicht gefunden /world");
+					return true;
+				}
 
 			}
 			if (args[0].equalsIgnoreCase("delete")) {
