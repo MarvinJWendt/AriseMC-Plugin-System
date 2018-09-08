@@ -44,6 +44,7 @@ public class CommandWorld implements CommandExecutor {
 				worldcreator.environment(World.Environment.NORMAL);
 				World world = Bukkit.createWorld(worldcreator);
 				world.save();
+				return true;
 			}
 			if (args[0].equalsIgnoreCase("tp")) {
 				try {
@@ -61,6 +62,7 @@ public class CommandWorld implements CommandExecutor {
 				Bukkit.unloadWorld(world, false);
 				File worldFile = world.getWorldFolder();
 				Utils.deleteWorld(worldFile);
+				return true;
 
 			}
 
