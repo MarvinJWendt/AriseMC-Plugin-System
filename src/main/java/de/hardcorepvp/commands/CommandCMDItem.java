@@ -17,13 +17,22 @@ public class CommandCMDItem implements CommandExecutor {
 			return false;
 		}
 		Player player = (Player) sender;
-		if (player.getItemInHand() == null) {
-			player.sendMessage(Messages.formatMessage("Du musst ein Item in der Hand halten"));
+
+		if (args.length == 0) {
+			player.sendMessage(Messages.formatMessage(Messages.TOO_LESS_ARGUMENTS));
 			return true;
 		}
 
+		if (args.length == 1 && args[0].equalsIgnoreCase("#1")) {
+			ItemStack item = Utils.itemRankup;
+			Utils.setCommandItem(item, "§k" + Messages.RANKUPCMD, Messages.RANKUPBOOK);
+			player.setItemInHand(item);
+			player.sendMessage("Du hast nun ein Rangupgrade Buch!");
+			return true;
+		}
 
-		if (args.length == 0) {
+		if (player.getItemInHand() == null) {
+			player.sendMessage(Messages.formatMessage("Du musst ein Item in der Hand halten"));
 			return true;
 		}
 
@@ -32,12 +41,9 @@ public class CommandCMDItem implements CommandExecutor {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; args.length > i; i++) {
 			if (i != 0) {
-				builder.append(args[i] + " ");
+				builder.append(args[i]).append(" ");
 			}
 
-		}
-		if (args.length == 1 && args[0].equalsIgnoreCase("#1")) {
-			Utils.setCommandItem(item, "§k" + Messages.RANKUPCMD, Messages.RANKUPBOOK);
 		}
 
 		String commandString = builder.toString();

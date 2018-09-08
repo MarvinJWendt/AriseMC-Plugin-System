@@ -15,7 +15,7 @@ public class Messages {
 	public static final String PREFIX = "PREFIX";
 	public static final String[] HELP = {"ex1", "ex2", "ex3"};
 	public static final String CMDITEMPREFIX = "§5[CMDITEM] ";
-	public static final String RANKUPBOOK = "§5[CMDITEM] RANGUPGRADE ";
+	public static final String RANKUPBOOK = "RANGUPGRADE ";
 	public static final String RANKUPCMD = "rankup %p%";
 
 	public static String formatMessage(String message) {

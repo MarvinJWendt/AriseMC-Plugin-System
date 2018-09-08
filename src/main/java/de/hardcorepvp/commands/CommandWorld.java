@@ -30,7 +30,7 @@ public class CommandWorld implements CommandExecutor {
 		}
 		if (args.length == 1) {
 			try {
-				World world = Bukkit.getWorld(args[1]);
+				World world = Bukkit.getWorld(args[0]);
 				player.sendMessage(world.getName() + " " + world.getSeed() + " " + world.getSpawnLocation());
 				return true;
 			} catch (Exception exception) {

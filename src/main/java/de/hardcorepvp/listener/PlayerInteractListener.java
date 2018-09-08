@@ -1,5 +1,6 @@
 package de.hardcorepvp.listener;
 
+import de.hardcorepvp.utils.Messages;
 import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,13 +18,21 @@ public class PlayerInteractListener implements Listener {
 		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (player.getItemInHand() != null) {
 				ItemStack item = player.getItemInHand();
-				if (item.getItemMeta().hasEnchant(Utils.CMDItemEnchant)) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), item.getItemMeta().getLore().get(0).substring(2).replace("%p%", player.getName()));
-					player.setItemInHand(null);
-					event.setCancelled(true);
-				} else {
-					player.sendMessage("Netter Versuch :)");
-					player.setItemInHand(null);
+				if (item.hasItemMeta()) {
+					if (item.getItemMeta().getDisplayName().contains(Messages.CMDITEMPREFIX.substring(2))) {
+						if (item.getItemMeta().hasEnchant(Utils.CMDItemEnchant)) {
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), item.getItemMeta().getLore().get(0).substring(2).replace("%p%", player.getName()));
+							if (player.getItemInHand().getAmount() == 1) {
+								player.setItemInHand(null);
+							} else {
+								item.setAmount(item.getAmount() - 1);
+							}
+							event.setCancelled(true);
+						} else {
+							player.sendMessage("Netter Versuch :)");
+							player.setItemInHand(null);
+						}
+					}
 				}
 			}
 		}

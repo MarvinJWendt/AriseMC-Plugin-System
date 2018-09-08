@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,6 +33,7 @@ public class Utils {
 	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
 	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
 	public static CMDItemEnchant CMDItemEnchant = new CMDItemEnchant(1337);
+	public static ItemStack itemRankup = new ItemStack(Material.BOOK);
 
 	public static Property getSkinData(Player player) {
 
@@ -156,10 +157,10 @@ public class Utils {
 		try {
 			CMDItemEnchant cmdItemEnchant = new CMDItemEnchant(1337);
 			Enchantment.registerEnchantment(cmdItemEnchant);
-		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static String serializeLocation(Location location) {
@@ -174,15 +175,15 @@ public class Utils {
 	public static void deleteWorld(File path) {
 		if (path.exists()) {
 			File files[] = path.listFiles();
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isDirectory()) {
-					deleteWorld(files[i]);
+			for (File file : files) {
+				if (file.isDirectory()) {
+					deleteWorld(file);
 				} else {
-					files[i].delete();
+					file.delete();
 				}
 			}
+			path.delete();
 		}
-		path.delete();
 	}
 
 	public static void killTpaRequest(String key) {
@@ -210,7 +211,7 @@ public class Utils {
 
 	public static void setCommandItem(ItemStack item, String lore, String name) {
 		ItemMeta im = item.getItemMeta();
-		im.setLore(Arrays.asList(lore));
+		im.setLore(Collections.singletonList(lore));
 		im.setDisplayName(Messages.CMDITEMPREFIX + name);
 		im.addEnchant(CMDItemEnchant, 1, true);
 		item.setItemMeta(im);
