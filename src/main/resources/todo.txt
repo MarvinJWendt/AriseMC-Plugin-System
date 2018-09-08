@@ -1,8 +1,5 @@
 /money
-/Stack
-/tpa
 /Starter
-/help
 /Warp
 /Spawn
 /team

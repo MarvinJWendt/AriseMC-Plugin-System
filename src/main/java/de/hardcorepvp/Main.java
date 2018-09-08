@@ -79,6 +79,14 @@ public class Main extends JavaPlugin {
 		getCommand("skin").setExecutor(new CommandSkin());
 		getCommand("cmditem").setExecutor(new CommandCMDItem());
 
+		getCommand("skype").setExecutor(new CommandSimple());
+		getCommand("teamspeak").setExecutor(new CommandSimple());
+		getCommand("vote").setExecutor(new CommandSimple());
+		getCommand("youtube").setExecutor(new CommandSimple());
+		getCommand("discord").setExecutor(new CommandSimple());
+		getCommand("bewerben").setExecutor(new CommandSimple());
+		getCommand("spenden").setExecutor(new CommandSimple());
+
 	}
 
 	private void registerListeners() {
