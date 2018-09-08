@@ -17,6 +17,9 @@ public class Messages {
 	public static final String CMDITEMPREFIX = "§5[CMDITEM] ";
 	public static final String RANKUPBOOK = "RANGUPGRADE ";
 	public static final String RANKUPCMD = "rankup %p%";
+	public static final String TEAMMEMBERJOINED = "+%p%";
+	public static final String TEAMMEMBERLEFT = "-%p%";
+
 
 	public static String formatMessage(String message) {
 		return PREFIX + message;

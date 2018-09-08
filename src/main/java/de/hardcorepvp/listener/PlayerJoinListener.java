@@ -2,6 +2,7 @@ package de.hardcorepvp.listener;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.data.User;
+import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,8 +19,13 @@ public class PlayerJoinListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
-		Bukkit.broadcastMessage("test");
+		//TODO PERMISSION VANISH
 		event.setJoinMessage(null);
+		if (true) {
+			for (Player toVanish : Utils.vanishedPlayers) {
+				player.hidePlayer(toVanish);
+			}
+		}
 		//Test
 		Main.getUserManager().loadUser(uniqueId, new Consumer<Optional<User>>() {
 			@Override

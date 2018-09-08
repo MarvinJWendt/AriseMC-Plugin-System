@@ -38,11 +38,8 @@ public class CommandFeed implements CommandExecutor {
 			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " gefuettert"));
 			return true;
 		}
-		if (args.length > 1) {
-			player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
-			return true;
-		}
+		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
+		return true;
 
-		return false;
 	}
 }

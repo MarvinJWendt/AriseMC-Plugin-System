@@ -53,6 +53,7 @@ public class Main extends JavaPlugin {
 	private void registerCommands() {
 
 		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("vanish").setExecutor(new CommandVanish());
 		getCommand("world").setExecutor(new CommandWorld());
 		getCommand("feed").setExecutor(new CommandFeed());
 		getCommand("craft").setExecutor(new CommandCraft());
