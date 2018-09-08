@@ -33,6 +33,8 @@ public class CommandSkin implements CommandExecutor {
 				onlinePlayer.hidePlayer(player);
 				onlinePlayer.showPlayer(player);
 			}
+			
+			return true;
 
 		}
 
