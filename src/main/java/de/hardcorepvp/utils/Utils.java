@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -168,6 +169,20 @@ public class Utils {
 	public static Location deserializeLocation(String location) {
 		String[] deserialized = location.split(";");
 		return new Location(Bukkit.getServer().getWorld(deserialized[0]), Double.valueOf(deserialized[1]), Double.valueOf(deserialized[2]), Double.valueOf(deserialized[3]), Float.valueOf(deserialized[4]), Float.valueOf(deserialized[5]));
+	}
+
+	public static void deleteWorld(File path) {
+		if (path.exists()) {
+			File files[] = path.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteWorld(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		path.delete();
 	}
 
 	public static void killTpaRequest(String key) {

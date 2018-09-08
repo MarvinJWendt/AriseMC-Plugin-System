@@ -10,6 +10,8 @@ import de.hardcorepvp.manager.UUIDManager;
 import de.hardcorepvp.manager.UserManager;
 import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -25,6 +27,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Utils.registerCustomEnchantments();
+		//TODO SAVE WORLDS IN CONFIG AND LOAD THEM PROPERLY
+		World worldTest = WorldCreator.name("test").createWorld();
 		instance = this;
 		configFile = new ConfigFile();
 		registerCommands();
@@ -49,6 +53,7 @@ public class Main extends JavaPlugin {
 	private void registerCommands() {
 
 		getCommand("heal").setExecutor(new CommandHeal());
+		getCommand("world").setExecutor(new CommandWorld());
 		getCommand("feed").setExecutor(new CommandFeed());
 		getCommand("craft").setExecutor(new CommandCraft());
 		getCommand("fix").setExecutor(new CommandFix());
