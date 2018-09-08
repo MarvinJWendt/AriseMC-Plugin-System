@@ -26,11 +26,13 @@ public class CommandWorld implements CommandExecutor {
 
 		if (args.length == 0) {
 			player.sendMessage(Messages.formatMessage(Bukkit.getWorlds().toString()));
+			return true;
 		}
 		if (args.length == 1) {
 			try {
 				World world = Bukkit.getWorld(args[1]);
 				player.sendMessage(world.getName() + " " + world.getSeed() + " " + world.getSpawnLocation());
+				return true;
 			} catch (Exception exception) {
 				player.sendMessage("World nicht gefunden /world");
 				return true;
