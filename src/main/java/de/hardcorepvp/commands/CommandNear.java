@@ -24,13 +24,25 @@ public class CommandNear implements CommandExecutor {
 		if (args.length == 0) {
 			LinkedHashMap<Player, Double> nearPlayers = new LinkedHashMap<>();
 			for (Player allPlayer : Bukkit.getOnlinePlayers()) {
-				if (player.getLocation().distanceSquared(allPlayer.getLocation()) < 40000 && player != allPlayer) {
+				if (player.getLocation().distanceSquared(allPlayer.getLocation()) < 2500 && player != allPlayer) {
 					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distance(allPlayer.getLocation())));
 				}
 			}
 			player.sendMessage(nearPlayers.toString());
 			return true;
 		}
+		// TODO PERMISSIONS
+		if (args.length == 1) {
+			LinkedHashMap<Player, Double> nearPlayers = new LinkedHashMap<>();
+			for (Player allPlayer : Bukkit.getOnlinePlayers()) {
+				if (player.getLocation().distance(allPlayer.getLocation()) < Double.valueOf(args[0]) && player != allPlayer) {
+					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distance(allPlayer.getLocation())));
+				}
+			}
+			player.sendMessage(nearPlayers.toString());
+			return true;
+		}
+
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 		return true;
 	}
