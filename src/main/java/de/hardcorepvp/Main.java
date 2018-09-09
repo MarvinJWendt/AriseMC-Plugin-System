@@ -78,6 +78,7 @@ public class Main extends JavaPlugin {
 		getCommand("more").setExecutor(new CommandMore());
 		getCommand("skin").setExecutor(new CommandSkin());
 		getCommand("cmditem").setExecutor(new CommandCMDItem());
+		getCommand("globalmute").setExecutor(new CommandGlobalmute());
 
 		getCommand("skype").setExecutor(new CommandSimple());
 		getCommand("teamspeak").setExecutor(new CommandSimple());

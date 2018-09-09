@@ -30,6 +30,8 @@ public class Utils {
 
 	public static boolean pvp = true;
 
+	public static int globalmute = 0;
+
 	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
 	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
 	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
@@ -64,6 +66,17 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static boolean canBypassGlobalmute(Player player) {
+		//TODO DO STUFF BASED ON PERMISSION -> 0 = ALL, 1 = team, 2 = admins
+		if (globalmute == 2) {
+			return false;
+		}
+		if (globalmute == 1) {
+			return false;
+		}
+		return true;
 	}
 
 	public static int stackItems(Player player) {
