@@ -15,12 +15,8 @@
 /back
 /vanish
 /near 
-/kit 
-/Spawner 
-/gamemode
+/kit
 /msg
-/pvp on/off
-/globalmute
 /ban
 /kick
 /mute
