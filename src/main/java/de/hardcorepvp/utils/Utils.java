@@ -11,7 +11,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -108,14 +107,8 @@ public class Utils {
 
 	public static void registerCustomEnchantments() {
 		try {
-			Field f = Enchantment.class.getDeclaredField("acceptingNew");
-			f.setAccessible(true);
-			f.set(null, true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
 			CMDItemEnchant cmdItemEnchant = new CMDItemEnchant(1337);
+			Enchantment.setAcceptingNew(true);
 			Enchantment.registerEnchantment(cmdItemEnchant);
 		} catch (Exception e) {
 			e.printStackTrace();
