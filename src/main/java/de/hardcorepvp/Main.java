@@ -50,8 +50,10 @@ public class Main extends JavaPlugin {
 		punishmentManager = new PunishmentManager();
 		permissionManager = new PermissionManager();
 		clanManager = new ClanManager();
+
 		registerCommands();
 		registerListeners();
+
 	}
 
 	@Override
