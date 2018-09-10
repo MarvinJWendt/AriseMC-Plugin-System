@@ -2,6 +2,8 @@ package de.hardcorepvp.commands;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.manager.PunishmentManager;
+import de.hardcorepvp.manager.UUIDManager;
+import de.hardcorepvp.model.Callback;
 import de.hardcorepvp.utils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CommandBan implements CommandExecutor {
@@ -52,21 +53,22 @@ public class CommandBan implements CommandExecutor {
 					}
 				});
 			}
-			Main.getUUIDManager().getUniqueId(args[0], new Consumer<UUID>() {
+			UUIDManager.getProfileHolderAt(args[0], System.currentTimeMillis(), new Callback<UUIDManager.ProfileHolder>() {
 				@Override
-				public void accept(UUID uniqueId) {
-					if (uniqueId == null) {
-						player.sendMessage("§cDieser Spieler existiert nicht!");
-						return;
-					}
-					PunishmentManager.BanData banData = new PunishmentManager.BanData(uniqueId, "--", player.getName(), -1L, System.currentTimeMillis());
-					boolean success = Main.getPunishmentManager().setBannedSync(uniqueId, banData);
+				public void onResult(UUIDManager.ProfileHolder profile) {
+					PunishmentManager.BanData banData = new PunishmentManager.BanData(profile.getUniqueId(), "--", player.getName(), -1L, System.currentTimeMillis());
+					boolean success = Main.getPunishmentManager().setBannedSync(profile.getUniqueId(), banData);
 					if (!success) {
 						player.sendMessage("§cDer Spieler konnte nicht gebannt werden!");
 						return;
 					}
 					Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("Du wurdest gebannt!\nGrund: " + banData.getBanReason()));
 					player.sendMessage("§aDer Spieler wurde erfolgreich gebannt!");
+				}
+
+				@Override
+				public void onFailure(Throwable cause) {
+					player.sendMessage("§cDieser Spieler existiert nicht!");
 				}
 			});
 		}

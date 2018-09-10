@@ -73,10 +73,12 @@ public class DatabaseManager {
 	private void refreshTask() {
 		Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
 			try {
-				PreparedStatement statement = this.getConnection().prepareStatement("SELECT 1;");
-				ResultSet resultSet = statement.executeQuery();
-				if (resultSet.next()) {
-					System.out.println("DEBUG REFRESH TASK");
+				try (PreparedStatement statement = this.getConnection().prepareStatement("SELECT 1;")) {
+					try (ResultSet resultSet = statement.executeQuery()) {
+						if (resultSet.next()) {
+							System.out.println("DEBUG REFRESH TASK");
+						}
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

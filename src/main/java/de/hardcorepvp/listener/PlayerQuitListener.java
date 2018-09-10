@@ -1,6 +1,7 @@
 package de.hardcorepvp.listener;
 
 import de.hardcorepvp.Main;
+import de.hardcorepvp.clan.Clan;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,12 @@ public class PlayerQuitListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
+		Main.getPermissionManager().removeAttachment(player);
 		Main.getUserManager().removeUser(uniqueId);
+		Main.getClanManager().removeClanRequests(uniqueId);
+		if (Main.getClanManager().hasClan(uniqueId)) {
+			Clan clan = Main.getClanManager().getClan(uniqueId);
+			clan.broadcast(player, player.getName() + " ist nun offline.");
+		}
 	}
 }

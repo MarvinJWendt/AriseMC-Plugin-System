@@ -26,3 +26,6 @@ commands:
   tpaccept:
   tpdeny:
   tpahere:
+  rank:
+  stats:
+  clan:

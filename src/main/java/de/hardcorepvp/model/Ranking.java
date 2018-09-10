@@ -1,7 +1,10 @@
 package de.hardcorepvp.model;
 
 public enum Ranking {
-	KILLS("Kills"), DEATHS("Deaths"), MONEY("Money");
+	KILLS("Kills"),
+	DEATHS("Deaths"),
+	MONEY("Money"),
+	CLAN("Clan");
 
 	private String name;
 
