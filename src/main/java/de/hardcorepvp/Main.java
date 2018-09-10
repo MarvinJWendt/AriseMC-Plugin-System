@@ -3,9 +3,11 @@ package de.hardcorepvp;
 import de.hardcorepvp.commands.*;
 import de.hardcorepvp.database.DatabaseManager;
 import de.hardcorepvp.file.ConfigFile;
-import de.hardcorepvp.file.PermissionsFile;
 import de.hardcorepvp.listener.*;
-import de.hardcorepvp.manager.*;
+import de.hardcorepvp.manager.PunishmentManager;
+import de.hardcorepvp.manager.RankingManager;
+import de.hardcorepvp.manager.UUIDManager;
+import de.hardcorepvp.manager.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,25 +15,19 @@ public class Main extends JavaPlugin {
 
 	private static Main instance;
 	private static ConfigFile configFile;
-	private static PermissionsFile permissionsFile;
 	private static DatabaseManager databaseManager;
 	private static UserManager userManager;
 	private static RankingManager rankingManager;
+	private static UUIDManager uuidManager;
 	private static PunishmentManager punishmentManager;
-	private static PermissionManager permissionManager;
-	private static ClanManager clanManager;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 		configFile = new ConfigFile();
-		permissionsFile = new PermissionsFile();
+		registerCommands();
+		registerListeners();
 		databaseManager = new DatabaseManager(configFile);
-		if (permissionsFile.getGroups().size() == 0 || permissionsFile.getDefaultGroupSize() == 0 || permissionsFile.getDefaultGroupSize() > 1) {
-			Bukkit.getConsoleSender().sendMessage("§cDie 'permissions.yml' wurde nicht richtig konfiguriert!");
-			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().setWhitelist(true), 60L);
-			return;
-		}
 		if (!databaseManager.connect()) {
 			Bukkit.getConsoleSender().sendMessage("§cEs konnte keine Verbindung zur Datenbank hergestellt werden...");
 			Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().setWhitelist(true), 60L);
@@ -39,18 +35,13 @@ public class Main extends JavaPlugin {
 		}
 		userManager = new UserManager();
 		rankingManager = new RankingManager();
+		uuidManager = new UUIDManager();
 		punishmentManager = new PunishmentManager();
-		permissionManager = new PermissionManager();
-		clanManager = new ClanManager();
-		this.registerCommands();
-		this.registerListeners();
 	}
 
 	@Override
 	public void onDisable() {
-		if (databaseManager.isConnected()) {
-			databaseManager.disconnect();
-		}
+		databaseManager.disconnect();
 	}
 
 	private void registerCommands() {
@@ -76,9 +67,7 @@ public class Main extends JavaPlugin {
 		getCommand("tpa").setExecutor(new CommandTpa());
 		getCommand("tpahere").setExecutor(new CommandTpahere());
 		getCommand("tpaccept").setExecutor(new CommandTpaccept());
-		getCommand("rank").setExecutor(new CommandRank());
-		getCommand("stats").setExecutor(new CommandStats());
-		getCommand("clan").setExecutor(new CommandClan());
+
 	}
 
 	private void registerListeners() {
@@ -88,7 +77,6 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
 		this.getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 		this.getServer().getPluginManager().registerEvents(new VoteListener(), this);
-		this.getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
 	}
 
 	public static Main getInstance() {
@@ -97,10 +85,6 @@ public class Main extends JavaPlugin {
 
 	public static ConfigFile getConfigFile() {
 		return configFile;
-	}
-
-	public static PermissionsFile getPermissionsFile() {
-		return permissionsFile;
 	}
 
 	public static DatabaseManager getDatabaseManager() {
@@ -115,15 +99,11 @@ public class Main extends JavaPlugin {
 		return rankingManager;
 	}
 
+	public static UUIDManager getUUIDManager() {
+		return uuidManager;
+	}
+
 	public static PunishmentManager getPunishmentManager() {
 		return punishmentManager;
-	}
-
-	public static PermissionManager getPermissionManager() {
-		return permissionManager;
-	}
-
-	public static ClanManager getClanManager() {
-		return clanManager;
 	}
 }
