@@ -36,7 +36,7 @@ public class CommandRename implements CommandExecutor {
 
 					String name = String.join(" ", nameStrings);
 					Utils.renameItemInHand(player, name);
-					player.sendMessage(Messages.formatMessage("Dein Item heisst nun: " + ChatColor.translateAlternateColorCodes('&', name)));
+					player.sendMessage(Messages.formatMessage("Dein Item heißt nun: " + ChatColor.translateAlternateColorCodes('&', name)));
 					return true;
 
 				}
@@ -52,7 +52,7 @@ public class CommandRename implements CommandExecutor {
 			player.sendMessage(Messages.formatMessage(Messages.TOO_LESS_ARGUMENTS));
 
 		}
-		player.sendMessage(Messages.formatMessage("Du musst etwas in der Hand haben!"));
+		player.sendMessage(Messages.formatMessage("Du musst ein Item in der Hand halten!"));
 		return true;
 	}
 }

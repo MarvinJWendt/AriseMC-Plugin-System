@@ -24,8 +24,8 @@ public class CommandNear implements CommandExecutor {
 		if (args.length == 0) {
 			LinkedHashMap<Player, Double> nearPlayers = new LinkedHashMap<>();
 			for (Player allPlayer : Bukkit.getOnlinePlayers()) {
-				if (player.getLocation().distanceSquared(allPlayer.getLocation()) < 2500 && player != allPlayer) {
-					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distance(allPlayer.getLocation())));
+				if (player.getLocation().distanceSquared(allPlayer.getLocation()) < 50 && player != allPlayer) {
+					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distanceSquared(allPlayer.getLocation())));
 				}
 			}
 			player.sendMessage(nearPlayers.toString());
@@ -35,8 +35,8 @@ public class CommandNear implements CommandExecutor {
 		if (args.length == 1) {
 			LinkedHashMap<Player, Double> nearPlayers = new LinkedHashMap<>();
 			for (Player allPlayer : Bukkit.getOnlinePlayers()) {
-				if (player.getLocation().distance(allPlayer.getLocation()) < Double.valueOf(args[0]) && player != allPlayer) {
-					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distance(allPlayer.getLocation())));
+				if (player.getLocation().distanceSquared(allPlayer.getLocation()) < Double.valueOf(args[0]) && player != allPlayer) {
+					nearPlayers.put(allPlayer, (double) Math.round(player.getLocation().distanceSquared(allPlayer.getLocation())));
 				}
 			}
 			player.sendMessage(nearPlayers.toString());

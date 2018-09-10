@@ -1,7 +1,7 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,16 +19,16 @@ public class CommandVanish implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			if (!Utils.vanishedPlayers.contains(player)) {
+			if (!Main.getManager().isVanished(player)) {
 				for (Player allPlayer : Bukkit.getOnlinePlayers()) {
 					//TODO PERMISSION VANISH
 					if (true) {
 						allPlayer.hidePlayer(player);
 					}
 				}
-				Utils.vanishedPlayers.add(player);
+				Main.getManager().addVanishedPlayer(player);
 				player.sendMessage("Du bist nun im vanish");
-				Bukkit.broadcastMessage(Messages.TEAMMEMBERLEFT);
+				Bukkit.broadcastMessage(Messages.TEAM_MEMBER_LEFT);
 				return true;
 			}
 			for (Player allPlayer : Bukkit.getOnlinePlayers()) {
@@ -37,9 +37,9 @@ public class CommandVanish implements CommandExecutor {
 					allPlayer.showPlayer(player);
 				}
 			}
-			Utils.vanishedPlayers.remove(player);
+			Main.getManager().removeVanishedPlayer(player);
 			player.sendMessage("Du bist nicht mehr im Vanish");
-			Bukkit.broadcastMessage(Messages.TEAMMEMBERJOINED);
+			Bukkit.broadcastMessage(Messages.TEAM_MEMBER_JOINED);
 			return true;
 		}
 		player.sendMessage(Messages.TOO_MANY_ARGUMENTS);

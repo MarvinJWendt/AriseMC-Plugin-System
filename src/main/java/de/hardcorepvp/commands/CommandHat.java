@@ -19,7 +19,7 @@ public class CommandHat implements CommandExecutor {
 
 		if (args.length == 0) {
 			player.getInventory().setHelmet(player.getItemInHand());
-			player.sendMessage(Messages.formatMessage("Du hast nun einen Hut"));
+			player.sendMessage(Messages.formatMessage("Du trägst nun einen Hut."));
 			return true;
 		}
 

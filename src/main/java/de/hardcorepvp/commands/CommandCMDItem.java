@@ -25,7 +25,7 @@ public class CommandCMDItem implements CommandExecutor {
 
 		if (args.length == 1 && args[0].equalsIgnoreCase("#1")) {
 			ItemStack item = Utils.itemRankup;
-			Utils.setCommandItem(item, "§k" + Messages.RANKUPCMD, Messages.RANKUPBOOK);
+			Utils.setCommandItem(item, "§k" + Messages.RANKUP_CMD, Messages.RANKUP_BOOK);
 			player.setItemInHand(item);
 			player.sendMessage("Du hast nun ein Rangupgrade Buch!");
 			return true;

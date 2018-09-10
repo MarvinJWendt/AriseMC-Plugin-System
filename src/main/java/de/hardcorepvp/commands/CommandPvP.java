@@ -1,7 +1,7 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,27 +20,28 @@ public class CommandPvP implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			player.sendMessage(Messages.formatMessage("PvP ist " + Utils.pvp));
+			player.sendMessage(Messages.formatMessage("PvP ist " + Main.getManager().isPvP()));
 			return true;
 		}
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("on")) {
-				Utils.pvp = true;
-				player.sendMessage(Messages.formatMessage("PvP ist nun an"));
+				Main.getManager().setPvP(true);
+				player.sendMessage(Messages.formatMessage("Das PvP wurde aktiviert"));
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("off")) {
-				Utils.pvp = false;
-				player.sendMessage(Messages.formatMessage("PvP ist nun aus"));
+				Main.getManager().setPvP(false);
+				player.sendMessage(Messages.formatMessage("Das PvP wurde deaktiviert"));
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("toggle")) {
-				Utils.pvp = !Utils.pvp;
-				if (Utils.pvp) {
-					player.sendMessage(Messages.formatMessage("PvP ist nun an"));
+				if (Main.getManager().isPvP()) {
+					Main.getManager().setPvP(false);
+					player.sendMessage(Messages.formatMessage("Das PvP wurde deaktiviert"));
 					return true;
 				}
-				player.sendMessage(Messages.formatMessage("PvP ist nun aus"));
+				Main.getManager().setPvP(true);
+				player.sendMessage(Messages.formatMessage("Das PvP wurde aktiviert"));
 				return true;
 			}
 			player.sendMessage(Messages.formatMessage(Messages.WRONG_ARGUMENTS));

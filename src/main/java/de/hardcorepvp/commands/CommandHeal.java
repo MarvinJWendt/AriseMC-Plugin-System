@@ -26,7 +26,7 @@ public class CommandHeal implements CommandExecutor {
 			player.setSaturation(20);
 			Utils.removeNegativePotions(player);
 
-			player.sendMessage(Messages.formatMessage("Du wurdest geheilt"));
+			player.sendMessage(Messages.formatMessage("Du wurdest geheilt."));
 			return true;
 		}
 
@@ -45,8 +45,8 @@ public class CommandHeal implements CommandExecutor {
 			Utils.removeNegativePotions(target);
 
 
-			target.sendMessage(Messages.formatMessage("Du wurdest geheilt"));
-			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " geheilt"));
+			target.sendMessage(Messages.formatMessage("Du wurdest geheilt."));
+			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " geheilt."));
 			return true;
 		}
 

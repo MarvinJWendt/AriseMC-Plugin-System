@@ -31,12 +31,12 @@ public class CommandInvsee implements CommandExecutor {
 
 			Player target = Bukkit.getPlayer(args[0]);
 			if (target == player) {
-				player.sendMessage(Messages.formatMessage("Du kannst dich nicht selber invseen"));
+				player.sendMessage(Messages.formatMessage("Du kannst dein eigenes Inventar nicht öffnen."));
 				return true;
 			}
 
 			player.openInventory(target.getInventory());
-			player.sendMessage(Messages.formatMessage("Du Oeffnest das Inventar  von " + target.getName()));
+			player.sendMessage(Messages.formatMessage("Du hast das Inventar von " + target.getName() + " geöffnet."));
 			return true;
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));

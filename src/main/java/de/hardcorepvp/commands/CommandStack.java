@@ -21,10 +21,10 @@ public class CommandStack implements CommandExecutor {
 
 		int stackedItems = Utils.stackItems(player);
 		if (stackedItems > 0) {
-			player.sendMessage(Messages.formatMessage("Deine Items wurden gestacked"));
+			player.sendMessage(Messages.formatMessage("Deine Items wurden gestacked."));
 			return true;
 		}
-		player.sendMessage(Messages.formatMessage("Nichts zum stacken gefunden"));
+		player.sendMessage(Messages.formatMessage("Es wurde nichts gestacked."));
 		return true;
 	}
 

@@ -19,7 +19,7 @@ public class CommandFix implements CommandExecutor {
 
 		int fixedItems = Utils.fixItems(player, true);
 		if (fixedItems > 0) {
-			player.sendMessage(Messages.formatMessage(fixedItems + " Items wurden repariert"));
+			player.sendMessage(Messages.formatMessage(fixedItems + " Items wurden repariert."));
 			return true;
 		}
 		player.sendMessage(Messages.formatMessage("Da hattest keine Items zum reparieren!"));

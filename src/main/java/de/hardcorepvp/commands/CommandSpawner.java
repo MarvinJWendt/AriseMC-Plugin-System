@@ -37,26 +37,26 @@ public class CommandSpawner implements CommandExecutor {
 				player.sendMessage(Messages.formatMessage("Du musst einen Spawner anschauen!"));
 				return true;
 			}
-			CreatureSpawner cs = (CreatureSpawner) block.getState();
-			player.sendMessage(cs.getCreatureTypeName());
+			CreatureSpawner spawner = (CreatureSpawner) block.getState();
+			player.sendMessage(spawner.getCreatureTypeName());
 			if (args[0].equalsIgnoreCase("creeper")) {
-				cs.setSpawnedType(EntityType.CREEPER);
-				cs.update();
+				spawner.setSpawnedType(EntityType.CREEPER);
+				spawner.update();
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("pigman")) {
-				cs.setSpawnedType(EntityType.PIG_ZOMBIE);
-				cs.update();
+				spawner.setSpawnedType(EntityType.PIG_ZOMBIE);
+				spawner.update();
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("golem")) {
-				cs.setSpawnedType(EntityType.IRON_GOLEM);
-				cs.update();
+				spawner.setSpawnedType(EntityType.IRON_GOLEM);
+				spawner.update();
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("pig")) {
-				cs.setSpawnedType(EntityType.PIG);
-				cs.update();
+				spawner.setSpawnedType(EntityType.PIG);
+				spawner.update();
 				return true;
 			}
 

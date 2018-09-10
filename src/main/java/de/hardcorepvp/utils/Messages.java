@@ -13,11 +13,11 @@ public class Messages {
 	public static final String ERROR_OCCURRED = "§cEs ist ein Fehler aufgetreten! Melde dich umgehend im Teamspeak mit dieser Nachricht! §6§l%error%";
 	public static final String PREFIX = "PREFIX";
 	public static final String[] HELP = {"ex1", "ex2", "ex3"};
-	public static final String CMDITEMPREFIX = "§5[CMDITEM] ";
-	public static final String RANKUPBOOK = "RANGUPGRADE ";
-	public static final String RANKUPCMD = "rankup %p%";
-	public static final String TEAMMEMBERJOINED = "+%p%";
-	public static final String TEAMMEMBERLEFT = "-%p%";
+	public static final String CMD_ITEM_PREFIX = "§5[CMDITEM] ";
+	public static final String RANKUP_BOOK = "RANGUPGRADE ";
+	public static final String RANKUP_CMD = "rankup %p%";
+	public static final String TEAM_MEMBER_JOINED = "+%p%";
+	public static final String TEAM_MEMBER_LEFT = "-%p%";
 
 
 	public static String formatMessage(String message) {

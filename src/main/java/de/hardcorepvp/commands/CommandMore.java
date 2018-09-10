@@ -25,13 +25,19 @@ public class CommandMore implements CommandExecutor {
 		if (args.length == 0) {
 			ItemStack item = player.getItemInHand();
 			item.setAmount(64);
-			player.sendMessage(Messages.formatMessage("Du hast nun 64x"));
+			player.sendMessage(Messages.formatMessage("Das Item wurde vervollständigt."));
 			return true;
 		}
 		if (args.length == 1) {
 			ItemStack item = player.getItemInHand();
-			item.setAmount(Integer.parseInt(args[0]));
-			player.sendMessage(Messages.formatMessage("Du hast nun " + args[0]));
+			try {
+				int amount = Integer.parseInt(args[0]);
+				item.setAmount(amount);
+			} catch (NumberFormatException e) {
+				player.sendMessage("Bitte gebe eine gültige Zahl an!");
+			}
+
+			player.sendMessage(Messages.formatMessage("Das Item wurde vervollständigt."));
 			return true;
 		}
 

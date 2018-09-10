@@ -22,29 +22,29 @@ public class CommandGamemode implements CommandExecutor {
 		if (args.length == 0) {
 			if (player.getGameMode() == GameMode.CREATIVE) {
 				player.setGameMode(GameMode.SURVIVAL);
-				player.sendMessage("Du bist nun im Survival Mode");
+				player.sendMessage("Du bist nun im Überlebensmodus.");
 				return true;
 			}
 			player.setGameMode(GameMode.CREATIVE);
-			player.sendMessage("Du bist nun im Creative Mode");
+			player.sendMessage("Du bist nun im Kreativmodus.");
 			return true;
 		}
-		String gamemode = "%p% bist nun im Gamemode %gm%";
+		String gamemode = "%s bist nun im Spielmodus %s";
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("survival")) {
 
 				player.setGameMode(GameMode.SURVIVAL);
-				player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
+				player.sendMessage(String.format(gamemode, "Du", args[0]));
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("creative")) {
 				player.setGameMode(GameMode.CREATIVE);
-				player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
+				player.sendMessage(String.format(gamemode, "Du", args[0]));
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("adventure")) {
 				player.setGameMode(GameMode.ADVENTURE);
-				player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
+				player.sendMessage(String.format(gamemode, "Du", args[0]));
 				return true;
 			}
 			player.sendMessage(Messages.SYNTAX_ERROR);
@@ -55,20 +55,20 @@ public class CommandGamemode implements CommandExecutor {
 				Player target = Bukkit.getPlayer(args[1]);
 				if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("survival")) {
 					target.setGameMode(GameMode.SURVIVAL);
-					target.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
-					player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", target.getName()));
+					target.sendMessage(String.format(gamemode, "Du", args[0]));
+					player.sendMessage(String.format(gamemode, target.getName(), args[0]));
 					return true;
 				}
 				if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("creative")) {
 					target.setGameMode(GameMode.CREATIVE);
-					target.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
-					player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", target.getName()));
+					target.sendMessage(String.format(gamemode, "Du", args[0]));
+					player.sendMessage(String.format(gamemode, target.getName(), args[0]));
 					return true;
 				}
 				if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("adventure")) {
 					target.setGameMode(GameMode.ADVENTURE);
-					target.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", "Du"));
-					player.sendMessage(gamemode.replace("%gm%", args[0]).replace("%p%", target.getName()));
+					target.sendMessage(String.format(gamemode, "Du", args[0]));
+					player.sendMessage(String.format(gamemode, target.getName(), args[0]));
 					return true;
 				}
 				player.sendMessage(Messages.SYNTAX_ERROR);

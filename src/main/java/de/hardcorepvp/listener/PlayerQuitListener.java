@@ -15,6 +15,7 @@ public class PlayerQuitListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		UUID uniqueId = player.getUniqueId();
+		Main.getManager().removePlayer(player);
 		Main.getPermissionManager().removeAttachment(player);
 		Main.getUserManager().removeUser(uniqueId);
 		Main.getClanManager().removeClanRequests(uniqueId);

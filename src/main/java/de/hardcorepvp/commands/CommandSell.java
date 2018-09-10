@@ -19,9 +19,10 @@ public class CommandSell implements CommandExecutor {
 		if (args.length == 0) {
 			int moneyGained = this.sellInventory(player);
 			if (moneyGained == 0) {
-				player.sendMessage("In deinem Inventar befinden sich keine Item, die verkauft werden können");
+				player.sendMessage("In deinem Inventar befinden sich keine Items, die verkauft werden können.");
+				return true;
 			}
-			player.sendMessage(Messages.formatMessage("Du hast dein Inventar verkauft und " + moneyGained + " bekommen"));
+			player.sendMessage(Messages.formatMessage("Du hast dein Inventar verkauft und " + moneyGained + " bekommen."));
 			return true;
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));

@@ -1,7 +1,9 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.Main;
+import de.hardcorepvp.manager.UUIDManager;
+import de.hardcorepvp.model.Callback;
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import net.minecraft.util.com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -24,45 +26,69 @@ public class CommandSkin implements CommandExecutor {
 
 		if (args.length == 0) {
 			try {
-				String[] props = Utils.getSkinData(player.getName());
-				GameProfile gp = ((CraftPlayer) player).getProfile();
-				gp.getProperties().clear();
-				gp.getProperties().put("textures", new Property("textures", props[0], props[1]));
-				player.sendMessage("Du hast deinen Skin resetet");
-				for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-					onlinePlayer.hidePlayer(player);
-					onlinePlayer.showPlayer(player);
-				}
+				UUIDManager.getSkinData(player.getName(), new Callback<String[]>() {
+					@Override
+					public void onResult(String[] properties) {
+						Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+							GameProfile profile = ((CraftPlayer) player).getProfile();
+							profile.getProperties().clear();
+							profile.getProperties().put("textures", new Property("textures", properties[0], properties[1]));
+							for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+								onlinePlayer.hidePlayer(player);
+								onlinePlayer.showPlayer(player);
+							}
+							player.sendMessage("Du hast deinen Skin resetet");
+						});
+					}
+
+					@Override
+					public void onFailure(Throwable cause) {
+						player.sendMessage("Beim laden des Skins ist ein Problem aufgetreten!");
+					}
+				});
 			} catch (Exception exception) {
-				player.sendMessage("Dein Skin konnte aufgrund von zu vielen Requests an die Mojang API nicht geladen werden!");
+				player.sendMessage("Beim laden des Skins ist ein Problem aufgetreten!");
 			}
 			return true;
 		}
 		if (args.length == 1) {
 			try {
-				if (Bukkit.getPlayer(args[0]) != null) {
-					Property props = Utils.getSkinData(Bukkit.getPlayer(args[0]));
-					GameProfile gp = ((CraftPlayer) player).getProfile();
-					gp.getProperties().clear();
-					gp.getProperties().put("textures", new Property("textures", props.getValue(), props.getSignature()));
+				Player target = Bukkit.getPlayer(args[0]);
+				if (target != null) {
+					Property property = UUIDManager.getSkinData(Bukkit.getPlayer(args[0]));
+					GameProfile profile = ((CraftPlayer) player).getProfile();
+					profile.getProperties().clear();
+					profile.getProperties().put("textures", new Property("textures", property.getValue(), property.getSignature()));
 					player.sendMessage("Du hast nun einen neuen Skin");
 					for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 						onlinePlayer.hidePlayer(player);
 						onlinePlayer.showPlayer(player);
 					}
-				} else {
-					String[] props = Utils.getSkinData(args[0]);
-					GameProfile gp = ((CraftPlayer) player).getProfile();
-					gp.getProperties().clear();
-					gp.getProperties().put("textures", new Property("textures", props[0], props[1]));
-					player.sendMessage("Du hast nun einen neuen Skin");
-					for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-						onlinePlayer.hidePlayer(player);
-						onlinePlayer.showPlayer(player);
-					}
+					return true;
 				}
+				UUIDManager.getSkinData(args[0], new Callback<String[]>() {
+					@Override
+					public void onResult(String[] properties) {
+						Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
+							GameProfile profile = ((CraftPlayer) player).getProfile();
+							profile.getProperties().clear();
+							profile.getProperties().put("textures", new Property("textures", properties[0], properties[1]));
+							for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+								onlinePlayer.hidePlayer(player);
+								onlinePlayer.showPlayer(player);
+							}
+							player.sendMessage("Du hast nun einen neuen Skin");
+						});
+					}
+
+					@Override
+					public void onFailure(Throwable cause) {
+						player.sendMessage("Beim laden des Skins ist ein Problem aufgetreten!");
+					}
+				});
+
 			} catch (Exception exception) {
-				player.sendMessage("Dein Skin konnte aufgrund von zu vielen Requests an die Mojang API nicht geladen werden!");
+				player.sendMessage("Beim laden des Skins ist ein Problem aufgetreten!");
 			}
 			return true;
 		}
