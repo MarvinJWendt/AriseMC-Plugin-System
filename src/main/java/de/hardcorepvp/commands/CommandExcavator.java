@@ -23,8 +23,13 @@ public class CommandExcavator implements CommandExecutor {
 			return true;
 		}
 		if (args.length == 1) {
-			player.getInventory().addItem(Utils.excavatorBlock(Integer.parseInt(args[0])));
-			return true;
+			try {
+				player.getInventory().addItem(Utils.excavatorBlock(Integer.parseInt(args[0])));
+				return true;
+			} catch (Exception exception) {
+				player.sendMessage("Nummer angeben, kek");
+				return true;
+			}
 		}
 		player.sendMessage(Messages.formatMessage(Messages.TOO_MANY_ARGUMENTS));
 		return true;
