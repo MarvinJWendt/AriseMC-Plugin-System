@@ -2,7 +2,6 @@ package de.hardcorepvp.commands;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,9 +19,9 @@ public class CommandTpahere implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		int cooldown = 5;
-		if (Utils.tpaCooldown.containsKey(player.getName())) {
-			long diff = (System.currentTimeMillis() - (Utils.tpaCooldown.get(player.getName()))) / 1000L;
+		int cooldown = Main.getManager().getCooldown_tpa();
+		if (Main.getManager().getTpaCooldown().containsKey(player.getName())) {
+			long diff = (System.currentTimeMillis() - (Main.getManager().getTpaCooldown().get(player.getName()))) / 1000L;
 			if (diff < cooldown) {
 				player.sendMessage("Du musst " + cooldown + "Sekunden zwischen Tpas warten!");
 				return true;
@@ -44,11 +43,11 @@ public class CommandTpahere implements CommandExecutor {
 				player.sendMessage("Nicht zu dir selbst");
 				return true;
 			}
-			Utils.sendTpahereRequest(player, target);
+			Main.getManager().sendTpahereRequest(player, target);
 			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPAhere Anfrage gesendet"));
 			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPAhere Anfrage gesendet"));
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killTpahereRequest(target.getName()), keepAlive);
-			Utils.tpaCooldown.put(player.getName(), System.currentTimeMillis());
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Main.getManager().killTpahereRequest(target.getName()), keepAlive);
+			Main.getManager().getTpaCooldown().put(player.getName(), System.currentTimeMillis());
 			return true;
 		}
 		player.sendMessage(Messages.TOO_MANY_ARGUMENTS);

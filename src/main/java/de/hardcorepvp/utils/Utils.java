@@ -18,13 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Utils {
 
-	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
-	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
-	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
 	public static CMDItemEnchant uniqueEnchant = new CMDItemEnchant(1337);
 	public static ItemStack itemRankup = new ItemStack(Material.BOOK);
 
 	public static Material excavatorMaterial = Material.NOTE_BLOCK;
+	public static Material rankupMaterial = Material.BOOK;
 
 	public static int stackItems(Player player) {
 
@@ -142,17 +140,6 @@ public class Utils {
 		}
 	}
 
-	public static void killTpaRequest(String key) {
-		if (currentTpaRequest.containsKey(key)) {
-			Player player = Bukkit.getPlayer(currentTpaRequest.get(key));
-			if (player != null) {
-				player.sendMessage("Deine Anfrage ist abgelaufen");
-			}
-			currentTpaRequest.remove(key);
-		}
-
-	}
-
 	//TODO MAYBE WATCH FOR PERFORMANCE AND NOT DO IT ALL AT ONCE LIKE A MADMAN
 	public static void destroyCube(Location location, int radius) {
 		for (int x = (radius * -1); x <= radius; x++) {
@@ -167,25 +154,17 @@ public class Utils {
 		}
 	}
 
-	public static void killTpahereRequest(String key) {
-		if (currentTpahereRequest.containsKey(key)) {
-			Player player = Bukkit.getPlayer(currentTpahereRequest.get(key));
-			if (player != null) {
-				player.sendMessage("Deine Anfrage ist abgelaufen");
-			}
-			currentTpahereRequest.remove(key);
-		}
-	}
-
-	public static void setCommandItem(ItemStack item, String lore, String name) {
+	public static ItemStack getCommandItem(Material material, String lore, String name) {
+		ItemStack item = new ItemStack(material);
 		ItemMeta im = item.getItemMeta();
 		im.setLore(Collections.singletonList(lore));
 		im.setDisplayName(Messages.CMD_ITEM_PREFIX + name);
 		im.addEnchant(uniqueEnchant, 1, true);
 		item.setItemMeta(im);
+		return item;
 	}
 
-	public static ItemStack excavatorBlock(int radius) {
+	public static ItemStack getExcavatorBlock(int radius) {
 		ItemStack item = new ItemStack(excavatorMaterial);
 		ItemMeta meta = item.getItemMeta();
 		meta.setLore(Collections.singletonList(Messages.EXCAVATOR_RADIUS + radius));
@@ -193,35 +172,6 @@ public class Utils {
 		meta.addEnchant(uniqueEnchant, 1, true);
 		item.setItemMeta(meta);
 		return item;
-	}
-
-	public static void sendTpaRequest(Player sender, Player recipient) {
-		if (currentTpahereRequest.values().contains(sender.getName())) {
-			Bukkit.broadcastMessage("test1");
-			currentTpahereRequest.values().remove(sender.getName());
-		}
-		if (currentTpaRequest.values().contains(sender.getName())) {
-			Bukkit.broadcastMessage("test2");
-			currentTpaRequest.values().remove(sender.getName());
-		}
-		currentTpaRequest.put(recipient.getName(), sender.getName());
-	}
-
-	//reciever -> key sender -> value
-	public static void sendTpahereRequest(Player sender, Player recipient) {
-
-		if (currentTpahereRequest.values().contains(sender.getName())) {
-			Bukkit.broadcastMessage("test1");
-			currentTpahereRequest.values().remove(sender.getName());
-		}
-		if (currentTpaRequest.values().contains(sender.getName())) {
-			Bukkit.broadcastMessage("test2");
-			currentTpaRequest.values().remove(sender.getName());
-		}
-
-		currentTpahereRequest.put(recipient.getName(), sender.getName());
-
-
 	}
 
 }

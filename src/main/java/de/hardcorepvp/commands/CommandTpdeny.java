@@ -1,7 +1,7 @@
 package de.hardcorepvp.commands;
 
+import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
-import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,9 +18,9 @@ public class CommandTpdeny implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			if (Utils.currentTpaRequest.containsKey(player.getName())) {
-				Player rejectedPlayer = Bukkit.getPlayer(Utils.currentTpaRequest.get(player.getName()));
-				Utils.currentTpaRequest.remove(player.getName());
+			if (Main.getManager().getCurrentTpaRequest().containsKey(player.getName())) {
+				Player rejectedPlayer = Bukkit.getPlayer(Main.getManager().getCurrentTpaRequest().get(player.getName()));
+				Main.getManager().getCurrentTpaRequest().remove(player.getName());
 				if (rejectedPlayer != null) {
 					rejectedPlayer.sendMessage(player.getName() + " hat deine Anfrage abgelehnt!");
 					player.sendMessage(rejectedPlayer.getName() + " wurde abgelehnt");
@@ -30,6 +30,17 @@ public class CommandTpdeny implements CommandExecutor {
 				player.sendMessage(Messages.PLAYER_NOT_FOUND);
 				return true;
 
+			}
+			if (Main.getManager().getCurrentTpahereRequest().containsKey(player.getName())) {
+				Player rejectedPlayer = Bukkit.getPlayer(Main.getManager().getCurrentTpaRequest().get(player.getName()));
+				Main.getManager().getCurrentTpahereRequest().remove(player.getName());
+				if (rejectedPlayer != null) {
+					rejectedPlayer.sendMessage(player.getName() + " hat deine Anfrage abgelehnt!");
+					player.sendMessage(rejectedPlayer.getName() + " wurde abgelehnt");
+					return true;
+				}
+				player.sendMessage(Messages.PLAYER_NOT_FOUND);
+				return true;
 			}
 			sender.sendMessage("Du hast keine Anfrage");
 			return true;

@@ -1,20 +1,31 @@
 package de.hardcorepvp.manager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Manager {
 
 	private boolean pvp;
+	private int cooldown_tpa;
 	private int globalmute;
 	private List<Player> vanishedPlayers;
+	private ConcurrentHashMap<String, Long> tpaCooldownList;
+	private HashMap<String, String> currentTpaRequest;
+	private HashMap<String, String> currentTpahereRequest;
 
 	public Manager() {
 		this.pvp = true;
 		this.globalmute = 0;
 		this.vanishedPlayers = new ArrayList<>();
+		this.cooldown_tpa = 5;
+		this.tpaCooldownList = new ConcurrentHashMap<>();
+		this.currentTpaRequest = new HashMap<>();
+		this.currentTpahereRequest = new HashMap<>();
 	}
 
 	public boolean isPvP() {
@@ -55,6 +66,67 @@ public class Manager {
 			return false;
 		}
 		return this.globalmute != 1;
+	}
+
+	public void sendTpaRequest(Player sender, Player recipient) {
+		if (currentTpahereRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test1");
+			currentTpahereRequest.values().remove(sender.getName());
+		}
+		if (currentTpaRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test2");
+			currentTpaRequest.values().remove(sender.getName());
+		}
+		currentTpaRequest.put(recipient.getName(), sender.getName());
+	}
+
+	//reciever -> key sender -> value
+	public void sendTpahereRequest(Player sender, Player recipient) {
+		if (currentTpahereRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test1");
+			currentTpahereRequest.values().remove(sender.getName());
+		}
+		if (currentTpaRequest.values().contains(sender.getName())) {
+			Bukkit.broadcastMessage("test2");
+			currentTpaRequest.values().remove(sender.getName());
+		}
+		currentTpahereRequest.put(recipient.getName(), sender.getName());
+	}
+
+	public void killTpaRequest(String key) {
+		if (currentTpaRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentTpaRequest.get(key));
+			if (player != null) {
+				player.sendMessage("Deine Anfrage ist abgelaufen");
+			}
+			currentTpaRequest.remove(key);
+		}
+	}
+
+	public void killTpahereRequest(String key) {
+		if (currentTpahereRequest.containsKey(key)) {
+			Player player = Bukkit.getPlayer(currentTpahereRequest.get(key));
+			if (player != null) {
+				player.sendMessage("Deine Anfrage ist abgelaufen");
+			}
+			currentTpahereRequest.remove(key);
+		}
+	}
+
+	public ConcurrentHashMap<String, Long> getTpaCooldown() {
+		return tpaCooldownList;
+	}
+
+	public HashMap<String, String> getCurrentTpaRequest() {
+		return currentTpaRequest;
+	}
+
+	public HashMap<String, String> getCurrentTpahereRequest() {
+		return currentTpahereRequest;
+	}
+
+	public int getCooldown_tpa() {
+		return cooldown_tpa;
 	}
 
 	public void removePlayer(Player player) {

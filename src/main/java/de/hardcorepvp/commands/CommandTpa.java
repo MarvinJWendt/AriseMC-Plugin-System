@@ -20,9 +20,9 @@ public class CommandTpa implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		int cooldown = 5;
-		if (Utils.tpaCooldown.containsKey(player.getName())) {
-			long diff = (System.currentTimeMillis() - (Utils.tpaCooldown.get(player.getName()))) / 1000L;
+		int cooldown = Main.getManager().getCooldown_tpa();
+		if (Main.getManager().getTpaCooldown().containsKey(player.getName())) {
+			long diff = (System.currentTimeMillis() - (Main.getManager().getTpaCooldown().get(player.getName()))) / 1000L;
 			if (diff < cooldown) {
 				player.sendMessage("Du musst " + cooldown + "Sekunden zwischen Tpas warten!");
 				return true;
@@ -43,11 +43,11 @@ public class CommandTpa implements CommandExecutor {
 				player.sendMessage("Nicht zu dir selbst");
 				return true;
 			}
-			Utils.sendTpaRequest(player, target);
+			Main.getManager().sendTpaRequest(player, target);
 			player.sendMessage(Messages.formatMessage("Du hast " + target.getName() + " eine TPA Anfrage gesendet"));
 			target.sendMessage(Messages.formatMessage(player.getName() + " hat dir eine TPA Anfrage gesendet"));
-			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Utils.killTpaRequest(target.getName()), keepAlive);
-			Utils.tpaCooldown.put(player.getName(), System.currentTimeMillis());
+			Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> Main.getManager().killTpaRequest(target.getName()), keepAlive);
+			Main.getManager().getTpaCooldown().put(player.getName(), System.currentTimeMillis());
 			return true;
 		}
 		player.sendMessage(Messages.TOO_MANY_ARGUMENTS);

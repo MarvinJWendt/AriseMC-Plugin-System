@@ -19,13 +19,13 @@ public class CommandExcavator implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (args.length == 0) {
-			player.getInventory().addItem(Utils.excavatorBlock(5));
+			player.getInventory().addItem(Utils.getExcavatorBlock(5));
 			return true;
 		}
 		if (args.length == 1) {
 			try {
 				int number = Integer.parseInt(args[0]);
-				player.getInventory().addItem(Utils.excavatorBlock(number));
+				player.getInventory().addItem(Utils.getExcavatorBlock(number));
 				return true;
 			} catch (NumberFormatException exception) {
 				player.sendMessage("Nummer angeben, kek");
