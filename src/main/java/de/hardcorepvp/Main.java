@@ -97,6 +97,7 @@ public class Main extends JavaPlugin {
 		getCommand("rank").setExecutor(new CommandRank());
 		getCommand("stats").setExecutor(new CommandStats());
 		getCommand("clan").setExecutor(new CommandClan());
+		getCommand("excavator").setExecutor(new CommandExcavator());
 
 		getCommand("skype").setExecutor(new CommandSimple());
 		getCommand("teamspeak").setExecutor(new CommandSimple());
@@ -116,6 +117,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 		this.getServer().getPluginManager().registerEvents(new VoteListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
+		this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
 	}
 
 	public static Main getInstance() {

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,8 +22,10 @@ public class Utils {
 	public static ConcurrentHashMap<String, Long> tpaCooldown = new ConcurrentHashMap<>();
 	public static HashMap<String, String> currentTpaRequest = new HashMap<>();
 	public static HashMap<String, String> currentTpahereRequest = new HashMap<>();
-	public static CMDItemEnchant CMDItemEnchant = new CMDItemEnchant(1337);
+	public static CMDItemEnchant uniqueEnchant = new CMDItemEnchant(1337);
 	public static ItemStack itemRankup = new ItemStack(Material.BOOK);
+
+	public static Material excavatorMaterial = Material.NOTE_BLOCK;
 
 	public static int stackItems(Player player) {
 
@@ -157,6 +160,20 @@ public class Utils {
 
 	}
 
+	//TODO MAYBE WATCH FOR PERFORMANCE AND NOT DO IT ALL AT ONCE LIKE A MADMAN
+	public static void destroyCube(Location location, int radius) {
+		for (int x = (radius * -1); x <= radius; x++) {
+			for (int y = (radius * -1); y <= radius; y++) {
+				for (int z = (radius * -1); z <= radius; z++) {
+					Block block = location.getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
+					if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER) {
+						block.breakNaturally();
+					}
+				}
+			}
+		}
+	}
+
 	public static void killTpahereRequest(String key) {
 		if (currentTpahereRequest.containsKey(key)) {
 			Player player = Bukkit.getPlayer(currentTpahereRequest.get(key));
@@ -164,18 +181,25 @@ public class Utils {
 				player.sendMessage("Deine Anfrage ist abgelaufen");
 			}
 			currentTpahereRequest.remove(key);
-
 		}
-
 	}
 
 	public static void setCommandItem(ItemStack item, String lore, String name) {
 		ItemMeta im = item.getItemMeta();
 		im.setLore(Collections.singletonList(lore));
 		im.setDisplayName(Messages.CMD_ITEM_PREFIX + name);
-		im.addEnchant(CMDItemEnchant, 1, true);
+		im.addEnchant(uniqueEnchant, 1, true);
 		item.setItemMeta(im);
+	}
 
+	public static ItemStack excavatorBlock(int radius) {
+		ItemStack item = new ItemStack(excavatorMaterial);
+		ItemMeta im = item.getItemMeta();
+		im.setLore(Collections.singletonList(Messages.EXCAVATOR_RADIUS + radius));
+		im.setDisplayName(Messages.EXCAVATOR_BLOCK);
+		im.addEnchant(uniqueEnchant, 1, true);
+		item.setItemMeta(im);
+		return item;
 	}
 
 	public static void sendTpaRequest(Player sender, Player recipient) {

@@ -18,6 +18,9 @@ public class Messages {
 	public static final String RANKUP_CMD = "rankup %p%";
 	public static final String TEAM_MEMBER_JOINED = "+%p%";
 	public static final String TEAM_MEMBER_LEFT = "-%p%";
+	public static final String EXCAVATOR_BLOCK = "§e<EXCAVATOR>";
+	public static final String EXCAVATOR_RADIUS = "Radius: ";
+
 
 
 	public static String formatMessage(String message) {

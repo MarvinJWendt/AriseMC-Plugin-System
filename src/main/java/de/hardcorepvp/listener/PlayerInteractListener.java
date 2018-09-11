@@ -20,7 +20,7 @@ public class PlayerInteractListener implements Listener {
 				ItemStack item = player.getItemInHand();
 				if (item.hasItemMeta()) {
 					if (item.getItemMeta().getDisplayName().contains(Messages.CMD_ITEM_PREFIX.substring(2))) {
-						if (item.getItemMeta().hasEnchant(Utils.CMDItemEnchant)) {
+						if (item.getItemMeta().hasEnchant(Utils.uniqueEnchant)) {
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), item.getItemMeta().getLore().get(0).substring(2).replace("%p%", player.getName()));
 							if (player.getItemInHand().getAmount() == 1) {
 								player.setItemInHand(null);

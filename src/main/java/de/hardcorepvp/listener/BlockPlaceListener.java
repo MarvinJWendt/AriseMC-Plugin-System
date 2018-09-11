@@ -1,0 +1,32 @@
+package de.hardcorepvp.listener;
+
+import de.hardcorepvp.utils.Messages;
+import de.hardcorepvp.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+
+public class BlockPlaceListener implements Listener {
+
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
+		if (event.getBlock().getType() == Utils.excavatorMaterial) {
+			if (player.getItemInHand() != null) {
+				ItemStack item = player.getItemInHand();
+				if (item.hasItemMeta()) {
+					if (item.getItemMeta().getDisplayName().substring(2).equalsIgnoreCase(Messages.EXCAVATOR_BLOCK.substring(2))) {
+						if (item.getItemMeta().hasEnchant(Utils.uniqueEnchant)) {
+							String radiusString = item.getItemMeta().getLore().get(0).substring(Messages.EXCAVATOR_RADIUS.length());
+							int radius = Integer.parseInt(radiusString);
+							Utils.destroyCube(event.getBlock().getLocation(), radius);
+						}
+					}
+				}
+			}
+		}
+	}
+}
