@@ -160,7 +160,7 @@ public class Utils {
 				for (int z = (radius * -1); z <= radius; z++) {
 					Block block = location.getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
 					if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER) {
-						block.breakNaturally();
+						block.setType(Material.AIR);
 					}
 				}
 			}
