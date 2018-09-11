@@ -2,8 +2,10 @@ package de.hardcorepvp.clan;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Utils;
+import net.minecraft.server.v1_7_R4.BlockAnvil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
