@@ -187,11 +187,11 @@ public class Utils {
 
 	public static ItemStack excavatorBlock(int radius) {
 		ItemStack item = new ItemStack(excavatorMaterial);
-		ItemMeta im = item.getItemMeta();
-		im.setLore(Collections.singletonList(Messages.EXCAVATOR_RADIUS + radius));
-		im.setDisplayName(Messages.EXCAVATOR_BLOCK);
-		im.addEnchant(uniqueEnchant, 1, true);
-		item.setItemMeta(im);
+		ItemMeta meta = item.getItemMeta();
+		meta.setLore(Collections.singletonList(Messages.EXCAVATOR_RADIUS + radius));
+		meta.setDisplayName(Messages.EXCAVATOR_BLOCK);
+		meta.addEnchant(uniqueEnchant, 1, true);
+		item.setItemMeta(meta);
 		return item;
 	}
 

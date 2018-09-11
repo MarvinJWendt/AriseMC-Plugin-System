@@ -24,9 +24,10 @@ public class CommandExcavator implements CommandExecutor {
 		}
 		if (args.length == 1) {
 			try {
-				player.getInventory().addItem(Utils.excavatorBlock(Integer.parseInt(args[0])));
+				int number = Integer.parseInt(args[0]);
+				player.getInventory().addItem(Utils.excavatorBlock(number));
 				return true;
-			} catch (Exception exception) {
+			} catch (NumberFormatException exception) {
 				player.sendMessage("Nummer angeben, kek");
 				return true;
 			}
