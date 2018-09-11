@@ -62,16 +62,16 @@ public class Utils {
 		return stackedItems;
 	}
 
-	public static void sendItemInChat(Player player, ItemStack item) {
+	public static void sendItemInChat(Player player, ItemStack item, String playerstuff, String message) {
 
 
-		//TODO USE IF MESSAGES BEGINS WITH [ITEM] AND REPLACE PREFIX, CLAN, NAME and MESSAGE @PASCAL :)
+		//TODO USE IF MESSAGES BEGINS WITH [ITEM] OR CMD /SHAREITEM IDC AND REPLACE PREFIX, CLAN, NAME and MESSAGE @PASCAL :)
 		IChatBaseComponent itemString = CraftItemStack.asNMSCopy(item).E();
-		ChatComponentText base = new ChatComponentText("[PREFIX] CLAN*NAME: ");
-		ChatComponentText message = new ChatComponentText("messages ");
+		ChatComponentText base = new ChatComponentText(playerstuff);
+		ChatComponentText content = new ChatComponentText(message);
 
 		base.addSibling(itemString);
-		base.addSibling(message);
+		base.addSibling(content);
 
 		IChatBaseComponent component = base;
 
