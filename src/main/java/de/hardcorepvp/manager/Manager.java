@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Manager {
 
 	private boolean pvp;
-	private int cooldown_tpa;
 	private int globalmute;
 	private List<Player> vanishedPlayers;
 	private ConcurrentHashMap<String, Long> tpaCooldownList;
@@ -22,7 +21,6 @@ public class Manager {
 		this.pvp = true;
 		this.globalmute = 0;
 		this.vanishedPlayers = new ArrayList<>();
-		this.cooldown_tpa = 5;
 		this.tpaCooldownList = new ConcurrentHashMap<>();
 		this.currentTpaRequest = new HashMap<>();
 		this.currentTpahereRequest = new HashMap<>();
@@ -123,10 +121,6 @@ public class Manager {
 
 	public HashMap<String, String> getCurrentTpahereRequest() {
 		return currentTpahereRequest;
-	}
-
-	public int getCooldown_tpa() {
-		return cooldown_tpa;
 	}
 
 	public void removePlayer(Player player) {

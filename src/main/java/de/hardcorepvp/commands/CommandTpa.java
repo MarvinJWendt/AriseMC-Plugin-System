@@ -20,7 +20,7 @@ public class CommandTpa implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		int cooldown = Main.getManager().getCooldown_tpa();
+		int cooldown = Utils.tpaCooldown;
 		if (Main.getManager().getTpaCooldown().containsKey(player.getName())) {
 			long diff = (System.currentTimeMillis() - (Main.getManager().getTpaCooldown().get(player.getName()))) / 1000L;
 			if (diff < cooldown) {

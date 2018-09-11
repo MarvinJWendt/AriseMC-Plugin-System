@@ -2,6 +2,7 @@ package de.hardcorepvp.commands;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.utils.Messages;
+import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +20,7 @@ public class CommandTpahere implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		int cooldown = Main.getManager().getCooldown_tpa();
+		int cooldown = Utils.tpaCooldown;
 		if (Main.getManager().getTpaCooldown().containsKey(player.getName())) {
 			long diff = (System.currentTimeMillis() - (Main.getManager().getTpaCooldown().get(player.getName()))) / 1000L;
 			if (diff < cooldown) {

@@ -1,10 +1,13 @@
 package de.hardcorepvp.utils;
 
+import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,13 +16,13 @@ import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Utils {
 
 	public static CMDItemEnchant uniqueEnchant = new CMDItemEnchant(1337);
 	public static ItemStack itemRankup = new ItemStack(Material.BOOK);
+
+	public static int tpaCooldown = 5;
 
 	public static Material excavatorMaterial = Material.NOTE_BLOCK;
 	public static Material rankupMaterial = Material.BOOK;
@@ -55,6 +58,11 @@ public class Utils {
 			}
 		}
 		return stackedItems;
+	}
+
+	public static void sendItemInChat(Player player, ItemStack item) {
+		PacketPlayOutChat packet = new PacketPlayOutChat(CraftItemStack.asNMSCopy(item).E(), true);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 	}
 
 	public static void renameItemInHand(Player player, String name) {
