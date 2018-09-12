@@ -1,5 +1,7 @@
 package de.hardcorepvp.utils;
 
+import net.minecraft.server.v1_7_R4.ChatComponentText;
+import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,25 +70,34 @@ public class Utils {
 		return stackedItems;
 	}
 
-	public static void sendItemInChat(Player player, ItemStack item) {
-		PacketPlayOutChat packet = new PacketPlayOutChat(CraftItemStack.asNMSCopy(item).E(), true);
+	public static void sendItemInChat(Player player, ItemStack item, String playerstuff, String message) {
+
+
+		//TODO USE IF MESSAGES BEGINS WITH [ITEM] OR CMD /SHAREITEM IDC AND REPLACE PREFIX, CLAN, NAME and MESSAGE @PASCAL :)
+		IChatBaseComponent itemString = CraftItemStack.asNMSCopy(item).E();
+		ChatComponentText base = new ChatComponentText(playerstuff);
+		ChatComponentText content = new ChatComponentText(message);
+
+		base.addSibling(itemString);
+		base.addSibling(content);
+
+		IChatBaseComponent component = base;
+
+		PacketPlayOutChat packet = new PacketPlayOutChat(component, true);
+
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+
 	}
 
 	public static void renameItemInHand(Player player, String name) {
-
 		String itemname = ChatColor.translateAlternateColorCodes('&', name);
-
 		ItemStack item = player.getItemInHand();
 		ItemMeta itemmeta = item.getItemMeta();
-
 		itemmeta.setDisplayName(itemname);
 		item.setItemMeta(itemmeta);
-
 	}
 
 	public static void removeNegativePotions(Player player) {
-
 		for (PotionEffect effects : player.getActivePotionEffects()) {
 			for (NegativeEffects negEffects : NegativeEffects.values()) {
 				if (effects.getType().getName().equalsIgnoreCase(negEffects.name())) {
@@ -94,14 +105,12 @@ public class Utils {
 				}
 			}
 		}
-
 	}
 
 	public static int fixItems(Player player, boolean armorfix) {
 
 		int fixedItems = 0;
 		ItemStack[] items = player.getInventory().getContents();
-
 		for (ItemStack item : items) {
 			if (item != null) {
 				item.setDurability((short) 0);
@@ -130,7 +139,6 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static String serializeLocation(Location location) {
