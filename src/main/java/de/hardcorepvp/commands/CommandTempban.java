@@ -57,11 +57,9 @@ public class CommandTempban implements CommandExecutor {
 					player.sendMessage("§cDu kannst diesen Spieler nicht bannen!");
 					return true;
 				}
-				System.out.println("warum?");
 				Main.getPunishmentManager().getBanData(target.getUniqueId(), new Callback<PunishmentManager.BanData>() {
 					@Override
 					public void onResult(PunishmentManager.BanData type) {
-						System.out.println("warum? 2");
 						if (type != null) {
 							player.sendMessage("§cDer Spieler ist bereits gebannt!");
 							return;

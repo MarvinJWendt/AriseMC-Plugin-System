@@ -2,6 +2,7 @@ package de.hardcorepvp.data;
 
 import de.hardcorepvp.Main;
 import de.hardcorepvp.database.DatabaseUpdate;
+import de.hardcorepvp.manager.PunishmentManager;
 import de.hardcorepvp.permissions.PermissionGroup;
 import de.hardcorepvp.utils.Utils;
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ public class User extends DatabaseUpdate {
 
 	private UUID uniqueId;
 	private PermissionGroup group;
+	private PunishmentManager.MuteData muteData;
 	private Map<String, Location> homeMap;
 	private long money;
 	private int kills;
@@ -27,6 +29,7 @@ public class User extends DatabaseUpdate {
 	public User(UUID uniqueId) {
 		this.uniqueId = uniqueId;
 		this.group = Main.getPermissionsFile().getDefaultGroup();
+		this.muteData = null;
 		this.homeMap = new ConcurrentHashMap<>();
 		this.money = 0L;
 		this.kills = 0;
@@ -40,6 +43,10 @@ public class User extends DatabaseUpdate {
 
 	public PermissionGroup getGroup() {
 		return group;
+	}
+
+	public PunishmentManager.MuteData getMuteData() {
+		return muteData;
 	}
 
 	public Map<String, Location> getHomes() {
@@ -61,6 +68,10 @@ public class User extends DatabaseUpdate {
 	public void setGroup(PermissionGroup group) {
 		this.group = group;
 		this.writeToDatabase(true, false, false, false);
+	}
+
+	public void setMuteData(PunishmentManager.MuteData muteData) {
+		this.muteData = muteData;
 	}
 
 	public void addHome(String name, Location location) {
@@ -123,6 +134,7 @@ public class User extends DatabaseUpdate {
 	private void readFromDatabase() {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
 			try {
+				this.muteData = Main.getPunishmentManager().getMuteData(this.uniqueId);
 				try (PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT a.kills, a.deaths, b.money, c.group, d.name, d.location FROM hc_user_stats a "
 						+ "INNER JOIN hc_user_money b ON a.uniqueId = b.uniqueId "
 						+ "INNER JOIN hc_user_groups c ON a.uniqueId = c.uniqueId "

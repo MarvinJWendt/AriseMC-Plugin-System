@@ -100,6 +100,9 @@ public class Main extends JavaPlugin {
 		getCommand("excavator").setExecutor(new CommandExcavator());
 		getCommand("tempban").setExecutor(new CommandTempban());
 		getCommand("unban").setExecutor(new CommandUnban());
+		getCommand("mute").setExecutor(new CommandMute());
+		getCommand("tempmute").setExecutor(new CommandTempmute());
+		getCommand("unmute").setExecutor(new CommandUnmute());
 
 		getCommand("skype").setExecutor(new CommandSimple());
 		getCommand("teamspeak").setExecutor(new CommandSimple());

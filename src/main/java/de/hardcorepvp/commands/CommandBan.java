@@ -29,7 +29,6 @@ public class CommandBan implements CommandExecutor {
 			return true;
 		}
 		if (args.length > 0) {
-			System.out.println("wtf 1");
 			StringBuilder builder = new StringBuilder();
 			for (int reason = 1; reason < args.length; ++reason) {
 				builder.append(args[reason]).append(" ");
@@ -45,11 +44,9 @@ public class CommandBan implements CommandExecutor {
 					player.sendMessage("§cDu kannst diesen Spieler nicht bannen!");
 					return true;
 				}
-				System.out.println("warum?");
 				Main.getPunishmentManager().getBanData(target.getUniqueId(), new Callback<PunishmentManager.BanData>() {
 					@Override
 					public void onResult(PunishmentManager.BanData type) {
-						System.out.println("warum? 2");
 						if (type != null) {
 							player.sendMessage("§cDer Spieler ist bereits gebannt!");
 							return;

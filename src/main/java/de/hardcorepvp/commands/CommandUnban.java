@@ -32,6 +32,31 @@ public class CommandUnban implements CommandExecutor {
 				player.sendMessage("§cVerwendung: §b/unban <Spieler>");
 				return true;
 			}
+			Player target = Bukkit.getPlayer(args[0]);
+			if (target != null) {
+				Main.getPunishmentManager().getBanData(target.getUniqueId(), new Callback<PunishmentManager.BanData>() {
+					@Override
+					public void onResult(PunishmentManager.BanData type) {
+						if (type == null) {
+							player.sendMessage("§cDer Spieler ist nicht gebannt.");
+							return;
+						}
+						Main.getPunishmentManager().unban(target.getUniqueId());
+						for (Player all : Bukkit.getOnlinePlayers()) {
+							if (all.hasPermission("system.unban") && !all.equals(player)) {
+								all.sendMessage(Messages.formatMessage(Messages.PREFIX + "§6" + player.getName() + " §chat den Spieler §e" + args[0] + " §centmuted."));
+							}
+						}
+						player.sendMessage("§cDer Spieler wurde entbannt.");
+					}
+
+					@Override
+					public void onFailure(Throwable cause) {
+						player.sendMessage("§cDer Spieler konnte nicht entbannt werden!");
+					}
+				});
+				return true;
+			}
 			UUIDManager.getProfileHolderAt(args[0], System.currentTimeMillis(), new Callback<UUIDManager.ProfileHolder>() {
 				@Override
 				public void onResult(UUIDManager.ProfileHolder profile) {
