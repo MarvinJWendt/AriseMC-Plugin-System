@@ -34,7 +34,7 @@ public class RankingManager {
 					@Override
 					public Integer load(UUID uniqueId) throws Exception {
 						int rank = -1;
-						try (PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT COUNT(*) AS `rank` FROM `hc_user_stats` WHERE `kills` >= (SELECT `kills` FROM `hc_user_stats` WHERE `uniqueId`= ?)")) {
+						try (PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT rank, uniqueId FROM (SELECT @rank:=@rank+1 AS rank, uniqueId FROM hc_user_stats, (SELECT @rank := 0) r ORDER BY kills DESC) t WHERE uniqueId = ?")) {
 							statement.setString(1, uniqueId.toString());
 							try (ResultSet resultSet = statement.executeQuery()) {
 								if (resultSet.next()) {
@@ -52,7 +52,7 @@ public class RankingManager {
 					@Override
 					public Integer load(Clan clan) throws Exception {
 						int rank = -1;
-						try (PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT COUNT(*) AS `rank` FROM `hc_clans` WHERE `kills` >= (SELECT `kills` FROM `hc_clans` WHERE `clan`= ?)")) {
+						try (PreparedStatement statement = Main.getDatabaseManager().getConnection().prepareStatement("SELECT rank, clan FROM (SELECT @rank:=@rank+1 AS rank, clan FROM hc_clans, (SELECT @rank := 0) r ORDER BY kills DESC) t WHERE clan = ?")) {
 							statement.setString(1, clan.getName());
 							try (ResultSet resultSet = statement.executeQuery()) {
 								if (resultSet.next()) {

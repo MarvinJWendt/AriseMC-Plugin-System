@@ -367,7 +367,7 @@ public class CommandClan implements CommandExecutor {
 				if (targetPlayer != null) {
 					targetPlayer.sendMessage("Du wurdest auf " + rank.getPrefix() + " gestuft.");
 				}
-				clan.broadcast(player, player.getName() + " hat " + target.getName() + " auf " + rank.getPrefix() + " gestuft!");
+				clan.broadcast(player.getName() + " hat " + target.getName() + " auf " + rank.getPrefix() + " gestuft!");
 				return true;
 			}
 		}
