@@ -45,3 +45,8 @@ commands:
   gamemode:
   near:
   excavator:
+  tempban:
+  unban:
+  mute:
+  tempmute:
+  unmute:

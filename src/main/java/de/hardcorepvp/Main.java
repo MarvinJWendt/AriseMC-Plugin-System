@@ -98,6 +98,11 @@ public class Main extends JavaPlugin {
 		getCommand("stats").setExecutor(new CommandStats());
 		getCommand("clan").setExecutor(new CommandClan());
 		getCommand("excavator").setExecutor(new CommandExcavator());
+		getCommand("tempban").setExecutor(new CommandTempban());
+		getCommand("unban").setExecutor(new CommandUnban());
+		getCommand("mute").setExecutor(new CommandMute());
+		getCommand("tempmute").setExecutor(new CommandTempmute());
+		getCommand("unmute").setExecutor(new CommandUnmute());
 
 		getCommand("skype").setExecutor(new CommandSimple());
 		getCommand("teamspeak").setExecutor(new CommandSimple());
@@ -118,6 +123,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new VoteListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+		this.getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
 	}
 
 	public static Main getInstance() {

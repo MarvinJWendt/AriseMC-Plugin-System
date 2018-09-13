@@ -12,7 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandBan implements CommandExecutor {
+public class CommandTempban implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -20,17 +20,30 @@ public class CommandBan implements CommandExecutor {
 			return false;
 		}
 		Player player = (Player) sender;
-		if (!player.hasPermission("system.ban")) {
+		if (!player.hasPermission("system.tempban")) {
 			player.sendMessage(Messages.NO_PERMISSIONS);
 			return true;
 		}
-		if (args.length == 0) {
-			player.sendMessage("§cVerwendung: §b/ban <Spieler> <Grund>");
+		if (args.length <= 1) {
+			//10s = 10 Sekunden
+			//10m = 10 Minuten
+			//10h = 10 Stunden
+			//10d = 10 Tage
+			//10mo = 10 Monate
+			//10y = 10 Jahre
+			//Example 10d10m
+			player.sendMessage("§cVerwendung: §b/tempban <Spieler> <Zeit> <Grund>");
+			player.sendMessage("§cZeitformat: y, mo, d, h, m, s");
 			return true;
 		}
-		if (args.length > 0) {
+		if (args.length >= 2) {
+			long banTime = Utils.parseDateDiff(args[1], true);
+			if (banTime == -1L) {
+				player.sendMessage("§cUngültiges Zeitformat!");
+				return true;
+			}
 			StringBuilder builder = new StringBuilder();
-			for (int reason = 1; reason < args.length; ++reason) {
+			for (int reason = 2; reason < args.length; ++reason) {
 				builder.append(args[reason]).append(" ");
 			}
 			String reason = (builder.length() == 0) ? "--" : builder.substring(0, builder.length() - 1);
@@ -40,7 +53,7 @@ public class CommandBan implements CommandExecutor {
 					player.sendMessage("§cDu kannst dich nicht selber bannen!");
 					return true;
 				}
-				if (target.hasPermission("system.ban.ignore")) {
+				if (target.hasPermission("system.tempban.ignore")) {
 					player.sendMessage("§cDu kannst diesen Spieler nicht bannen!");
 					return true;
 				}
@@ -51,19 +64,20 @@ public class CommandBan implements CommandExecutor {
 							player.sendMessage("§cDer Spieler ist bereits gebannt!");
 							return;
 						}
-						PunishmentManager.BanData banData = new PunishmentManager.BanData(target.getUniqueId(), reason, player.getName(), -1L, System.currentTimeMillis());
+						PunishmentManager.BanData banData = new PunishmentManager.BanData(target.getUniqueId(), reason, player.getName(), banTime, System.currentTimeMillis());
 						boolean success = Main.getPunishmentManager().setBanned(banData);
 						if (!success) {
 							player.sendMessage("§cDer Spieler konnte nicht gebannt werden!");
 							return;
 						}
 						Bukkit.getScheduler().runTask(Main.getInstance(), () -> target.kickPlayer("§b▄▆█  §6§lAriseMC.de  §b█▆▄\n\n" +
-								"§7Du wurdest §4PERMANENT §7gebannt!\n\n" +
+								"§7Du wurdest §cTEMPORÄR §7gebannt!\n\n" +
 								"§7Von: §e" + banData.getBannedBy() + "\n\n" +
 								"§7Grund: §e" + banData.getBanReason() + "\n\n" +
 								"§7Zeitpunkt: §e" + Utils.formatDate(banData.getBanTimestamp()) + "\n\n" +
+								"§7Dein Ban läuft bis: §e" + Utils.formatDate(banData.getBanTime()) + "\n\n" +
 								"§7Du kannst auf §ehttp://arisemc.de/forum §7einen Entbannungsantrag stellen!" + "\n\n"));
-						Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cDer Spieler §7" + args[0] + " §cwurde von §e" + banData.getBannedBy() + " §cpermanent gebannt."));
+						Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cDer Spieler §7" + args[0] + " §cwurde von §e" + banData.getBannedBy() + " §ctemporär gebannt."));
 						Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cGrund: §7" + banData.getBanReason()));
 					}
 
@@ -81,13 +95,13 @@ public class CommandBan implements CommandExecutor {
 						player.sendMessage("§cDer Spieler ist bereits gebannt!");
 						return;
 					}
-					PunishmentManager.BanData banData = new PunishmentManager.BanData(profile.getUniqueId(), reason, player.getName(), -1L, System.currentTimeMillis());
+					PunishmentManager.BanData banData = new PunishmentManager.BanData(profile.getUniqueId(), reason, player.getName(), banTime, System.currentTimeMillis());
 					boolean success = Main.getPunishmentManager().setBanned(banData);
 					if (!success) {
 						player.sendMessage("§cDer Spieler konnte nicht gebannt werden!");
 						return;
 					}
-					Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cDer Spieler §7" + args[0] + " §cwurde von §e" + banData.getBannedBy() + " §cpermanent gebannt."));
+					Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cDer Spieler §7" + args[0] + " §cwurde von §e" + banData.getBannedBy() + " §ctemporär gebannt."));
 					Bukkit.broadcastMessage(Messages.formatMessage(Messages.PREFIX + "§cGrund: §7" + banData.getBanReason()));
 				}
 

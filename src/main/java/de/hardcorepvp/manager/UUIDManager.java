@@ -66,7 +66,6 @@ public class UUIDManager {
 	}
 
 	public static void getProfileHolderAt(String name, long timestamp, Callback<ProfileHolder> callback) {
-		name = name.toLowerCase();
 		for (ProfileHolder profileHolder : profileCache) {
 			if (profileHolder.getName().equals(name)) {
 				callback.onResult(profileHolder);

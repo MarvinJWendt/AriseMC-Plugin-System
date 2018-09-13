@@ -1,14 +1,9 @@
-/money
 /Warp
 /Spawn
 /support
-/clan
 /money
 /friede
-/clan 
-/money
 /vote
-/tpahere
 /ignore
 /back
 /kit
@@ -16,9 +11,7 @@
 /kick
 /mute
 /team
-/stats
-/ranking
 /home
 /warp
 
-Permissions System, Clan System, Combatlog, Vote System, Scoreboard, Mobstack
+Combatlog, Vote System, Scoreboard, Mobstack
