@@ -2,7 +2,6 @@ package de.hardcorepvp.listener;
 
 import de.hardcorepvp.utils.Messages;
 import de.hardcorepvp.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +21,7 @@ public class BlockPlaceListener implements Listener {
 						if (item.getItemMeta().hasEnchant(Utils.uniqueEnchant)) {
 							String radiusString = item.getItemMeta().getLore().get(0).substring(Messages.EXCAVATOR_RADIUS.length());
 							int radius = Integer.parseInt(radiusString);
-							Utils.destroyCube(event.getBlock().getLocation(), radius);
+							Utils.destroyCube(event.getBlock().getLocation(), radius, Utils.getStepsForRadius(radius), 5);
 						}
 					}
 				}

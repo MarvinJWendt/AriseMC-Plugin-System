@@ -163,7 +163,19 @@ public class Utils {
 	}
 
 	//TODO MAYBE WATCH FOR PERFORMANCE AND NOT DO IT ALL AT ONCE LIKE A MADMAN
-	public static void destroyCube(Location location, int radius) {
+
+	public static <T> List<List<T>> chunkList(List<T> list, int chunkSize) {
+		if (chunkSize <= 0) {
+			throw new IllegalArgumentException("Invalid chunk size: " + chunkSize);
+		}
+		List<List<T>> chunkList = new ArrayList<>(list.size() / chunkSize);
+		for (int i = 0; i < list.size(); i += chunkSize) {
+			chunkList.add(list.subList(i, i + chunkSize >= list.size() ? list.size() : i + chunkSize));
+		}
+		return chunkList;
+	}
+
+	public static void destroyCube(Location location, int radius, int steps, long tickDelay) {
 		ArrayList<Block> toRemove = new ArrayList<>();
 		for (int x = (radius * -1); x <= radius; x++) {
 			for (int y = (radius * -1); y <= radius; y++) {
@@ -175,37 +187,32 @@ public class Utils {
 				}
 			}
 		}
-		/**List<Block> toRemove1 = toRemove.subList(0, toRemove.size() - 4 * toRemove.size() / 5);
-		 List<Block> toRemove2 = toRemove.subList(toRemove.size() - 4 * toRemove.size() / 5, toRemove.size() - 3 * toRemove.size() / 5);
-		 List<Block> toRemove3 = toRemove.subList(toRemove.size() - 3 * toRemove.size() / 5, toRemove.size() - 2 * toRemove.size() / 5);
-		 List<Block> toRemove4 = toRemove.subList(toRemove.size() - 2 * toRemove.size() / 5, toRemove.size() - toRemove.size() / 5);
-		 List<Block> toRemove5 = toRemove.subList(toRemove.size() - toRemove.size() / 5, toRemove.size());
-		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-		 for (Block b : toRemove1) {
-		 b.setType(Material.AIR);
-			}
-		 }, 20L);
-		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-		 for (Block b : toRemove2) {
-		 b.setType(Material.AIR);
-		 }
-		 }, 40L);
-		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-		 for (Block b : toRemove3) {
-		 b.setType(Material.AIR);
-		 }
-		 }, 60L);
-		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-		 for (Block b : toRemove4) {
-		 b.setType(Material.AIR);
-		 }
-		 }, 80L);
-		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-		 for (Block b : toRemove5) {
-		 b.setType(Material.AIR);
-		 }
-		 }, 100L);
-		 **/
+		List<List<Block>> blockQueue = Utils.chunkList(toRemove, toRemove.size() / steps);
+		removeBlockQueue(blockQueue, tickDelay);
+	}
+
+	public static void removeBlockQueue(List<List<Block>> blockQueue, long tickDelay) {
+
+		for (int i = 0; i < blockQueue.size(); i++) {
+			int finalI = i;
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+				for (Block b : blockQueue.get(finalI)) {
+					b.setType(Material.AIR);
+				}
+			}, (i + 1) * tickDelay);
+
+		}
+
+	}
+
+	public static int getStepsForRadius(int radius) {
+
+		if (radius <= 50) {
+			return 5;
+		}
+		int steps = radius / 10;
+		return steps * 2;
+
 	}
 
 	public static ItemStack getCommandItem(Material material, String lore, String name) {
