@@ -189,25 +189,25 @@ public class Utils {
 				toRemove.get(i).setType(Material.AIR);
 				toRemove.remove(i);
 			}
+			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+				for (int i = 0; i < toRemove.size() / 3; i++) {
+					toRemove.get(i).setType(Material.AIR);
+					toRemove.remove(i);
+				}
+				Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+					for (int i = 0; i < toRemove.size() / 2; i++) {
+						toRemove.get(i).setType(Material.AIR);
+						toRemove.remove(i);
+					}
+					Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+						for (int i = 0; i < toRemove.size(); i++) {
+							toRemove.get(i).setType(Material.AIR);
+							toRemove.remove(i);
+						}
+					}, 20L);
+				}, 20L);
+			}, 20L);
 		}, 20L);
-		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-			for (int i = 0; i < toRemove.size() / 3; i++) {
-				toRemove.get(i).setType(Material.AIR);
-				toRemove.remove(i);
-			}
-		}, 40L);
-		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-			for (int i = 0; i < toRemove.size() / 2; i++) {
-				toRemove.get(i).setType(Material.AIR);
-				toRemove.remove(i);
-			}
-		}, 60L);
-		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-			for (int i = 0; i < toRemove.size(); i++) {
-				toRemove.get(i).setType(Material.AIR);
-				toRemove.remove(i);
-			}
-		}, 80L);
 
 	}
 
