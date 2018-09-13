@@ -1,5 +1,6 @@
 package de.hardcorepvp.utils;
 
+import de.hardcorepvp.Main;
 import net.minecraft.server.v1_7_R4.ChatComponentText;
 import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 
 public class Utils {
@@ -158,16 +160,47 @@ public class Utils {
 
 	//TODO MAYBE WATCH FOR PERFORMANCE AND NOT DO IT ALL AT ONCE LIKE A MADMAN
 	public static void destroyCube(Location location, int radius) {
+		ArrayList<Block> toRemove = new ArrayList<>();
 		for (int x = (radius * -1); x <= radius; x++) {
 			for (int y = (radius * -1); y <= radius; y++) {
 				for (int z = (radius * -1); z <= radius; z++) {
 					Block block = location.getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
 					if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER) {
-						block.setType(Material.AIR);
+						toRemove.add(block);
 					}
 				}
 			}
 		}
+
+		for (int i = 0; i < toRemove.size() / 5; i++) {
+			toRemove.get(i).setType(Material.AIR);
+			toRemove.remove(i);
+		}
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			for (int i = 0; i < toRemove.size() / 4; i++) {
+				toRemove.get(i).setType(Material.AIR);
+				toRemove.remove(i);
+			}
+		}, 20L);
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			for (int i = 0; i < toRemove.size() / 3; i++) {
+				toRemove.get(i).setType(Material.AIR);
+				toRemove.remove(i);
+			}
+		}, 40L);
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			for (int i = 0; i < toRemove.size() / 2; i++) {
+				toRemove.get(i).setType(Material.AIR);
+				toRemove.remove(i);
+			}
+		}, 60L);
+		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+			for (int i = 0; i < toRemove.size(); i++) {
+				toRemove.get(i).setType(Material.AIR);
+				toRemove.remove(i);
+			}
+		}, 80L);
+
 	}
 
 	public static ItemStack getCommandItem(Material material, String lore, String name) {
