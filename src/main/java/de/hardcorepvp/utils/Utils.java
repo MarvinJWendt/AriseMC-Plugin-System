@@ -19,11 +19,7 @@ import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,36 +175,37 @@ public class Utils {
 				}
 			}
 		}
-
-		for (int i = 0; i < toRemove.size() / 5; i++) {
-			toRemove.get(i).setType(Material.AIR);
-			toRemove.remove(i);
-		}
+		/**List<Block> toRemove1 = toRemove.subList(0, toRemove.size() - 4 * toRemove.size() / 5);
+		 List<Block> toRemove2 = toRemove.subList(toRemove.size() - 4 * toRemove.size() / 5, toRemove.size() - 3 * toRemove.size() / 5);
+		 List<Block> toRemove3 = toRemove.subList(toRemove.size() - 3 * toRemove.size() / 5, toRemove.size() - 2 * toRemove.size() / 5);
+		 List<Block> toRemove4 = toRemove.subList(toRemove.size() - 2 * toRemove.size() / 5, toRemove.size() - toRemove.size() / 5);
+		 List<Block> toRemove5 = toRemove.subList(toRemove.size() - toRemove.size() / 5, toRemove.size());
 		Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-			for (int i = 0; i < toRemove.size() / 4; i++) {
-				toRemove.get(i).setType(Material.AIR);
-				toRemove.remove(i);
+		 for (Block b : toRemove1) {
+		 b.setType(Material.AIR);
 			}
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-				for (int i = 0; i < toRemove.size() / 3; i++) {
-					toRemove.get(i).setType(Material.AIR);
-					toRemove.remove(i);
-				}
-				Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-					for (int i = 0; i < toRemove.size() / 2; i++) {
-						toRemove.get(i).setType(Material.AIR);
-						toRemove.remove(i);
-					}
-					Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-						for (int i = 0; i < toRemove.size(); i++) {
-							toRemove.get(i).setType(Material.AIR);
-							toRemove.remove(i);
-						}
-					}, 20L);
-				}, 20L);
-			}, 20L);
-		}, 20L);
-
+		 }, 20L);
+		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+		 for (Block b : toRemove2) {
+		 b.setType(Material.AIR);
+		 }
+		 }, 40L);
+		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+		 for (Block b : toRemove3) {
+		 b.setType(Material.AIR);
+		 }
+		 }, 60L);
+		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+		 for (Block b : toRemove4) {
+		 b.setType(Material.AIR);
+		 }
+		 }, 80L);
+		 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+		 for (Block b : toRemove5) {
+		 b.setType(Material.AIR);
+		 }
+		 }, 100L);
+		 **/
 	}
 
 	public static ItemStack getCommandItem(Material material, String lore, String name) {
@@ -257,40 +254,25 @@ public class Utils {
 				}
 			}
 			if (found) {
-				if (m.group(1) != null && !m.group(1).isEmpty())
-					years = Integer.parseInt(m.group(1));
-				if (m.group(2) != null && !m.group(2).isEmpty())
-					months = Integer.parseInt(m.group(2));
-				if (m.group(3) != null && !m.group(3).isEmpty())
-					weeks = Integer.parseInt(m.group(3));
-				if (m.group(4) != null && !m.group(4).isEmpty())
-					days = Integer.parseInt(m.group(4));
-				if (m.group(5) != null && !m.group(5).isEmpty())
-					hours = Integer.parseInt(m.group(5));
-				if (m.group(6) != null && !m.group(6).isEmpty())
-					minutes = Integer.parseInt(m.group(6));
-				if (m.group(7) != null && !m.group(7).isEmpty())
-					seconds = Integer.parseInt(m.group(7));
+				if (m.group(1) != null && !m.group(1).isEmpty()) years = Integer.parseInt(m.group(1));
+				if (m.group(2) != null && !m.group(2).isEmpty()) months = Integer.parseInt(m.group(2));
+				if (m.group(3) != null && !m.group(3).isEmpty()) weeks = Integer.parseInt(m.group(3));
+				if (m.group(4) != null && !m.group(4).isEmpty()) days = Integer.parseInt(m.group(4));
+				if (m.group(5) != null && !m.group(5).isEmpty()) hours = Integer.parseInt(m.group(5));
+				if (m.group(6) != null && !m.group(6).isEmpty()) minutes = Integer.parseInt(m.group(6));
+				if (m.group(7) != null && !m.group(7).isEmpty()) seconds = Integer.parseInt(m.group(7));
 				break;
 			}
 		}
-		if (!found)
-			return -1L;
+		if (!found) return -1L;
 		Calendar c = new GregorianCalendar();
-		if (years > 0)
-			c.add(Calendar.YEAR, years * (future ? 1 : -1));
-		if (months > 0)
-			c.add(Calendar.MONTH, months * (future ? 1 : -1));
-		if (weeks > 0)
-			c.add(Calendar.WEEK_OF_YEAR, weeks * (future ? 1 : -1));
-		if (days > 0)
-			c.add(Calendar.DAY_OF_MONTH, days * (future ? 1 : -1));
-		if (hours > 0)
-			c.add(Calendar.HOUR_OF_DAY, hours * (future ? 1 : -1));
-		if (minutes > 0)
-			c.add(Calendar.MINUTE, minutes * (future ? 1 : -1));
-		if (seconds > 0)
-			c.add(Calendar.SECOND, seconds * (future ? 1 : -1));
+		if (years > 0) c.add(Calendar.YEAR, years * (future ? 1 : -1));
+		if (months > 0) c.add(Calendar.MONTH, months * (future ? 1 : -1));
+		if (weeks > 0) c.add(Calendar.WEEK_OF_YEAR, weeks * (future ? 1 : -1));
+		if (days > 0) c.add(Calendar.DAY_OF_MONTH, days * (future ? 1 : -1));
+		if (hours > 0) c.add(Calendar.HOUR_OF_DAY, hours * (future ? 1 : -1));
+		if (minutes > 0) c.add(Calendar.MINUTE, minutes * (future ? 1 : -1));
+		if (seconds > 0) c.add(Calendar.SECOND, seconds * (future ? 1 : -1));
 		return c.getTimeInMillis();
 	}
 }
