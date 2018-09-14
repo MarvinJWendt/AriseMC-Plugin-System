@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Utils {
 
 	public static CMDItemEnchant uniqueEnchant = new CMDItemEnchant(1337);
