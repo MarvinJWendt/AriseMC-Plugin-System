@@ -1,6 +1,8 @@
 package de.hardcorepvp.utils;
 
 import de.hardcorepvp.Main;
+import de.hardcorepvp.model.Callback;
+import de.hardcorepvp.model.Excavator;
 import net.minecraft.server.v1_7_R4.ChatComponentText;
 import net.minecraft.server.v1_7_R4.IChatBaseComponent;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
@@ -20,6 +22,7 @@ import org.bukkit.potion.PotionEffect;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -162,57 +165,28 @@ public class Utils {
 		}
 	}
 
-	//TODO MAYBE WATCH FOR PERFORMANCE AND NOT DO IT ALL AT ONCE LIKE A MADMAN
-
-	public static <T> List<List<T>> chunkList(List<T> list, int chunkSize) {
-		if (chunkSize <= 0) {
-			throw new IllegalArgumentException("Invalid chunk size: " + chunkSize);
-		}
-		List<List<T>> chunkList = new ArrayList<>(list.size() / chunkSize);
-		for (int i = 0; i < list.size(); i += chunkSize) {
-			chunkList.add(list.subList(i, i + chunkSize >= list.size() ? list.size() : i + chunkSize));
-		}
-		return chunkList;
-	}
-
-	public static void destroyCube(Location location, int radius, int steps, long tickDelay) {
-		ArrayList<Block> toRemove = new ArrayList<>();
-		for (int x = (radius * -1); x <= radius; x++) {
-			for (int y = (radius * -1); y <= radius; y++) {
-				for (int z = (radius * -1); z <= radius; z++) {
-					Block block = location.getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
-					if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER) {
-						toRemove.add(block);
+	public static void destroyCube(Location location, int radius, Callback<Excavator> callback) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+			try {
+				LinkedList<Block> toRemove = new LinkedList<>();
+				long timestamp = System.currentTimeMillis();
+				for (int x = (radius * -1); x <= radius; x++) {
+					for (int y = (radius * -1); y <= radius; y++) {
+						for (int z = (radius * -1); z <= radius; z++) {
+							Block block = location.getWorld().getBlockAt(location.getBlockX() + x, location.getBlockY() + y, location.getBlockZ() + z);
+							if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER && block.getType() != Material.AIR) {
+								toRemove.add(block);
+							}
+							location.getWorld().setBlockFast(block, block.getTypeId(), block.getData(), true);
+						}
 					}
 				}
+				System.out.println(System.currentTimeMillis() - timestamp);
+				callback.onResult(new Excavator(new ConcurrentLinkedQueue<>(toRemove), 200, 0L, 2L));
+			} catch (Exception e) {
+				callback.onFailure(e.getCause());
 			}
-		}
-		List<List<Block>> blockQueue = Utils.chunkList(toRemove, toRemove.size() / steps);
-		removeBlockQueue(blockQueue, tickDelay);
-	}
-
-	public static void removeBlockQueue(List<List<Block>> blockQueue, long tickDelay) {
-
-		for (int i = 0; i < blockQueue.size(); i++) {
-			int finalI = i;
-			Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-				for (Block b : blockQueue.get(finalI)) {
-					b.setType(Material.AIR);
-				}
-			}, (i + 1) * tickDelay);
-
-		}
-
-	}
-
-	public static int getStepsForRadius(int radius) {
-
-		if (radius <= 50) {
-			return 5;
-		}
-		int steps = radius / 10;
-		return steps * 2;
-
+		});
 	}
 
 	public static ItemStack getCommandItem(Material material, String lore, String name) {

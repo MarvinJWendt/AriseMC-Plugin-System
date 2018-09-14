@@ -1,5 +1,7 @@
 package de.hardcorepvp.listener;
 
+import de.hardcorepvp.model.Callback;
+import de.hardcorepvp.model.Excavator;
 import de.hardcorepvp.utils.Messages;
 import de.hardcorepvp.utils.Utils;
 import org.bukkit.entity.Player;
@@ -21,7 +23,17 @@ public class BlockPlaceListener implements Listener {
 						if (item.getItemMeta().hasEnchant(Utils.uniqueEnchant)) {
 							String radiusString = item.getItemMeta().getLore().get(0).substring(Messages.EXCAVATOR_RADIUS.length());
 							int radius = Integer.parseInt(radiusString);
-							Utils.destroyCube(event.getBlock().getLocation(), radius, Utils.getStepsForRadius(radius), 5);
+							Utils.destroyCube(event.getBlock().getLocation(), radius, new Callback<Excavator>() {
+								@Override
+								public void onResult(Excavator excavator) {
+									excavator.start();
+								}
+
+								@Override
+								public void onFailure(Throwable cause) {
+									player.sendMessage("§cBeim setzen des Excavator Blocks ist ein Fehler aufgetreten!");
+								}
+							});
 						}
 					}
 				}
