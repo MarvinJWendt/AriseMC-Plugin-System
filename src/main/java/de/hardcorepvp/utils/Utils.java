@@ -179,7 +179,6 @@ public class Utils {
 							if (block.getType() != Material.BEDROCK && block.getType() != Material.CHEST && block.getType() != Material.TRAPPED_CHEST && block.getType() != Material.MOB_SPAWNER && block.getType() != Material.AIR) {
 								toRemove.add(block);
 							}
-							location.getWorld().setBlockFast(block, block.getTypeId(), block.getData(), true);
 						}
 					}
 				}

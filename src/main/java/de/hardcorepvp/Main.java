@@ -126,6 +126,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
 		this.getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerPickupEvent(), this);
+		this.getServer().getPluginManager().registerEvents(new ServerListPingListener(), this);
 	}
 
 	public static Main getInstance() {
