@@ -50,3 +50,4 @@ commands:
   mute:
   tempmute:
   unmute:
+  itemfilter:

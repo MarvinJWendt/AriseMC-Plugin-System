@@ -13,6 +13,7 @@ public class Manager {
 	private boolean pvp;
 	private int globalmute;
 	private List<Player> vanishedPlayers;
+	private List<Player> activeItemfilter;
 	private ConcurrentHashMap<String, Long> tpaCooldownList;
 	private HashMap<String, String> currentTpaRequest;
 	private HashMap<String, String> currentTpahereRequest;
@@ -24,6 +25,7 @@ public class Manager {
 		this.tpaCooldownList = new ConcurrentHashMap<>();
 		this.currentTpaRequest = new HashMap<>();
 		this.currentTpahereRequest = new HashMap<>();
+		this.activeItemfilter = new ArrayList<>();
 	}
 
 	public boolean isPvP() {
@@ -38,6 +40,10 @@ public class Manager {
 		return vanishedPlayers;
 	}
 
+	public List<Player> getItemfilterPlayers() {
+		return activeItemfilter;
+	}
+
 	public void setPvP(boolean pvp) {
 		this.pvp = pvp;
 	}
@@ -50,12 +56,24 @@ public class Manager {
 		return this.vanishedPlayers.contains(player);
 	}
 
+	public boolean isItemfiltered(Player player) {
+		return this.activeItemfilter.contains(player);
+	}
+
 	public void addVanishedPlayer(Player player) {
 		this.vanishedPlayers.add(player);
 	}
 
 	public void removeVanishedPlayer(Player player) {
 		this.vanishedPlayers.remove(player);
+	}
+
+	public void addItemfilteredPlayer(Player player) {
+		this.activeItemfilter.add(player);
+	}
+
+	public void removeItemfilteredPlayer(Player player) {
+		this.activeItemfilter.remove(player);
 	}
 
 	public boolean canBypassGlobalmute(Player player) {
