@@ -103,6 +103,7 @@ public class Main extends JavaPlugin {
 		getCommand("mute").setExecutor(new CommandMute());
 		getCommand("tempmute").setExecutor(new CommandTempmute());
 		getCommand("unmute").setExecutor(new CommandUnmute());
+		getCommand("itemfilter").setExecutor(new CommandItemfilter());
 
 		getCommand("skype").setExecutor(new CommandSimple());
 		getCommand("teamspeak").setExecutor(new CommandSimple());
@@ -124,6 +125,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
 		this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
 		this.getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerPickupEvent(), this);
 	}
 
 	public static Main getInstance() {

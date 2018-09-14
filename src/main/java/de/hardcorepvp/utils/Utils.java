@@ -29,14 +29,15 @@ import java.util.regex.Pattern;
 public class Utils {
 
 	public static CMDItemEnchant uniqueEnchant = new CMDItemEnchant(1337);
-	public static ItemStack itemRankup = new ItemStack(Material.BOOK);
 
 	public static int tpaCooldown = 5;
 
+	public static List<Material> toFilter = Arrays.asList(new Material[]{Material.GOLD_SWORD, Material.ROTTEN_FLESH, Material.RED_ROSE});
 	public static Material excavatorMaterial = Material.NOTE_BLOCK;
 	public static Material rankupMaterial = Material.BOOK;
 
 	public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
 
 	public static int stackItems(Player player) {
 
