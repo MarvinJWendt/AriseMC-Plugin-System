@@ -14,6 +14,7 @@ public class Manager {
 	private int globalmute;
 	private List<Player> vanishedPlayers;
 	private List<Player> activeItemfilter;
+	private List<Player> autoSellList;
 	private ConcurrentHashMap<String, Long> tpaCooldownList;
 	private HashMap<String, String> currentTpaRequest;
 	private HashMap<String, String> currentTpahereRequest;
@@ -26,6 +27,7 @@ public class Manager {
 		this.currentTpaRequest = new HashMap<>();
 		this.currentTpahereRequest = new HashMap<>();
 		this.activeItemfilter = new ArrayList<>();
+		this.autoSellList = new ArrayList<>();
 	}
 
 	public boolean isPvP() {
@@ -44,6 +46,10 @@ public class Manager {
 		return activeItemfilter;
 	}
 
+	public List<Player> getAutosellPlayers() {
+		return autoSellList;
+	}
+
 	public void setPvP(boolean pvp) {
 		this.pvp = pvp;
 	}
@@ -60,6 +66,10 @@ public class Manager {
 		return this.activeItemfilter.contains(player);
 	}
 
+	public boolean isAutoselling(Player player) {
+		return this.autoSellList.contains(player);
+	}
+
 	public void addVanishedPlayer(Player player) {
 		this.vanishedPlayers.add(player);
 	}
@@ -74,6 +84,14 @@ public class Manager {
 
 	public void removeItemfilteredPlayer(Player player) {
 		this.activeItemfilter.remove(player);
+	}
+
+	public void addAutoSellingPlayer(Player player) {
+		this.autoSellList.add(player);
+	}
+
+	public void removeAutoSellingPlayer(Player player) {
+		this.autoSellList.remove(player);
 	}
 
 	public boolean canBypassGlobalmute(Player player) {

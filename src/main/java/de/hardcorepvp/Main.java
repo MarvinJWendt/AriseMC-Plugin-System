@@ -84,6 +84,7 @@ public class Main extends JavaPlugin {
 		getCommand("sell").setExecutor(new CommandSell());
 		getCommand("giveall").setExecutor(new CommandGiveall());
 		getCommand("ban").setExecutor(new CommandBan());
+		getCommand("autosell").setExecutor(new CommandAutosell());
 		getCommand("spawner").setExecutor(new CommandSpawner());
 		getCommand("tpa").setExecutor(new CommandTpa());
 		getCommand("tpahere").setExecutor(new CommandTpahere());
